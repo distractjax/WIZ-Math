@@ -8,6 +8,9 @@ def divide_by_fractions() -> bool:
     solution_numerator = randint(1, 100)
     solution_denominator = randint(2, 100)
 
+    while solution_denominator == solution_numerator:
+        solution_denominator = randint(2, 100)
+
     numerator_factors = find_factors(solution_numerator)
     denominator_factors = find_factors(solution_denominator)
 
@@ -36,6 +39,9 @@ def multiply_by_fractions() -> bool:
     '''
     solution_numerator = randint(1, 100)
     solution_denominator = randint(2, 100)
+
+    while solution_denominator == solution_numerator:
+        solution_denominator = randint(2, 100)
 
     numerator_factors = find_factors(solution_numerator)
     denominator_factors = find_factors(solution_denominator)
