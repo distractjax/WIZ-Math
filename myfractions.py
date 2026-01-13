@@ -1,7 +1,7 @@
 from random import randint
 from basics import find_factors, multiply_by_result
 
-def divide_by_fractions() -> str:
+def divide_by_fractions() -> bool:
     '''
     Generates a string that divides two fractions.
     '''
@@ -23,9 +23,14 @@ def divide_by_fractions() -> str:
 
     result = input(f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n')
     result = ''.join([ch for ch in result if not ch.isspace()])
-    return 'Correct' if result == f'{solution_numerator}/{solution_denominator}' else f'Incorrect, the solution is:\n{solution_numerator} / {solution_denominator}'
+    if result == f'{solution_numerator}/{solution_denominator}':
+        print('Correct!')
+        return True
+    else:
+        print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
+        return False
 
-def multiply_by_fractions() -> str:
+def multiply_by_fractions() -> bool:
     '''
     Generates a string that multiplies two fractions.
     '''
@@ -47,4 +52,9 @@ def multiply_by_fractions() -> str:
 
     result = input(f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n')
     result = ''.join([ch for ch in result if not ch.isspace()])
-    return 'Correct' if result == f'{solution_numerator}/{solution_denominator}' else f'Incorrect, the solution is:\n{solution_numerator} / {solution_denominator}'
+    if result == f'{solution_numerator}/{solution_denominator}':
+        print('Correct!')
+        return True
+    else:
+        print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
+        return False
