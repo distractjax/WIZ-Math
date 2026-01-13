@@ -2,22 +2,9 @@ from math import sqrt, ceil
 from functools import reduce
 from array import array, ArrayType
 from random import randrange, randint
-from myfractions import multiply_by_fractions, divide_by_fractions
+# from myfractions import multiply_by_fractions, divide_by_fractions
 
 # Core Functions
-
-def function_picker(input: str):
-    function_dict = {
-    'multiply by fractions': multiply_by_fractions(),
-    'divide by fractions': divide_by_fractions(),
-}
-    input = input.lower()
-    if input == 'get options':
-        print(function_dict.keys())
-    elif input == 'random':
-        function_dict[randint(0,len(function_dict - 2))]
-    else:
-        function_dict[input]
 
 # Math Functions
 
