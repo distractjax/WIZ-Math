@@ -1,6 +1,6 @@
 # Arithmetic and Number Properties Practice
 
-from myfractions import multiply_by_fractions, divide_by_fractions
+from math_basics import multiply_by_fractions, divide_by_fractions
 from random import randint
 
 def function_picker(user_in: str):
