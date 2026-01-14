@@ -5,17 +5,21 @@ def divide_by_fractions() -> bool:
     '''
     Generates a string that divides two fractions.
     '''
-    solution_numerator = randint(1, 100)
-    solution_denominator = randint(2, 100)
+    numerator1 = randint(1,100)
+    numerator2 = randint(1,100)
+    while denominator1 == numerator:
+        denominator1 = randint(2, 100)
 
-    while solution_denominator == solution_numerator:
-        solution_denominator = randint(2, 100)
+    denominator1 = randint(2,100)
+    denominator2 = randint(2,100)
 
-    numerator_factors = find_factors(solution_numerator)
-    denominator_factors = find_factors(solution_denominator)
+    while denominator1 == numerator1:
+        denominator1 = randint(2, 100)
+    while denominator2 == numerator2:
+        denominator2 = randint(2, 100)
 
-    numerator1, denominator2 = multiply_by_result(solution_numerator)
-    denominator1, numerator2 = multiply_by_result(solution_denominator)
+    solution_numerator = numerator1 * denominator2
+    solution_denominator = numerator2 * denominator1
 
     while True:
         for factor in numerator_factors:
@@ -37,17 +41,21 @@ def multiply_by_fractions() -> bool:
     '''
     Generates a string that multiplies two fractions.
     '''
-    solution_numerator = randint(1, 100)
-    solution_denominator = randint(2, 100)
+    numerator1 = randint(1,100)
+    numerator2 = randint(1,100)
+    while denominator1 == numerator:
+        denominator1 = randint(2, 100)
 
-    while solution_denominator == solution_numerator:
-        solution_denominator = randint(2, 100)
+    denominator1 = randint(2,100)
+    denominator2 = randint(2,100)
 
-    numerator_factors = find_factors(solution_numerator)
-    denominator_factors = find_factors(solution_denominator)
+    while denominator1 == numerator1:
+        denominator1 = randint(2, 100)
+    while denominator2 == numerator2:
+        denominator2 = randint(2, 100)
 
-    numerator1, numerator2 = multiply_by_result(solution_numerator)
-    denominator1, denominator2 = multiply_by_result(solution_denominator)
+    solution_numerator = numerator1 * denominator1
+    solution_denominator = numerator2 * denominator2
 
     while True:
         for factor in numerator_factors:
@@ -62,5 +70,5 @@ def multiply_by_fractions() -> bool:
         print('Correct!')
         return True
     else:
-        print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
+        print(f'Incorrect, the solution is: \n{solution_numerator} * {solution_denominator}')
         return False
