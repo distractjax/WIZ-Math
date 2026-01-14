@@ -1,12 +1,13 @@
 # Arithmetic and Number Properties Practice
 
-from math_basics import multiply_by_fractions, divide_by_fractions
+from math_basics import multiply_by_fractions, divide_by_fractions, n_digit_multiples
 from random import randint
 
 def function_picker(user_in: str):
     function_dict = {
     'multiply by fractions': multiply_by_fractions,
     'divide by fractions': divide_by_fractions,
+    'n digits test': n_digit_multiples(10,3),
     }
     keys = list(function_dict.keys())
     user_in = user_in.lower().strip()

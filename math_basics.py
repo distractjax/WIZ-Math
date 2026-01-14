@@ -5,8 +5,6 @@ from random import randrange, randint
 
 # Core Functions
 
-# Math Functions
-
 def find_factors(input: int) -> array[int]:
     '''
     Generates a sorted array of all a given number's factors.
@@ -24,6 +22,8 @@ def multiply_by_result(input: int) -> int:
     index_int = randrange(len(factors) // 2)
     factor1, factor2 = factors[index_int], factors[-index_int - 1]
     return factor1, factor2
+
+# Fractions
 
 def divide_by_fractions() -> bool:
     '''
@@ -98,3 +98,19 @@ def multiply_by_fractions() -> bool:
     else:
         print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
         return False
+
+# Multiples
+
+def n_digit_multiples(number:int, number_of_digits:int) -> array[int]:
+    '''
+    Generates the multiples of a number that are n-number of digits
+    '''
+    digits_check = int('1'+''.join(['0' for x in range(1,number_of_digits)]))
+    print(digits_check)
+    current_number = (ceil(digits_check / number))
+    output = array('I')
+    while len(str(current_number * number)) == number_of_digits:
+        output.append(current_number)
+        current_number += 1
+    print(output)
+    return True
