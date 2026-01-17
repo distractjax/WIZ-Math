@@ -1,6 +1,7 @@
 # Arithmetic and Number Properties Practice
 
-from foundations.math_basics import multiply_by_fractions_quiz, divide_by_fractions_quiz, n_digit_multiples_quiz, common_n_digit_multiples_quiz
+from foundations.basic_fractions import multiply_by_fractions_quiz, divide_by_fractions_quiz
+from foundations.basic_multiples import n_digit_multiples_quiz, common_n_digit_multiples_quiz
 from random import randint
 from collections import defaultdict
 
