@@ -43,25 +43,15 @@ def divide_by_fractions() -> bool:
     solution_numerator = numerator1 * denominator2
     solution_denominator = denominator1 * numerator2
 
-    numerator_factors = find_factors(solution_numerator)
-    denominator_factors = find_factors(solution_denominator)
-
-    # This loop logic isn't correct. This loops through all of the factors in the original numerator,
-    # it doesn't re-test for factors of the new one.
-    while True:
-        for factor in numerator_factors:
-            if factor in denominator_factors and factor != 1:
-                solution_numerator = solution_numerator // factor
-                solution_denominator = solution_denominator // factor
-        break
+    simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
     result = input(f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n')
     result = ''.join([ch for ch in result if not ch.isspace()])
-    if result == f'{solution_numerator}/{solution_denominator}':
+    if result == f'{simplified_solution[0]}/{simplified_solution[1]}':
         print('Correct!')
         return True
     else:
-        print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
+        print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
 
 def multiply_by_fractions() -> bool:
@@ -82,26 +72,43 @@ def multiply_by_fractions() -> bool:
     solution_numerator = numerator1 * numerator2
     solution_denominator = denominator1 * denominator2
 
-    numerator_factors = find_factors(solution_numerator)
-    denominator_factors = find_factors(solution_denominator)
-
-    # This loop logic isn't correct. This loops through all of the factors in the original numerator,
-    # it doesn't re-test for factors of the new one.
-    while True:
-        for factor in numerator_factors:
-            if factor in denominator_factors and factor != 1:
-                solution_numerator = solution_numerator // factor
-                solution_denominator = solution_denominator // factor
-        break
+    simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
     result = input(f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n')
     result = ''.join([ch for ch in result if not ch.isspace()])
-    if result == f'{solution_numerator}/{solution_denominator}':
+    if result == f'{simplified_solution[0]}/{simplified_solution[1]}':
         print('Correct!')
         return True
     else:
-        print(f'Incorrect, the solution is: \n{solution_numerator} / {solution_denominator}')
+        print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
+
+
+def simplify_fractions(numerator: int, denominator: int) -> tuple[int]:
+    '''
+    This returns the most simplified version of a given fraction
+    '''
+    numerator_factors = find_factors(numerator)
+    denominator_factors = find_factors(denominator)
+
+    while True:
+        if (numerator != 1) and (denominator != 1):
+            numerator_factors = find_factors(numerator)
+            denominator_factors = find_factors(denominator)
+
+            common_factors = [x for x in numerator_factors if x in denominator_factors]
+            # print(common_factors)
+
+            if len(common_factors) >= 2:
+                numerator = numerator // common_factors[1]
+                # print(numerator)
+                denominator = denominator // common_factors[1]
+                # print(denominator)
+
+            else:
+                return (numerator, denominator)
+        else:
+            return (numerator, denominator)
 
 # Multiples
 
