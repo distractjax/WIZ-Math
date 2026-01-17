@@ -3,7 +3,7 @@ from math_basics import simplify_fractions
 
 # Fractions
 
-def divide_by_fractions_quiz() -> bool:
+def divide_fractions_quiz() -> bool:
     '''
     Generates a string that divides two fractions.
     '''
@@ -32,7 +32,7 @@ def divide_by_fractions_quiz() -> bool:
         print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
 
-def multiply_by_fractions_quiz() -> bool:
+def multiply_fractions_quiz() -> bool:
     '''
     Generates a string that multiplies two fractions.
     '''
@@ -88,4 +88,25 @@ def multiply_fractions_with_exponents() -> bool:
         return True
     else:
         print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
+        return False
+
+def multiply_remainders() -> bool:
+    '''
+    This generates a question based off the remainders of numbers when divided by a given number.
+    '''
+    numerator1 = randint(2,20)
+    numerator2 = randint(2,20)
+    denominator = randint(2,9)
+
+    remainder1 = numerator1 % denominator
+    remainder2 = numerator2 % denominator
+
+    solution_remainder = (remainder1 * remainder2) % denominator
+
+    result = int(input(f'When intger a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?\n'))
+    if result == solution_remainder:
+        print('Correct!')
+        return True
+    else:
+        print(f'Incorrect, the solution is: {solution_remainder}')
         return False
