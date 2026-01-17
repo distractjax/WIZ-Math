@@ -112,16 +112,38 @@ def simplify_fractions(numerator: int, denominator: int) -> tuple[int]:
 
 # Multiples
 
-def n_digit_multiples(number:int, number_of_digits:int) -> array[int]:
+def n_digit_multiples() -> array[int]:
     '''
     Generates the multiples of a number that are n-number of digits
     '''
+
+    number = randint(1,25)
+    number_of_digits = randint(2,5)
+
     digits_check = int('1'+''.join(['0' for x in range(1,number_of_digits)]))
-    print(digits_check)
+    # print(digits_check)
     current_number = (ceil(digits_check / number))
+
     output = array('I')
     while len(str(current_number * number)) == number_of_digits:
-        output.append(current_number)
+        output.append(current_number * number)
         current_number += 1
-    print(output)
-    return True
+
+    random_number = randint(1,3)
+    questions = {
+        1: f'What is the largest {number_of_digits}-digit multiple of {number}?\n',
+        2: f'What is the smallest {number_of_digits}-digit multiple of {number}?\n',
+        3: f'How many {number_of_digits}-digit multiples are there of {number}?\n'
+    }
+    answers = {
+        1: max(output),
+        2: min(output),
+        3: len(output),
+    }
+
+    if int(input(questions[random_number])) == answers[random_number]:
+        print('Correct!')
+        return True
+    else:
+        print(f'Incorrect, the answer is \n{answers[random_number]}')
+        return False
