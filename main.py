@@ -1,7 +1,8 @@
 # Arithmetic and Number Properties Practice
 
-from foundations.basic_fractions import multiply_by_fractions_quiz, divide_by_fractions_quiz
+from foundations.basic_fractions import multiply_by_fractions_quiz, divide_by_fractions_quiz, multiply_fractions_with_exponents
 from foundations.basic_multiples import n_digit_multiples_quiz, common_n_digit_multiples_quiz
+from foundations.basic_factors import factor_quiz, prime_factor_quiz
 from random import randint
 from collections import defaultdict
 
@@ -9,8 +10,11 @@ def function_picker(user_in: str):
     function_dict = {
     'multiply by fractions': multiply_by_fractions_quiz,
     'divide by fractions': divide_by_fractions_quiz,
+    'multiply fractions with exponents': multiply_fractions_with_exponents,
     'n-digit multiples': n_digit_multiples_quiz,
     'common n-digit multiples': common_n_digit_multiples_quiz,
+    'factor operations': factor_quiz,
+    'prime factor operations': prime_factor_quiz,
     }
     keys = list(function_dict.keys())
     user_in = user_in.lower().strip()

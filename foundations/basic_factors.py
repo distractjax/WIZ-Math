@@ -1,0 +1,82 @@
+from math_basics import find_factors
+from random import randint, getrandbits
+
+def factor_quiz() -> bool:
+    '''
+    This generates simple quiz questions about the factors of a number.
+    '''
+    num1 = randint(4, 200)
+    # print(num1)
+    num1_factors = find_factors(num1)
+    num1_factors.pop(0)
+    num1_factors.pop(-1)
+    # print(num1_factors)
+
+    if 2 not in num1_factors:
+        is_even = False
+    else:
+        is_even = bool(getrandbits(1))
+
+    if is_even:
+        is_even_string = 'even'
+        # print(is_even_string)
+        output_factors = [x for x in num1_factors if x % 2 == 0]
+        # print(output_factors)
+    else:
+        is_even_string = 'odd'
+        # print(is_even_string)
+        output_factors = [x for x in num1_factors if x % 2 == 1]
+        # print(output_factors)
+
+    questions = {
+        1: f'What is the largest {is_even_string} factor of {num1}?\n',
+        2: f'What is the smallest {is_even_string} factor of {num1}?\n',
+        3: f'How many {is_even_string} factors of {num1} are there?\n'
+    }
+    answers = {
+        1: max(output_factors),
+        2: min(output_factors),
+        3: len(output_factors),
+    }
+
+    random_number = randint(1,3)
+
+    if int(input(questions[random_number])) == answers[random_number]:
+        print(f'Correct! The {is_even_string} of {num1} are \n{output_factors}')
+        return True
+    else:
+        print(f'Incorrect, the {is_even_string} factors of {num1} are \n{output_factors}')
+        return False
+
+def prime_factor_quiz() -> bool:
+    '''
+    This generates simple quiz questions about the prime factors of a number.
+    '''
+    num1 = randint(4, 200)
+    # print(num1)
+    num1_factors = find_factors(num1)
+    # print(num1_factors)
+
+    prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
+    prime_factors.insert(0,1)
+    # print(prime_factors)
+
+    questions = {
+        1: f'What is the largest prime factor of {num1}?\n',
+        2: f'What is the smallest prime factor of {num1}?\n',
+        3: f'How many prime factors of {num1} are there?\n'
+    }
+    answers = {
+        1: max(prime_factors),
+        2: min(prime_factors),
+        3: len(prime_factors),
+    }
+
+    random_number = randint(1,3)
+
+    if int(input(questions[random_number])) == answers[random_number]:
+        print(f'Correct! The prime factors of {num1} are \n{prime_factors}')
+        return True
+    else:
+        print(f'Incorrect, the prime factors of {num1} are \n{prime_factors}')
+        return False
