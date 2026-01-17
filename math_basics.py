@@ -25,7 +25,7 @@ def multiply_by_result(input: int) -> int:
 
 # Fractions
 
-def divide_by_fractions() -> bool:
+def divide_by_fractions_quiz() -> bool:
     '''
     Generates a string that divides two fractions.
     '''
@@ -54,7 +54,7 @@ def divide_by_fractions() -> bool:
         print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
 
-def multiply_by_fractions() -> bool:
+def multiply_by_fractions_quiz() -> bool:
     '''
     Generates a string that multiplies two fractions.
     '''
@@ -112,34 +112,85 @@ def simplify_fractions(numerator: int, denominator: int) -> tuple[int]:
 
 # Multiples
 
-def n_digit_multiples() -> array[int]:
+def common_n_digit_multiples_quiz() -> bool:
+    '''
+    Generates questions about the common multiples of a set of numbers. 
+    '''
+    num1 = randint(2,20)
+    num2 = randint(2,20)
+    n_digits = randint(2,4)
+
+    numbers = [num1, num2]
+    numbers.sort()
+
+    least_common_multiple = get_least_common_multiple(numbers[0], numbers[1])
+
+    common_n_digit_multiples = get_n_digit_multiples(least_common_multiple, n_digits)
+
+    questions = {
+        1: f'What is the largest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
+        2: f'What is the smallest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
+        3: f'How many {n_digits}-digit multiples of {num1} are also multiples of {num2}?\n'
+    }
+    answers = {
+        1: max(common_n_digit_multiples),
+        2: min(common_n_digit_multiples),
+        3: len(common_n_digit_multiples),
+    }
+
+    random_number = randint(1,3)
+
+    if int(input(questions[random_number])) == answers[random_number]:
+        print('Correct!')
+        return True
+    else:
+        print(f'Incorrect, the answer is \n{answers[random_number]}')
+        return False
+
+def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
     '''
     Generates the multiples of a number that are n-number of digits
     '''
-
-    number = randint(1,25)
-    number_of_digits = randint(2,5)
-
     digits_check = int('1'+''.join(['0' for x in range(1,number_of_digits)]))
     # print(digits_check)
     current_number = (ceil(digits_check / number))
 
-    output = array('I')
+    multiples = array('I')
     while len(str(current_number * number)) == number_of_digits:
-        output.append(current_number * number)
+        multiples.append(current_number * number)
         current_number += 1
 
-    random_number = randint(1,3)
+    return multiples
+
+def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
+    higher_number_multiples = [x * higher_number for x in range(1, lower_number + 1)]
+    # print(higher_number_multiples)
+    for multiple in higher_number_multiples:
+        if multiple % lower_number == 0:
+            return multiple
+
+
+def n_digit_multiples_quiz() -> bool:
+    '''
+    Generates questions about the properties of the set of multiples of a given number that are n-digits long. 
+    '''
+
+    num = randint(2, 25)
+    num_digits = randint(2,4)
+    multiples = get_n_digit_multiples(number = num, number_of_digits = num_digits)
+
     questions = {
-        1: f'What is the largest {number_of_digits}-digit multiple of {number}?\n',
-        2: f'What is the smallest {number_of_digits}-digit multiple of {number}?\n',
-        3: f'How many {number_of_digits}-digit multiples are there of {number}?\n'
+        1: f'What is the largest {num_digits}-digit multiple of {num}?\n',
+        2: f'What is the smallest {num_digits}-digit multiple of {num}?\n',
+        3: f'How many {num_digits}-digit multiples are there of {num}?\n'
     }
     answers = {
-        1: max(output),
-        2: min(output),
-        3: len(output),
+        1: max(multiples),
+        2: min(multiples),
+        3: len(multiples),
     }
+
+    random_number = randint(1,3)
 
     if int(input(questions[random_number])) == answers[random_number]:
         print('Correct!')
