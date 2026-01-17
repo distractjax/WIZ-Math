@@ -46,6 +46,8 @@ def divide_by_fractions() -> bool:
     numerator_factors = find_factors(solution_numerator)
     denominator_factors = find_factors(solution_denominator)
 
+    # This loop logic isn't correct. This loops through all of the factors in the original numerator,
+    # it doesn't re-test for factors of the new one.
     while True:
         for factor in numerator_factors:
             if factor in denominator_factors and factor != 1:
@@ -83,6 +85,8 @@ def multiply_by_fractions() -> bool:
     numerator_factors = find_factors(solution_numerator)
     denominator_factors = find_factors(solution_denominator)
 
+    # This loop logic isn't correct. This loops through all of the factors in the original numerator,
+    # it doesn't re-test for factors of the new one.
     while True:
         for factor in numerator_factors:
             if factor in denominator_factors and factor != 1:
