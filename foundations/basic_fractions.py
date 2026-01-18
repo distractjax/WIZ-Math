@@ -61,6 +61,7 @@ def multiply_fractions_quiz() -> bool:
         print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
 
+# TODO: Add in division function for this same process
 def multiply_fractions_with_exponents() -> bool:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
@@ -90,6 +91,7 @@ def multiply_fractions_with_exponents() -> bool:
         print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
         return False
 
+# TODO: Add in division function for this same process
 def multiply_remainders() -> bool:
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
