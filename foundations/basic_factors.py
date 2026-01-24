@@ -8,11 +8,9 @@ def factor_quiz() -> bool:
     num1 = randint(4, 200)
     while len(find_factors(num1)) == 2:
         num1 = randint(4,200)
-    # print(num1)
     num1_factors = find_factors(num1)
     num1_factors.pop(0)
     num1_factors.pop(-1)
-    # print(num1_factors)
 
     if 2 not in num1_factors:
         is_even = False
@@ -21,14 +19,10 @@ def factor_quiz() -> bool:
 
     if is_even:
         is_even_string = 'even'
-        # print(is_even_string)
         output_factors = [x for x in num1_factors if x % 2 == 0]
-        # print(output_factors)
     else:
         is_even_string = 'odd'
-        # print(is_even_string)
         output_factors = [x for x in num1_factors if x % 2 == 1]
-        # print(output_factors)
 
     random_number = randint(1,3)
 
@@ -61,13 +55,10 @@ def prime_factor_quiz() -> bool:
     This generates simple quiz questions about the prime factors of a number.
     '''
     num1 = randint(4, 200)
-    # print(num1)
     num1_factors = find_factors(num1)
-    # print(num1_factors)
 
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
     prime_factors.insert(0,1)
-    # print(prime_factors)
 
     questions = {
         1: f'What is the largest prime factor of {num1}?\n',

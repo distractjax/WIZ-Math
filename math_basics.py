@@ -63,13 +63,10 @@ def simplify_fractions(numerator: int, denominator: int) -> tuple[int]:
             denominator_factors = find_factors(denominator)
 
             common_factors = [x for x in numerator_factors if x in denominator_factors]
-            # print(common_factors)
 
             if len(common_factors) >= 2:
                 numerator = numerator // common_factors[1]
-                # print(numerator)
                 denominator = denominator // common_factors[1]
-                # print(denominator)
 
             else:
                 return (numerator, denominator)
@@ -82,7 +79,6 @@ def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
     Generates the multiples of a number that are n-number of digits
     '''
     digits_check = int('1'+''.join(['0' for x in range(1,number_of_digits)]))
-    # print(digits_check)
     current_number = (ceil(digits_check / number))
 
     multiples = array('I')
@@ -94,7 +90,6 @@ def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
 
 def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
     higher_number_multiples = [x * higher_number for x in range(1, lower_number + 1)]
-    # print(higher_number_multiples)
     for multiple in higher_number_multiples:
         if multiple % lower_number == 0:
             return multiple
