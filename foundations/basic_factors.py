@@ -29,7 +29,7 @@ def factor_quiz() -> bool:
         # print(is_even_string)
         output_factors = [x for x in num1_factors if x % 2 == 1]
         # print(output_factors)
-
+    # This is kind of a micro-optimization thing, but these dictionaries are running these functions regardless of the input
     questions = {
         1: f'What is the largest {is_even_string} factor of {num1}?\n',
         2: f'What is the smallest {is_even_string} factor of {num1}?\n',
@@ -41,8 +41,8 @@ def factor_quiz() -> bool:
         3: len(output_factors),
     }
     responses = {
-        1: f'The largest {is_even_string} factor of {num1} is \n{output_factors}',
-        2: f'The smallest {is_even_string} factor of {num1} is \n{output_factors}',
+        1: f'The largest {is_even_string} factor of {num1} is \n{answers[random_number]}',
+        2: f'The smallest {is_even_string} factor of {num1} is \n{answers[random_number]}',
         3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
     }
 
@@ -87,3 +87,7 @@ def prime_factor_quiz() -> bool:
     else:
         print(f'Incorrect, the prime factors of {num1} are \n{prime_factors}')
         return False
+
+if __name__ == "__main__":
+    factor_quiz()
+    # prime_factor_quiz()
