@@ -31,6 +31,7 @@ def function_picker(user_in: str, function_dict: dict[str]):
     if result == "exit":
         return
 
+    # I need to change the logic of this so that it asks "Would you like to go again?" by default. Rn it isn't asking that unless I type "exit".
     exit_code = result if isinstance(result, int) else 0
     if exit_code != 1:
         if input('Would you like to go again?\n').lower().strip() == 'no':

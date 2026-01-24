@@ -6,6 +6,8 @@ def factor_quiz() -> bool:
     This generates simple quiz questions about the factors of a number.
     '''
     num1 = randint(4, 200)
+    while len(find_factors(num1)) == 2:
+        num1 = randint(4,200)
     # print(num1)
     num1_factors = find_factors(num1)
     num1_factors.pop(0)
@@ -38,14 +40,19 @@ def factor_quiz() -> bool:
         2: min(output_factors),
         3: len(output_factors),
     }
+    responses = {
+        1: f'The largest {is_even_string} factor of {num1} is \n{output_factors}',
+        2: f'The smallest {is_even_string} factor of {num1} is \n{output_factors}',
+        3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
+    }
 
     random_number = randint(1,3)
 
     if int(input(questions[random_number])) == answers[random_number]:
-        print(f'Correct! The {is_even_string} of {num1} are \n{output_factors}')
+        print(f'Correct! {responses[random_number]}')
         return True
     else:
-        print(f'Incorrect, the {is_even_string} factors of {num1} are \n{output_factors}')
+        print(f'Incorrect! {responses[random_numeber]}')
         return False
 
 def prime_factor_quiz() -> bool:
