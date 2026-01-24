@@ -27,7 +27,6 @@ def function_picker(user_in: str, function_dict: dict[str]):
     function_map['random'] = run_random
     function_map['exit'] = lambda: "exit"
     result = function_map[user_in]()
-    print(result)
 
     if result == "exit":
         return

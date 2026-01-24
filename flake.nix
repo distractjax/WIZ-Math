@@ -1,5 +1,5 @@
 {
-  description = "A basic python dev flake";
+  description = "My webapp development flake";
 
   # Inputs: where to get packages from
   inputs = {
@@ -23,13 +23,22 @@
         default = pkgs.mkShell {
           # Packages to include in the environment
           packages = with pkgs; [
+            # Python pkgs
             (python3.withPackages (ps: with ps; [
               debugpy
             ]))
+            # Javascript pkgs
+            nodejs_24 # For legacy options
+            bun # The new hotness
+
+            # LSPs and Tooling
             basedpyright
             ruff
+            typescript-language-server
             markdownlint-cli
             # Add more project-specific packages here
+            # Userful Utilities
+            http-server
           ];
           # Shell commands to run upon activation
           shellHook = ''
