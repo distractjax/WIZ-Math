@@ -32,7 +32,6 @@ def function_picker(user_in: str, function_dict: dict[str]):
     if result == "exit":
         return
 
-    # I need to change the logic of this so that it asks "Would you like to go again?" by default. Rn it isn't asking that unless I type "exit".
     if result != 2:
         if input('Would you like to go again?\n').lower().strip() == 'no':
             return
@@ -46,7 +45,7 @@ def find_factors(input: int) -> array[int]:
     Generates a sorted array of all a given number's factors.
     '''
     # This applies list.__add__, the internal method that the list class uses to add elements, to the generator function using reduce
-    output = set(reduce(list.__add__,([i, input // i] for i in range(1, ceil(sqrt(input))) if input % i == 0)))
+    output = set(reduce(list.__add__,([i, input // i] for i in range(1, ceil(sqrt(input))+1) if input % i == 0)))
     output = array('I',sorted(output))
     return output
 
@@ -99,3 +98,8 @@ def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
     for multiple in higher_number_multiples:
         if multiple % lower_number == 0:
             return multiple
+
+if __name__ == "__main__":
+    find_factors(9)
+    # simplify_fractions(2,4)
+    # get_n_digit_multiples(4,2)
