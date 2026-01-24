@@ -29,6 +29,9 @@ def factor_quiz() -> bool:
         # print(is_even_string)
         output_factors = [x for x in num1_factors if x % 2 == 1]
         # print(output_factors)
+
+    random_number = randint(1,3)
+
     # This is kind of a micro-optimization thing, but these dictionaries are running these functions regardless of the input
     questions = {
         1: f'What is the largest {is_even_string} factor of {num1}?\n',
@@ -46,13 +49,11 @@ def factor_quiz() -> bool:
         3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
     }
 
-    random_number = randint(1,3)
-
     if int(input(questions[random_number])) == answers[random_number]:
         print(f'Correct! {responses[random_number]}')
         return True
     else:
-        print(f'Incorrect! {responses[random_numeber]}')
+        print(f'Incorrect! {responses[random_number]}')
         return False
 
 def prime_factor_quiz() -> bool:

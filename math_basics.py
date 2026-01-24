@@ -11,7 +11,7 @@ def function_picker(user_in: str, function_dict: dict[str]):
 
     def show_options():
         print('\n'.join(x.title() for x in keys))
-        return 1
+        return 2
 
     def run_random():
         random_key = keys[randint(0,len(keys)-1)]
@@ -19,7 +19,7 @@ def function_picker(user_in: str, function_dict: dict[str]):
 
     def handle_error():
         print("I'm sorry, I didn't understand your input. The options are:\n"+'\n'.join(x.title() for x in keys))
-        return 1 
+        return 2 
 
     function_map = defaultdict(lambda: handle_error)
     function_map.update(function_dict)
@@ -27,13 +27,13 @@ def function_picker(user_in: str, function_dict: dict[str]):
     function_map['random'] = run_random
     function_map['exit'] = lambda: "exit"
     result = function_map[user_in]()
+    print(result)
 
     if result == "exit":
         return
 
     # I need to change the logic of this so that it asks "Would you like to go again?" by default. Rn it isn't asking that unless I type "exit".
-    exit_code = result if isinstance(result, int) else 0
-    if exit_code != 1:
+    if result != 2:
         if input('Would you like to go again?\n').lower().strip() == 'no':
             return
 

@@ -17,3 +17,6 @@ function_dict = {
 def foundations_function_picker():
     user_in = input('What Foundations concept would you like to practice?\n')
     function_picker(user_in,function_dict)
+
+if __name__ == "__main__":
+    foundations_function_picker()
