@@ -6,6 +6,9 @@ from random import randint
 
 # General Functions
 def function_picker(user_in: str, function_dict: dict[str]):
+    '''
+    This allows the user to select a function from a list of options recursively.
+    '''
     user_in = user_in.lower().strip()
     keys = list(function_dict.keys())
 
@@ -88,6 +91,9 @@ def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
     return multiples
 
 def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
+    '''
+    Generates the lowest common multiple of two given numbers.
+    '''
     higher_number_multiples = [x * higher_number for x in range(1, lower_number + 1)]
     for multiple in higher_number_multiples:
         if multiple % lower_number == 0:
