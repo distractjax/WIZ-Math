@@ -1,5 +1,6 @@
 from shutil import get_terminal_size 
 from sys import stdout
+import curses
 
 def draw_outline(input_text: str):
     width, height = get_terminal_size()
@@ -38,16 +39,6 @@ def draw_vertical_border(height: int, width: int, width_padding: int, input_text
     output_arr.append(''.join(x for x in width_array))
     print('\n'.join([output_arr[x] if x < len(output_arr) else output_arr[len(output_arr)-1] for x in range(0, height)]))
 
-def test_draw() -> str:
-    '''
-    This is a test function that sees how things are working
-    '''
-    width_array = [str(x) for x in range(0, 5)]
-    width_array[1] = "|"
-    width_array[-2] = "|"
-    width_str = ''.join(x for x in width_array)
-    print('\n'.join([width_str for x in range(0, 10)]))
-
 def smart_textwrap(input_text: str, length: int) -> list[str]:
     '''
     This function takes an input string and splits it by character length.
@@ -65,5 +56,4 @@ def smart_textwrap(input_text: str, length: int) -> list[str]:
 
 if __name__ == "__main__":
     draw_outline('This is a test for a very long string because we want to determine if very long strings will be split also I need to think of a way to incorporate newline characters.')
-    # test_draw()
     # smart_textwrap("This is a test.", 10)
