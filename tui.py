@@ -1,4 +1,5 @@
 from shutil import get_terminal_size 
+from sys import stdout
 
 def draw_outline(input_text: str):
     width, height = get_terminal_size()
@@ -6,6 +7,8 @@ def draw_outline(input_text: str):
     width = width - (width_padding * 2)
     height_padding = height // 8
     height = height - (height_padding * 2)
+    stdout.write("\033[H\033[2J")
+    stdout.flush()
     draw_horizontal_border(width, width_padding)
     draw_vertical_border(height, width, width_padding, input_text)
     draw_horizontal_border(width, width_padding)
@@ -63,4 +66,4 @@ def smart_textwrap(input_text: str, length: int) -> list[str]:
 if __name__ == "__main__":
     draw_outline('This is a test for a very long string because we want to determine if very long strings will be split also I need to think of a way to incorporate newline characters.')
     # test_draw()
-    smart_textwrap("This is a test.", 10)
+    # smart_textwrap("This is a test.", 10)
