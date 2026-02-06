@@ -10,7 +10,7 @@ def enter_is_terminate(x):
         return 7
     return x
 
-def create_tui():
+def tui_event_loop(stdscr):
     stdscr = curses.initscr()
     curses.start_color()
     curses.use_default_colors()
@@ -18,9 +18,6 @@ def create_tui():
     curses.cbreak()
     stdscr.keypad(True)
     curses.curs_set(2)
-    return stdscr
-
-def tui_event_loop(stdscr):
     stdscr.clear()
     while True:
         sub1_lines = 3 * (curses.LINES - 4) // 4
