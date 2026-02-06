@@ -20,7 +20,7 @@ def tui_event_loop(stdscr):
     curses.curs_set(2)
     stdscr.clear()
     header = 'Testing zone'
-    footer = "Type 'quit' to exit"
+    footer = "Type 'Quit' to exit"
     while True:
         stdscr.addstr(0,3,header,curses.A_BOLD)
         stdscr.addstr(curses.LINES-2,3,footer,curses.A_BOLD)
