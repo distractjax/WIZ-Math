@@ -19,18 +19,22 @@ def tui_event_loop(stdscr):
     stdscr.keypad(True)
     curses.curs_set(2)
     stdscr.clear()
+    header = 'Testing zone'
+    footer = "Type 'quit' to exit"
     while True:
-        sub1_lines = 3 * (curses.LINES - 4) // 4
-        sub2_lines = curses.LINES - 4 - sub1_lines
+        stdscr.addstr(0,3,header,curses.A_BOLD)
+        stdscr.addstr(curses.LINES-2,3,footer,curses.A_BOLD)
+        sub1_lines = 3 * (curses.LINES - 5) // 4
+        sub2_lines = curses.LINES - 5 - sub1_lines
         sub1 = stdscr.subwin(sub1_lines,curses.COLS - 3, 1, 2)
         sub2 = stdscr.subwin(sub2_lines,curses.COLS - 5, sub1_lines + 2, 3)
         sub1.border()
-        rectangle(stdscr,sub1_lines + 1, 2, curses.LINES - 2, curses.COLS - 2)
+        rectangle(stdscr,sub1_lines + 1, 2, curses.LINES - 3, curses.COLS - 2)
         tb = Textbox(sub2)
         stdscr.refresh()
         tb.edit(enter_is_terminate)
         message = tb.gather().strip()
-        if message == 'quit':
+        if message.lower() == 'quit':
             break
         else:
             sub1.addstr(1,1,f'{message}')
