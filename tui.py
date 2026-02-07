@@ -47,6 +47,7 @@ def tui_event_loop(stdscr):
 
     while True:
         stdscr.addstr(0,2,header,curses.A_BOLD)
+        stdscr.clrtoeol()
         stdscr.addstr(curses.LINES-2,2,footer,curses.A_BOLD)
 
         sub1.border()
@@ -91,7 +92,6 @@ def tui_event_loop(stdscr):
 
         # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
         elif c == 10:
-            sub2.addstr(1,1,f'{c}')
             if active_idx == 0:
                 if target_win.getyx()[0] == 1:
                     target_win.clear()
