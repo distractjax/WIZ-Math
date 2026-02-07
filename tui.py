@@ -36,13 +36,21 @@ def tui_event_loop(stdscr):
         rectangle(stdscr,sub2_lines + 1, sub1_cols + 2, curses.LINES - 3, curses.COLS - 2)
         tb = Textbox(sub3)
         stdscr.refresh()
-        tb.edit(enter_is_terminate)
-        message = tb.gather().strip()
-        if message.lower() == 'quit':
-            break
+        stdscr.move(2,3)
+        c = stdscr.getch()
+        if c == curses.KEY_RIGHT:
+            sub2.move(1,1)
+        elif c == curses.KEY_DOWN:
+            sub3.move(0,0)
+            tb.edit(enter_is_terminate)
+            message = tb.gather().strip()
+            if message.lower() == 'quit':
+                break
+            else:
+                sub2.addstr(1,1,f'{message}')
+                sub2.clrtoeol()
+            sub3.clear()
         else:
-            sub2.addstr(1,1,f'{message}')
-            sub2.clrtoeol()
-        sub3.clear()
+            break
 
 curses.wrapper(tui_event_loop)
