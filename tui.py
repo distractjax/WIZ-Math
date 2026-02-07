@@ -28,22 +28,21 @@ def tui_event_loop(stdscr):
         remain_cols = curses.COLS - 6 - sub1_cols
         sub1 = stdscr.subwin(curses.LINES - 3, sub1_cols, 1, 2)
         sub1.border()
-        # sub1_lines = 3 * (curses.LINES - 5) // 4
-        # sub2_lines = curses.LINES - 5 - sub1_lines
-        # sub3_cols = curses.COLS - 5
-        # sub1 = stdscr.subwin(sub1_lines,curses.COLS - 3, 1, 2)
-        # sub2 = stdscr.subwin(sub2_lines,curses.COLS - 5, sub1_lines + 2, 3)
-        # sub1.border()
-        # rectangle(stdscr,sub1_lines + 1, 2, curses.LINES - 3, curses.COLS - 2)
-        # tb = Textbox(sub2)
+        sub2_lines = 3 * (curses.LINES - 5) // 4
+        sub3_lines = curses.LINES - 5 - sub2_lines
+        sub2 = stdscr.subwin(sub2_lines,remain_cols + 3, 1, sub1_cols + 2)
+        sub3 = stdscr.subwin(sub3_lines,remain_cols - 2, sub2_lines + 2, sub1_cols + 3)
+        sub2.border()
+        rectangle(stdscr,sub2_lines + 1, sub1_cols + 2, curses.LINES - 3, curses.COLS - 2)
+        tb = Textbox(sub3)
         stdscr.refresh()
-        # tb.edit(enter_is_terminate)
-        # message = tb.gather().strip()
-        # if message.lower() == 'quit':
-        #     break
-        # else:
-        #     sub1.addstr(1,1,f'{message}')
-        #     sub1.clrtoeol()
-        # sub2.clear()
+        tb.edit(enter_is_terminate)
+        message = tb.gather().strip()
+        if message.lower() == 'quit':
+            break
+        else:
+            sub2.addstr(1,1,f'{message}')
+            sub2.clrtoeol()
+        sub3.clear()
 
 curses.wrapper(tui_event_loop)
