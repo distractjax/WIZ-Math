@@ -29,14 +29,21 @@ def tui_event_loop(stdscr):
     sub3_lines = curses.LINES - 5 - sub2_lines
     sub3 = stdscr.subwin(sub3_lines,remain_cols - 2, sub2_lines + 2, sub1_cols + 3)
 
-    windows = [sub1, sub2]
-    for i, w in enumerate(windows):
+    input_windows = [sub1, sub3]
+    for i, w in enumerate(input_windows):
         w.keypad(True)
         w.leaveok(False)
-    sub3.keypad(True)
-    sub3.leaveok(False)
+    sub2.keypad(True)
+    sub2.leaveok(False)
 
     active_idx = 0
+
+    options = ['Foundations', 'Quit']
+    suboptions = ['Option 1', 'Option 2', 'Option 3']
+
+    sidebar_contents = options.copy()
+
+    y, x = 1, 2
 
     while True:
         stdscr.addstr(0,2,header,curses.A_BOLD)
@@ -47,37 +54,62 @@ def tui_event_loop(stdscr):
 
         rectangle(stdscr,sub2_lines + 1, sub1_cols + 2, curses.LINES - 3, curses.COLS - 2)
 
-        stdscr.noutrefresh()
-        for w in windows:
-            w.noutrefresh()
-        sub3.noutrefresh()
+        for a,b in enumerate(sidebar_contents):
+            sub1.addstr(a+1,1,f'[ ] {b}')
 
-        target_win = windows[active_idx]
-        target_win.move(1, 1)
+        stdscr.noutrefresh()
+        for w in input_windows:
+            w.noutrefresh()
+        sub2.noutrefresh()
+
+        target_win = input_windows[active_idx]
+        target_win.move(y,x)
 
         curses.doupdate()
 
         c = target_win.getch()
 
         if c == curses.KEY_RIGHT:
-            active_idx = (active_idx + 1) % len(windows)
+            active_idx = (active_idx + 1) % len(input_windows)
+            if active_idx == 0:
+                y, x = 1, 2
+            elif active_idx == 1:
+                y, x = 0, 0
 
         elif c == curses.KEY_LEFT:
-            active_idx = (active_idx - 1) % len(windows)
+            active_idx = (active_idx - 1) % len(input_windows)
+            if active_idx == 0:
+                y, x = 1, 2
+            elif active_idx == 1:
+                y, x = 0, 0
+
+        elif c == curses.KEY_UP:
+            y -= 1
 
         elif c == curses.KEY_DOWN:
-            sub3.move(0,0)
+            y += 1
 
-            tb = Textbox(sub3)
-            tb.edit(enter_is_terminate)
-            message = tb.gather().strip()
+        # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
+        elif c == 10:
+            sub2.addstr(1,1,f'{c}')
+            if active_idx == 0:
+                if target_win.getyx()[0] == 1:
+                    target_win.clear()
+                    header = options[0]
+                    sidebar_contents = suboptions.copy()
+                elif target_win.getyx()[0] == 2:
+                    break
+            elif active_idx == 1:
+                tb = Textbox(sub3)
+                tb.edit(enter_is_terminate)
+                message = tb.gather().strip()
 
-            if message.lower() == 'quit':
-                break
+                if message.lower() == 'quit':
+                    break
 
-            sub2.addstr(1,1,f'{message}')
-            sub2.clrtoeol()
-            sub3.clear()
+                sub2.addstr(1,1,f'{message}')
+                sub2.clrtoeol()
+                sub3.clear()
 
         elif c == ord('q'):
             break
