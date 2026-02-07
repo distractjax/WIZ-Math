@@ -29,10 +29,12 @@ def tui_event_loop(stdscr):
     sub3_lines = curses.LINES - 5 - sub2_lines
     sub3 = stdscr.subwin(sub3_lines,remain_cols - 2, sub2_lines + 2, sub1_cols + 3)
 
-    windows = [sub1, sub2, sub3]
+    windows = [sub1, sub2]
     for i, w in enumerate(windows):
         w.keypad(True)
         w.leaveok(False)
+    sub3.keypad(True)
+    sub3.leaveok(False)
 
     active_idx = 0
 
@@ -48,6 +50,7 @@ def tui_event_loop(stdscr):
         stdscr.noutrefresh()
         for w in windows:
             w.noutrefresh()
+        sub3.noutrefresh()
 
         target_win = windows[active_idx]
         target_win.move(1, 1)
@@ -63,7 +66,6 @@ def tui_event_loop(stdscr):
             active_idx = (active_idx - 1) % len(windows)
 
         elif c == curses.KEY_DOWN:
-            active_idx = 2
             sub3.move(0,0)
 
             tb = Textbox(sub3)
