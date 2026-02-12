@@ -1,6 +1,8 @@
 import curses
 from curses.textpad import rectangle, Textbox
 import function_dicts
+import config
+import json
 
 def enter_is_terminate(x):
     '''
@@ -103,17 +105,21 @@ def tui_event_loop(stdscr):
                     sidebar_contents = foundations_options.copy()
                 elif sidebar_contents[y-1] == '<-':
                     target_win.clear()
+                    sub2.clear()
                     header = main_header
                     sidebar_contents = options.copy()
+                elif sidebar_contents[y-1] == 'Common N-Digit Multiples':
+                    function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
+                    question = config.read_question()
+                    sub2.addstr(1,1,f'{question}')
+                    sub2.clrtoeol()
                 elif sidebar_contents[y-1] == 'Quit':
                     break
             elif active_idx == 1:
                 tb = Textbox(sub3)
                 tb.edit(enter_is_terminate)
-                message = tb.gather().strip()
-
-                if message.lower() == 'quit':
-                    break
+                answer = tb.gather().strip()
+                message = config.check_solution(answer)
 
                 sub2.addstr(1,1,f'{message}')
                 sub2.clrtoeol()

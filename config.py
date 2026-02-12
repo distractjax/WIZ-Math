@@ -18,13 +18,21 @@ def write_solution(question: str, answer: str, filepath: str = json_filepath) ->
     with open(filepath, 'w') as jfp:
         json.dump(json_dict,fp=jfp)
 
+def read_question(filepath: str = json_filepath) -> dict[str]:
+    '''
+    This is a function that reads the question and answer out of a provided JSON file.
+    '''
+    with open(filepath, 'r') as jfp:
+        json_dict = json.load(jfp)
+    return json_dict['question']
+
 def check_solution(user_in: str, filepath: str = json_filepath) -> str:
     '''
     This is a function that checks if the user's provided solution is the same as the answer in the json object.
     '''
     with open(filepath,'r') as jfp:
         json_dict = json.load(jfp)
-    if user_in.strip() == str(json_dict['answer']):
+    if user_in == str(json_dict['answer']):
         return f'Success! The answer is {json_dict["answer"]}'
     else: 
         return f'Failure! The answer is {json_dict["answer"]}'
