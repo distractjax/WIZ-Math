@@ -1,5 +1,6 @@
 from random import randint
 from math_basics import get_n_digit_multiples, get_least_common_multiple
+import config
 
 def common_n_digit_multiples_quiz() -> bool:
     '''
@@ -29,12 +30,8 @@ def common_n_digit_multiples_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    if int(input(questions[random_number])) == answers[random_number]:
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the answer is \n{answers[random_number]}')
-        return False
+    config.write_solution(questions[random_number],answers[random_number])
+    print(config.check_solution(str(input(questions[random_number]))))
 
 def n_digit_multiples_quiz() -> bool:
     '''
@@ -64,3 +61,8 @@ def n_digit_multiples_quiz() -> bool:
     else:
         print(f'Incorrect, the answer is \n{answers[random_number]}')
         return False
+
+if __name__ == "__main__":
+    common_n_digit_multiples_quiz()
+    # n_digit_multiples_quiz()
+

@@ -14,7 +14,7 @@ def write_solution(question: str, answer: str, filepath: str = json_filepath) ->
     '''
     json_dict = {'question': question, 'answer': answer}
     with open(filepath, 'w') as jfp:
-        json.dump(test_output,fp=jfp)
+        json.dump(json_dict,fp=jfp)
 
 def check_solution(user_in: str, filepath: str = json_filepath) -> str:
     '''
@@ -22,7 +22,7 @@ def check_solution(user_in: str, filepath: str = json_filepath) -> str:
     '''
     with open(filepath,'r') as jfp:
         json_dict = json.load(jfp)
-    if user_in.strip() == json_dict['answer']:
+    if user_in.strip() == str(json_dict['answer']):
         return f'Success! The answer is {json_dict["answer"]}'
     else: 
         return f'Failure! The answer is {json_dict["answer"]}'
