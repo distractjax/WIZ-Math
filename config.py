@@ -7,6 +7,8 @@ import json
 # Globals
 json_filepath = './print_contents.json'
 
+# Dictionaries
+
 # General Functions
 def write_solution(question: str, answer: str, filepath: str = json_filepath) -> None:
     '''
