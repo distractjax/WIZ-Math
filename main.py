@@ -1,7 +1,7 @@
 # Arithmetic and Number Properties Practice
 
 from foundations.foundations_picker import foundations_function_picker
-from math_basics import function_picker
+from config import function_picker
 
 section_dict = {
     'foundations':  foundations_function_picker

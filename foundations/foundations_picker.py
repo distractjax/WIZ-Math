@@ -1,7 +1,7 @@
 from .basic_fractions import multiply_fractions_quiz, divide_fractions_quiz, multiply_fractions_with_exponents, multiply_remainders
 from .basic_multiples import n_digit_multiples_quiz, common_n_digit_multiples_quiz
 from .basic_factors import factor_quiz, prime_factor_quiz
-from math_basics import function_picker
+from config import function_picker
 
 function_dict = {
 'multiply by fractions': multiply_fractions_quiz,
