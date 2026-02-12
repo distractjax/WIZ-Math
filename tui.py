@@ -1,5 +1,6 @@
 import curses
 from curses.textpad import rectangle, Textbox
+from foundations.foundations_picker import foundations_function_picker
 
 def enter_is_terminate(x):
     '''
