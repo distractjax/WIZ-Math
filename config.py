@@ -33,9 +33,9 @@ def check_solution(user_in: str, filepath: str = json_filepath) -> str:
     with open(filepath,'r') as jfp:
         json_dict = json.load(jfp)
     if user_in == str(json_dict['answer']):
-        return f'Success! The answer is {json_dict["answer"]}'
+        return f'Success! The answer is {json_dict["answer"]}.'
     else: 
-        return f'Failure! The answer is {json_dict["answer"]}'
+        return f'Failure! The answer is {json_dict["answer"]}.'
 
 def function_picker(user_in: str, function_dict: dict[str]):
     user_in = user_in.lower().strip()

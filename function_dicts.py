@@ -13,5 +13,9 @@ foundations_dict = {
 'prime factor operations': basic_factors.prime_factor_quiz,
 }
 
+category_dict = {
+    'Foundations': foundations_dict
+}
+
 if __name__ == "__main__":
     basic_fractions.multiply_fractions_quiz()

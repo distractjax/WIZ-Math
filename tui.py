@@ -18,8 +18,8 @@ def tui_event_loop(stdscr):
     stdscr.keypad(True)
     curses.curs_set(2)
     stdscr.clear()
-    main_header = 'Main Menu'
-    header = main_header
+    header = 'Main Menu'
+    prev_header = header
     footer = "Type 'Quit' to exit"
 
     sub1_cols = (curses.COLS - 6) // 5
@@ -42,10 +42,8 @@ def tui_event_loop(stdscr):
 
     active_idx = 0
 
-    options = ['Foundations', 'Quit']
-    foundations_options = [x.title() for x in function_dicts.foundations_dict.keys()]
-    foundations_options.insert(0,'<-')
-    foundations_options.append('Quit')
+    options = [x for x in function_dicts.category_dict.keys()]
+    options.append('Quit')
 
     sidebar_contents = options.copy()
 
@@ -99,23 +97,27 @@ def tui_event_loop(stdscr):
         # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
         elif c == 10:
             if active_idx == 0:
-                if sidebar_contents[y-1] == 'Foundations':
-                    target_win.clear()
-                    header = options[0]
-                    sidebar_contents = foundations_options.copy()
-                elif sidebar_contents[y-1] == '<-':
+                if sidebar_contents[y-1] == '<-':
                     target_win.clear()
                     sub2.clear()
-                    header = main_header
+                    header = prev_header
                     sidebar_contents = options.copy()
-                elif sidebar_contents[y-1] == 'Common N-Digit Multiples':
+                elif sidebar_contents[y-1] == 'Quit':
+                    break
+                elif header == 'Main Menu':
+                    target_win.clear()
+                    prev_header = header
+                    header = sidebar_contents[y-1]
+                    sidebar_contents = [x.title() for x in function_dicts.category_dict[header].keys()]
+                    sidebar_contents.insert(0,'<-')
+                    sidebar_contents.append('Quit')
+                else:
                     function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
                     question = config.read_question()
                     sub2.addstr(1,1,f'{question}')
                     sub2.clrtoeol()
-                elif sidebar_contents[y-1] == 'Quit':
-                    break
             elif active_idx == 1:
+                curses.curs_set(1)
                 tb = Textbox(sub3)
                 tb.edit(enter_is_terminate)
                 answer = tb.gather().strip()
@@ -124,6 +126,7 @@ def tui_event_loop(stdscr):
                 sub2.addstr(1,1,f'{message}')
                 sub2.clrtoeol()
                 sub3.clear()
+                curses.curs_set(2)
 
         elif c == ord('q'):
             break
