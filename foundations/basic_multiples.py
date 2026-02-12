@@ -31,7 +31,7 @@ def common_n_digit_multiples_quiz() -> bool:
     random_number = randint(1,3)
 
     config.write_solution(questions[random_number],answers[random_number])
-    print(config.check_solution(str(input(questions[random_number]))))
+    return config.check_solution(str(input(questions[random_number])))
 
 def n_digit_multiples_quiz() -> bool:
     '''
