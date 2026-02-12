@@ -1,6 +1,6 @@
 import curses
 from curses.textpad import rectangle, Textbox
-from foundations import foundations_picker
+import function_dicts
 
 def enter_is_terminate(x):
     '''
@@ -41,7 +41,7 @@ def tui_event_loop(stdscr):
     active_idx = 0
 
     options = ['Foundations', 'Quit']
-    foundations_options = [x.title() for x in foundations_picker.function_dict.keys()]
+    foundations_options = [x.title() for x in function_dicts.foundations_dict.keys()]
     foundations_options.insert(0,'<-')
     foundations_options.append('Quit')
 
