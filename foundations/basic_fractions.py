@@ -1,5 +1,6 @@
 from random import randint
 from math_basics import simplify_fractions
+import config
 
 # Fractions
 
@@ -23,14 +24,10 @@ def divide_fractions_quiz() -> bool:
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    result = input(f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n')
-    result = ''.join([ch for ch in result if not ch.isspace()])
-    if result == f'{simplified_solution[0]}/{simplified_solution[1]}':
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
-        return False
+    question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?'
+    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
+
+    config.write_solution(question,answer)
 
 def multiply_fractions_quiz() -> bool:
     '''
@@ -52,14 +49,10 @@ def multiply_fractions_quiz() -> bool:
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    result = input(f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n')
-    result = ''.join([ch for ch in result if not ch.isspace()])
-    if result == f'{simplified_solution[0]}/{simplified_solution[1]}':
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
-        return False
+    question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?'
+    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
+
+    config.write_solution(question,answer)
 
 # TODO: Add in division function for this same process
 def multiply_fractions_with_exponents() -> bool:
@@ -82,14 +75,10 @@ def multiply_fractions_with_exponents() -> bool:
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    result = input(f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?\n')
-    result = ''.join([ch for ch in result if not ch.isspace()])
-    if result == f'{simplified_solution[0]}/{simplified_solution[1]}':
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the solution is: \n{simplified_solution[0]} / {simplified_solution[1]}')
-        return False
+    question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?'
+    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
+
+    config.write_solution(question,answer)
 
 # TODO: Add in division function for this same process
 def multiply_remainders() -> bool:
@@ -103,12 +92,8 @@ def multiply_remainders() -> bool:
     remainder1 = numerator1 % denominator
     remainder2 = numerator2 % denominator
 
-    solution_remainder = (remainder1 * remainder2) % denominator
+    answer = (remainder1 * remainder2) % denominator
 
-    result = int(input(f'When intger a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?\n'))
-    if result == solution_remainder:
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the solution is: {solution_remainder}')
-        return False
+    question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?'
+
+    config.write_solution(question,answer)

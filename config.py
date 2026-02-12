@@ -30,6 +30,7 @@ def check_solution(user_in: str, filepath: str = json_filepath) -> str:
     '''
     This is a function that checks if the user's provided solution is the same as the answer in the json object.
     '''
+    user_in = ''.join([ch for ch in user_in if not ch.isspace()])
     with open(filepath,'r') as jfp:
         json_dict = json.load(jfp)
     if user_in == str(json_dict['answer']):

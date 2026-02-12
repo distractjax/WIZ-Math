@@ -1,5 +1,6 @@
 from math_basics import find_factors
 from random import randint, getrandbits
+import config
 
 def factor_quiz() -> bool:
     '''
@@ -43,12 +44,7 @@ def factor_quiz() -> bool:
         3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
     }
 
-    if int(input(questions[random_number])) == answers[random_number]:
-        print(f'Correct! {responses[random_number]}')
-        return True
-    else:
-        print(f'Incorrect! {responses[random_number]}')
-        return False
+    config.write_solution(questions[random_number],answers[random_number])
 
 def prime_factor_quiz() -> bool:
     '''
@@ -73,12 +69,7 @@ def prime_factor_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    if int(input(questions[random_number])) == answers[random_number]:
-        print(f'Correct! The prime factors of {num1} are \n{prime_factors}')
-        return True
-    else:
-        print(f'Incorrect, the prime factors of {num1} are \n{prime_factors}')
-        return False
+    config.write_solution(questions[random_number],answers[random_number])
 
 if __name__ == "__main__":
     factor_quiz()

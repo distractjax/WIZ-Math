@@ -54,12 +54,7 @@ def n_digit_multiples_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    if int(input(questions[random_number])) == answers[random_number]:
-        print('Correct!')
-        return True
-    else:
-        print(f'Incorrect, the answer is \n{answers[random_number]}')
-        return False
+    config.write_solution(questions[random_number],answers[random_number])
 
 if __name__ == "__main__":
     common_n_digit_multiples_quiz()
