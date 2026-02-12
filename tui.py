@@ -48,6 +48,7 @@ def tui_event_loop(stdscr):
     sidebar_contents = options.copy()
 
     y, x = 1, 2
+    side_y, side_x = y, x
 
     while True:
         stdscr.addstr(0,2,header,curses.A_BOLD)
@@ -68,6 +69,8 @@ def tui_event_loop(stdscr):
         sub2.noutrefresh()
 
         target_win = input_windows[active_idx]
+        if active_idx == 0:
+            y, x = side_y, side_x
         target_win.move(y,x)
 
         curses.doupdate()
@@ -76,25 +79,21 @@ def tui_event_loop(stdscr):
 
         if c == curses.KEY_RIGHT:
             active_idx = (active_idx + 1) % len(input_windows)
-            if active_idx == 0:
-                y, x = 1, 2
-            elif active_idx == 1:
+            if active_idx == 1:
                 y, x = 0, 0
 
         elif c == curses.KEY_LEFT:
             active_idx = (active_idx - 1) % len(input_windows)
-            if active_idx == 0:
-                y, x = 1, 2
-            elif active_idx == 1:
+            if active_idx == 1:
                 y, x = 0, 0
 
         elif c == curses.KEY_UP:
             if active_idx == 0:
-                y = len(sidebar_contents) if y <= 1 else y - 1
+                side_y = len(sidebar_contents) if side_y <= 1 else side_y - 1
 
         elif c == curses.KEY_DOWN:
             if active_idx == 0:
-                y = 1 if y >= len(sidebar_contents) else y + 1
+                side_y = 1 if side_y >= len(sidebar_contents) else side_y + 1
 
         # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
         elif c == 10:
@@ -127,8 +126,3 @@ def tui_event_loop(stdscr):
                 sub2.addstr(1,1,f'{message}')
                 sub2.clrtoeol()
                 sub3.clear()
-
-        elif c == ord('q'):
-            break
-
-curses.wrapper(tui_event_loop)
