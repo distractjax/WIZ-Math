@@ -60,8 +60,8 @@ def tui_main_loop(stdscr):
     stdscr.clear()
 
     # Header needs to be global
-    global header
-    header = 'Main Menu'
+    global header_set
+    header_set = ['Main Menu']
     # Footer needs to be global
     global footer
     footer = ""
@@ -99,6 +99,7 @@ def tui_main_loop(stdscr):
     side_y, side_x = y, x
 
     while True:
+        header = header_set[-1]
         stdscr.addstr(0,2,header,curses.A_BOLD)
         stdscr.clrtoeol()
         stdscr.addstr(curses.LINES-2,2,footer,curses.A_BOLD)
@@ -129,15 +130,15 @@ def tui_main_loop(stdscr):
             if sidebar_contents[y-1] == '<-':
                 sidebar.clear()
                 print_win.clear()
-                header = 'Main Menu'
-                sidebar_contents = options.copy()
+                header_set.pop()
+                sidebar_contents = [x for x in function_dicts.category_dict.keys()]
+                sidebar_contents.append('Quit')
             elif sidebar_contents[y-1] == 'Quit':
                 break
             elif header == 'Main Menu':
                 sidebar.clear()
-                prev_header = header
-                header = sidebar_contents[y-1]
-                sidebar_contents = [x.title() for x in function_dicts.category_dict[header].keys()]
+                header_set.append(sidebar_contents[y-1])
+                sidebar_contents = [x.title() for x in function_dicts.category_dict[sidebar_contents[y-1]].keys()]
                 sidebar_contents.insert(0,'<-')
                 sidebar_contents.append('Quit')
             else:
