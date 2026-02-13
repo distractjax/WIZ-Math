@@ -20,7 +20,7 @@ def tui_event_loop(stdscr):
     stdscr.clear()
     header = 'Main Menu'
     prev_header = header
-    footer = "Type 'Quit' to exit"
+    footer = ""
 
     sub1_cols = (curses.COLS - 6) // 5
     remain_cols = curses.COLS - 6 - sub1_cols

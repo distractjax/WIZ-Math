@@ -81,6 +81,7 @@ def multiply_fractions_with_exponents() -> bool:
     config.write_solution(question,answer)
 
 # TODO: Add in division function for this same process
+# TODO: This function is going to be added back in when I split out the TUI event loop into two events, the way it's handled right now doesn't work.
 def multiply_remainders() -> bool:
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
