@@ -43,9 +43,17 @@ def answer_question(edit_win, results_win):
     results_win.refresh()
     edit_win.refresh()
 
+def tui_questions_loop(stdscr):
+    '''
+    This handles the loop for answering questions.
+    '''
+    return None
 
 # stdscr is already global because of how the wrapper works.
-def tui_event_loop(stdscr):
+def tui_main_loop(stdscr):
+    '''
+    This handles the primary program loop.
+    '''
     curses.use_default_colors()
     stdscr.keypad(True)
     curses.curs_set(2)
@@ -60,31 +68,30 @@ def tui_event_loop(stdscr):
 
     # TODO: Find a better fix for this. Use a textwrap function to handle it.
     # These all belong to one specific loop
-    sub1_cols = (curses.COLS - 6) // 3
-    remain_cols = curses.COLS - 6 - sub1_cols
+    global sidebar_cols
+    sidebar_cols = (curses.COLS - 6) // 3
+    global remain_cols
+    remain_cols = curses.COLS - 6 - sidebar_cols
 
-    sub1 = stdscr.subwin(curses.LINES - 3, sub1_cols, 1, 2)
+    global sidebar
+    sidebar = stdscr.subwin(curses.LINES - 3, sidebar_cols, 1, 2)
 
-    sub2_lines = 3 * (curses.LINES - 5) // 4
-    sub2 = stdscr.subwin(sub2_lines,remain_cols + 3, 1, sub1_cols + 2)
+    print_win_lines = 3 * (curses.LINES - 5) // 4
+    print_win = stdscr.subwin(print_win_lines,remain_cols + 3, 1, sidebar_cols + 2)
 
-    sub3_lines = curses.LINES - 5 - sub2_lines
-    sub3 = stdscr.subwin(sub3_lines,remain_cols - 2, sub2_lines + 2, sub1_cols + 3)
+    textbox_lines = curses.LINES - 5 - print_win_lines
+    textbox = stdscr.subwin(textbox_lines,remain_cols - 2, print_win_lines + 2, sidebar_cols + 3)
 
-    sub1.keypad(True)
-    sub1.leaveok(False)
-    sub2.keypad(True)
-    sub2.leaveok(False)
-    sub3.keypad(True)
-    sub3.leaveok(False)
-
-    active_idx = 0
-
-    options = [x for x in function_dicts.category_dict.keys()]
-    options.append('Quit')
+    sidebar.keypad(True)
+    sidebar.leaveok(False)
+    print_win.keypad(True)
+    print_win.leaveok(False)
+    textbox.keypad(True)
+    textbox.leaveok(False)
 
     global sidebar_contents
-    sidebar_contents = options.copy()
+    sidebar_contents = [x for x in function_dicts.category_dict.keys()]
+    sidebar_contents.append('Quit')
 
     # These need to be global
     y, x = 1, 2
@@ -96,38 +103,38 @@ def tui_event_loop(stdscr):
         stdscr.clrtoeol()
         stdscr.addstr(curses.LINES-2,2,footer,curses.A_BOLD)
 
-        sub1.border()
-        sub2.border()
+        sidebar.border()
+        print_win.border()
 
-        rectangle(stdscr,sub2_lines + 1, sub1_cols + 2, curses.LINES - 3, curses.COLS - 2)
+        rectangle(stdscr,print_win_lines + 1, sidebar_cols + 2, curses.LINES - 3, curses.COLS - 2)
 
         for a,b in enumerate(sidebar_contents):
-            sub1.addstr(a+1,1,f'[ ] {b}')
+            sidebar.addstr(a+1,1,f'[ ] {b}')
 
         stdscr.noutrefresh()
-        sub1.noutrefresh()
-        sub2.noutrefresh()
-        sub3.noutrefresh()
+        sidebar.noutrefresh()
+        print_win.noutrefresh()
+        textbox.noutrefresh()
 
         y, x = side_y, side_x
-        sub1.move(y,x)
+        sidebar.move(y,x)
 
         curses.doupdate()
 
         # This can be local
-        c = sub1.getch()
+        c = sidebar.getch()
 
         # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
         if c == 10:
             if sidebar_contents[y-1] == '<-':
-                sub1.clear()
-                sub2.clear()
+                sidebar.clear()
+                print_win.clear()
                 header = 'Main Menu'
                 sidebar_contents = options.copy()
             elif sidebar_contents[y-1] == 'Quit':
                 break
             elif header == 'Main Menu':
-                sub1.clear()
+                sidebar.clear()
                 prev_header = header
                 header = sidebar_contents[y-1]
                 sidebar_contents = [x.title() for x in function_dicts.category_dict[header].keys()]
@@ -136,10 +143,10 @@ def tui_event_loop(stdscr):
             else:
                 function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
                 question = config.read_question()
-                sub2.clear()
-                sub2.addstr(1,1,f'{question}')
-                sub2.border()
-                sub2.refresh()
-                answer_question(sub3,sub2)
+                print_win.clear()
+                print_win.addstr(1,1,f'{question}')
+                print_win.border()
+                print_win.refresh()
+                answer_question(textbox,print_win)
         else:
             handle_cursor(c)
