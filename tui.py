@@ -13,7 +13,10 @@ def enter_is_terminate(x):
         return 7
     return x
 
-def manage_cursor(c):
+def handle_cursor(c):
+    '''
+    This function manages cursor movement.
+    '''
     global sidebar_contents
     global side_y
     global side_x
@@ -22,6 +25,24 @@ def manage_cursor(c):
 
     elif c == curses.KEY_DOWN:
         side_y = 1 if side_y >= len(sidebar_contents) else side_y + 1
+
+def answer_question(edit_win, results_win):
+    '''
+    This function moves the cursor and allows the user to answer questions.
+    '''
+    edit_win.move(0,0)
+    tb = Textbox(edit_win)
+    tb.edit(enter_is_terminate)
+    answer = tb.gather().strip()
+    message = config.check_solution(answer)
+
+    results_win.addstr(1,1,f'{message}')
+    results_win.clrtoeol()
+    edit_win.clear()
+    
+    results_win.refresh()
+    edit_win.refresh()
+
 
 # stdscr is already global because of how the wrapper works.
 def tui_event_loop(stdscr):
@@ -32,7 +53,6 @@ def tui_event_loop(stdscr):
     # Header needs to be global
     global header
     header = 'Main Menu'
-    prev_header = header
     # Footer needs to be global
     global footer
     footer = ""
@@ -104,7 +124,7 @@ def tui_event_loop(stdscr):
                 if sidebar_contents[y-1] == '<-':
                     target_win.clear()
                     sub2.clear()
-                    header = prev_header
+                    header = 'Main Menu'
                     sidebar_contents = options.copy()
                 elif sidebar_contents[y-1] == 'Quit':
                     break
@@ -118,16 +138,10 @@ def tui_event_loop(stdscr):
                 else:
                     function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
                     question = config.read_question()
+                    sub2.clear()
                     sub2.addstr(1,1,f'{question}')
-                    sub2.clrtoeol()
-            elif active_idx == 1:
-                tb = Textbox(sub3)
-                tb.edit(enter_is_terminate)
-                answer = tb.gather().strip()
-                message = config.check_solution(answer)
-
-                sub2.addstr(1,1,f'{message}')
-                sub2.clrtoeol()
-                sub3.clear()
+                    sub2.border()
+                    sub2.refresh()
+                    answer_question(sub3,sub2)
         else:
-            manage_cursor(c)
+            handle_cursor(c)
