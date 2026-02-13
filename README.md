@@ -13,7 +13,7 @@ I'm currently working on the initial release. I have the program in a position t
 I feel justifies a v0.1 release instead of just a prototype stage, but it's
 still a ways away from what I want the final product to be.
 
-#### Current features
+### v0.1 features
 
 * A curses-driven Terminal User Interface (TUI).
 * A set of basic number operations that practice problems are procedurally
@@ -23,7 +23,7 @@ still a ways away from what I want the final product to be.
   * Mac
   * Linux
 
-#### v0.2 features
+### v0.2 features
 
 * A separated event loop and TUI window structure for navigating problems and
   answering them.
