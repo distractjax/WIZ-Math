@@ -22,7 +22,8 @@ def tui_event_loop(stdscr):
     prev_header = header
     footer = ""
 
-    sub1_cols = (curses.COLS - 6) // 5
+    # TODO: Find a better fix for this. Use a textwrap function to handle it.
+    sub1_cols = (curses.COLS - 6) // 3
     remain_cols = curses.COLS - 6 - sub1_cols
 
     sub1 = stdscr.subwin(curses.LINES - 3, sub1_cols, 1, 2)
