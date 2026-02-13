@@ -50,6 +50,7 @@ def tui_event_loop(stdscr):
     stdscr.keypad(True)
     curses.curs_set(2)
     stdscr.clear()
+
     # Header needs to be global
     global header
     header = 'Main Menu'
@@ -70,12 +71,12 @@ def tui_event_loop(stdscr):
     sub3_lines = curses.LINES - 5 - sub2_lines
     sub3 = stdscr.subwin(sub3_lines,remain_cols - 2, sub2_lines + 2, sub1_cols + 3)
 
-    input_windows = [sub1, sub3]
-    for i, w in enumerate(input_windows):
-        w.keypad(True)
-        w.leaveok(False)
+    sub1.keypad(True)
+    sub1.leaveok(False)
     sub2.keypad(True)
     sub2.leaveok(False)
+    sub3.keypad(True)
+    sub3.leaveok(False)
 
     active_idx = 0
 
@@ -104,44 +105,41 @@ def tui_event_loop(stdscr):
             sub1.addstr(a+1,1,f'[ ] {b}')
 
         stdscr.noutrefresh()
-        for w in input_windows:
-            w.noutrefresh()
+        sub1.noutrefresh()
         sub2.noutrefresh()
+        sub3.noutrefresh()
 
-        target_win = input_windows[active_idx]
-        if active_idx == 0:
-            y, x = side_y, side_x
-        target_win.move(y,x)
+        y, x = side_y, side_x
+        sub1.move(y,x)
 
         curses.doupdate()
 
         # This can be local
-        c = target_win.getch()
+        c = sub1.getch()
 
         # 10 is the ASCII character for the ENTER key. DO NOT USE curses.KEY_ENTER, it's for numpad enter.
         if c == 10:
-            if active_idx == 0:
-                if sidebar_contents[y-1] == '<-':
-                    target_win.clear()
-                    sub2.clear()
-                    header = 'Main Menu'
-                    sidebar_contents = options.copy()
-                elif sidebar_contents[y-1] == 'Quit':
-                    break
-                elif header == 'Main Menu':
-                    target_win.clear()
-                    prev_header = header
-                    header = sidebar_contents[y-1]
-                    sidebar_contents = [x.title() for x in function_dicts.category_dict[header].keys()]
-                    sidebar_contents.insert(0,'<-')
-                    sidebar_contents.append('Quit')
-                else:
-                    function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
-                    question = config.read_question()
-                    sub2.clear()
-                    sub2.addstr(1,1,f'{question}')
-                    sub2.border()
-                    sub2.refresh()
-                    answer_question(sub3,sub2)
+            if sidebar_contents[y-1] == '<-':
+                sub1.clear()
+                sub2.clear()
+                header = 'Main Menu'
+                sidebar_contents = options.copy()
+            elif sidebar_contents[y-1] == 'Quit':
+                break
+            elif header == 'Main Menu':
+                sub1.clear()
+                prev_header = header
+                header = sidebar_contents[y-1]
+                sidebar_contents = [x.title() for x in function_dicts.category_dict[header].keys()]
+                sidebar_contents.insert(0,'<-')
+                sidebar_contents.append('Quit')
+            else:
+                function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
+                question = config.read_question()
+                sub2.clear()
+                sub2.addstr(1,1,f'{question}')
+                sub2.border()
+                sub2.refresh()
+                answer_question(sub3,sub2)
         else:
             handle_cursor(c)
