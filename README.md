@@ -1,4 +1,4 @@
-# WIZ-Math Test-Prep
+# WIZ-Math
 
 This is a tool that I built to help people (myself, mainly) to study for the
 mathematics portion of the Graduate Readiness Exam!
