@@ -9,7 +9,7 @@ from os import path
 
 # Globals
 json_filepath = './print_contents.json'
-db_filepath = './userDB.db'
+sqlite_filepath = './userDB.db'
 
 # Dictionaries
 
@@ -30,8 +30,26 @@ def read_question(filepath: str = json_filepath) -> dict[str]:
         json_dict = json.load(jfp)
     return json_dict['question']
 
-# Read and write from DB
-def write_db
+# Read and write from SQLite DB
+def ensure_sqlite_table(table_name: str, column_names: list[str], filepath: str = sqlite_filepath) -> None:
+    '''
+    This checks if the table exists in a SQLite database that you've specified and creates it if it doesn't.
+    '''
+    with sqlite.connect(filepath) as conn:
+        c = conn.cursor()
+        c.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+        if c.fetchone()[0] == 1:
+            pass
+        else:
+            columns = ', '.join(column_names)
+            c.execute(f"CREATE TABLE {table_name}({columns})")
+            pass
+
+def write_db(question: str, answer: str, filepath: str = sqlite_filepath) -> None:
+    '''
+    This is a function that writes the question, answer, time and truth value of the answer to a database.
+    '''
+
 
 # Check Solution from frontend
 def check_solution(user_in: str, filepath: str = json_filepath) -> str:
