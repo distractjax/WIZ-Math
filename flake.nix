@@ -26,6 +26,7 @@
             # Python pkgs
             (python3.withPackages (ps: with ps; [
               debugpy
+              flask
             ]))
             # Javascript pkgs
             nodejs_24 # For legacy options
