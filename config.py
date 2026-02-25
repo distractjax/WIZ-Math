@@ -31,24 +31,24 @@ def read_question(filepath: str = json_filepath) -> dict[str]:
     return json_dict['question']
 
 # Read and write from SQLite DB
-def ensure_sqlite_table(table_name: str, column_names: list[str], filepath: str = sqlite_filepath) -> None:
+def ensure_sqlite_table(cursor, table_name: str, column_names: list[str]) -> None:
     '''
-    This checks if the table exists in a SQLite database that you've specified and creates it if it doesn't.
+    This checks if the table exists in a SQLite database that you're connected to and creates it if it doesn't.
     '''
-    with sqlite.connect(filepath) as conn:
-        c = conn.cursor()
-        c.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'")
-        if c.fetchone()[0] == 1:
-            pass
-        else:
-            columns = ', '.join(column_names)
-            c.execute(f"CREATE TABLE {table_name}({columns})")
-            pass
+    cursor.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'")
+    if cursor.fetchone()[0] == 1:
+        pass
+    else:
+        columns = ', '.join(column_names)
+        cursor.execute(f"CREATE TABLE {table_name}({columns})")
+        pass
 
 def write_db(question: str, answer: str, filepath: str = sqlite_filepath) -> None:
     '''
     This is a function that writes the question, answer, time and truth value of the answer to a database.
     '''
+    with sqlite.connect(filepath) as conn:
+        c = conn.cursor()
 
 
 # Check Solution from frontend
