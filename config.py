@@ -3,15 +3,26 @@ from random import randint
 import json
 import time
 import sqlite3
-from os import path
+from os import path, mkdir
 
 # This is a file for all of the global variables in my program.
 
 # Globals
-json_filepath = './print_contents.json'
-sqlite_filepath = './userDB.db'
+application_path = path.expanduser('~/.local/share/gre-prep')
+json_filepath = path.join(application_path,'print_contents.json')
+sqlite_filepath = path.join(application_path,'gre_prep.db')
 
-# Dictionaries
+# Confirm the existence of your gre-prep directory.
+def ensure_application_path():
+    if path.isdir(application_path):
+        pass
+    else:
+        try:
+            mkdir(application_path)
+        except PermissionError:
+            print(f'Permission denied: failed to create application directory.')
+        except Exception as e:
+            print(f'An error occurred: {e}')
 
 # Read and Write from JSON
 def write_solution(question: str, answer: str, filepath: str = json_filepath) -> None:

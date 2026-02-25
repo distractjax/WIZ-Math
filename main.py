@@ -2,8 +2,10 @@
 
 from curses import wrapper
 from tui import tui_main_loop
+from config import ensure_application_path
 
 def main():
+    ensure_application_path()
     wrapper(tui_main_loop)
 
 if __name__ == "__main__":
