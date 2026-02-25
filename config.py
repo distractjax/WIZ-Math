@@ -44,22 +44,23 @@ def read_question(filepath: str = JSON_PATH) -> dict[str]:
 # Read and write from SQLite DB
 def ensure_sqlite_table(cursor, table_name: str, column_names: list[str]) -> None:
     '''
-    This checks if the table exists in a SQLite database that you're connected to and creates it if it doesn't.
+    This checks if a table exists in a SQLite database that you're connected to and creates it if it doesn't.
     '''
     cursor.execute(f"SELECT count(name) FROM sqlite_master WHERE type='table' AND name='{table_name}'")
     if cursor.fetchone()[0] == 1:
         pass
     else:
         columns = ', '.join(column_names)
-        cursor.execute(f"CREATE TABLE {table_name}({columns})")
+        cursor.execute(f"CREATE TABLE {table_name}({columns}) WITHOUT ROWID")
         pass
 
-def write_db(question: str, answer: str, filepath: str = SQLITE_PATH) -> None:
+def write_db(question: str = '', answer: str = '', filepath: str = SQLITE_PATH) -> None:
     '''
     This is a function that writes the question, answer, time and truth value of the answer to a database.
     '''
-    with sqlite.connect(filepath) as conn:
+    with sqlite3.connect(filepath) as conn:
         c = conn.cursor()
+        ensure_sqlite_table(c, "problem_history", ["exec_time primary key","q_type","q_func","was_right","solve_time"])
 
 
 # Check Solution from frontend
