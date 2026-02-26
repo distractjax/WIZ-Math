@@ -25,6 +25,7 @@
           packages = with pkgs; [
             (python3.withPackages (ps: with ps; [
               debugpy
+              pandas
             ]))
             basedpyright
             ruff
