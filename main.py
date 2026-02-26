@@ -1,7 +1,7 @@
 # Arithmetic and Number Properties Practice
 
 from curses import wrapper
-from tui import tui_main_loop
+from frontend.tui import tui_main_loop
 from config import ensure_application_path
 
 def main():

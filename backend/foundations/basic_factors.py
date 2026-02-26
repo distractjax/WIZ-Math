@@ -1,5 +1,5 @@
-from math_functions.core_math import find_factors
-from math_functions.foundations.common import MODULE_NAME
+from backend.core_math import find_factors
+from backend.foundations.common import MODULE_NAME
 from random import randint, getrandbits
 import config
 from datetime import datetime

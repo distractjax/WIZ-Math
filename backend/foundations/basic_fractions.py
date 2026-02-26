@@ -1,5 +1,5 @@
 from random import randint
-from math_functions.core_math import simplify_fractions
+from backend.core_math import simplify_fractions
 import config
 
 # Fractions

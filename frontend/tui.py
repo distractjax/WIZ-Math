@@ -1,6 +1,6 @@
 import curses
 from curses.textpad import rectangle, Textbox
-from math_functions import function_dicts
+from backend import function_dicts
 import config
 import json
 

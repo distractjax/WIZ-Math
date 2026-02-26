@@ -1,4 +1,4 @@
-from math_functions.foundations import basic_factors, basic_fractions, basic_multiples
+from backend.foundations import basic_factors, basic_fractions, basic_multiples
 # This is going to be the holding area for all of my function dicts so I don't end up with an insane
 # import statement in my TUI file.
 
