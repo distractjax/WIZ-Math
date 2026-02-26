@@ -1,5 +1,5 @@
 from random import randint
-from math_functions.common_operations import get_n_digit_multiples, get_least_common_multiple
+from math_functions.core_math import get_n_digit_multiples, get_least_common_multiple
 import config
 
 def common_n_digit_multiples_quiz() -> bool:

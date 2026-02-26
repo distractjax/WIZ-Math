@@ -1,4 +1,4 @@
-from math_functions.common_operations import find_factors
+from math_functions.core_math import find_factors
 from random import randint, getrandbits
 import config
 
