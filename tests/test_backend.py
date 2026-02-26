@@ -23,11 +23,10 @@ def create_overview():
 
 # Module Window
 
-def create_module_view():
-    df = table_to_df()
+def create_module_view(module: str = "Foundations"):
     df = table_to_df()
     df.replace(0,np.nan,inplace=True)
-    df = df.groupby("q_func").count()
+    df = df[df['q_type'] == module].groupby("q_func").count()
     df['was_wrong'] = df['exec_time'] - df['was_right']
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
