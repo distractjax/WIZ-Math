@@ -1,10 +1,11 @@
-import pandas
+import pandas as pd
+import numpy as np
 import config
 from sqlite3 import connect
 
 def table_to_df(tablename: str = "problem_history", filepath: str = config.SQLITE_PATH):
-    conn = connect(filepath)
-    df = pandas.read_sql(f"SELECT * FROM {tablename}",conn)
+    with connect(filepath) as conn:
+        df = pd.read_sql(f"SELECT * FROM {tablename}",conn)
     return df
 
 # Overview Window
@@ -13,13 +14,24 @@ def table_to_df(tablename: str = "problem_history", filepath: str = config.SQLIT
 
 def create_overview():
     df = table_to_df()
-    pass
+    df.replace(0,np.nan,inplace=True)
+    df = df.groupby("q_type").count()
+    df['was_wrong'] = df['exec_time'] - df['was_right']
+    for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
+        df.drop(x, axis=1, inplace=True)
+    print(df.to_json())
 
 # Module Window
 
 def create_module_view():
     df = table_to_df()
-    pass
+    df = table_to_df()
+    df.replace(0,np.nan,inplace=True)
+    df = df.groupby("q_func").count()
+    df['was_wrong'] = df['exec_time'] - df['was_right']
+    for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
+        df.drop(x, axis=1, inplace=True)
+    print(df.to_json())
 
 # History Window
 

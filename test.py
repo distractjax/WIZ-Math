@@ -4,7 +4,8 @@ from curses import wrapper
 
 def main():
     # wrapper(tui_main_loop)
-    test_backend.table_to_df()
+    # test_backend.create_overview()
+    test_backend.create_module_view()
 
 
 if __name__ == "__main__":
