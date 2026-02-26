@@ -55,7 +55,7 @@ def update_question_row(was_right: bool, exec_time: str, filepath: str = SQLITE_
     '''
     This function updates a row in the problem_history table with values for was_right and solve_time.
     '''
-    exec_time = datetime.datetime(exec_time)
+    exec_time = datetime.datetime.strptime(exec_time, "%Y-%m-%d %H:%M:%S.%f") 
     end_time = datetime.datetime.now()
     with sqlite3.connect(filepath) as conn:
         c = conn.cursor()
@@ -63,7 +63,7 @@ def update_question_row(was_right: bool, exec_time: str, filepath: str = SQLITE_
             SET was_right = ?, solve_time = ?
             WHERE exec_time = ?;
         '''
-        c.execute(sql, (was_right, exec_time - end_time, exec_time))
+        c.execute(sql, (was_right, (exec_time - end_time).total_seconds(), exec_time))
 
 # Read and Write from JSON
 # Let me actually think about this. The point of the JSON file is to communicate between the frontend
@@ -98,8 +98,7 @@ def check_solution(user_in: str, filepath: str = JSON_PATH) -> str:
     with open(filepath,'r') as jfp:
         json_dict = json.load(jfp)
 
-    responses = ['Correct!', 'Incorrect!']
     was_right = user_in == str(json_dict['answer'])
 
     update_question_row(was_right, json_dict['exec_time'])
-    return f'{responses[was_right]} The answer is {json_dict["answer"]}.'
+    return f'{['Incorrect!', 'Correct!'][was_right]} The answer is {json_dict["answer"]}.'
