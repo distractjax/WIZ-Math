@@ -2,6 +2,14 @@ import pandas
 import config
 from sqlite3 import connect
 
+# Overview Window
+
+# Module Window
+
+# History Window
+
+# Rank Window
+
 def test():
     conn = connect(config.SQLITE_PATH)
     df = pandas.read_sql("SELECT * FROM problem_history",conn)

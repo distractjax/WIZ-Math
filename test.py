@@ -1,4 +1,4 @@
-from tests.test_tui import tui_main_loop
+from tests.test_frontend import tui_main_loop
 from curses import wrapper
 
 def main():
