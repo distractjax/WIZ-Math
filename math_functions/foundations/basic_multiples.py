@@ -30,7 +30,7 @@ def common_n_digit_multiples_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    config.write_solution(questions[random_number],answers[random_number])
+    config.write_solution_json(questions[random_number],answers[random_number])
 
 def n_digit_multiples_quiz() -> bool:
     '''
@@ -54,7 +54,7 @@ def n_digit_multiples_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    config.write_solution(questions[random_number],answers[random_number])
+    config.write_solution_json(questions[random_number],answers[random_number])
 
 if __name__ == "__main__":
     common_n_digit_multiples_quiz()

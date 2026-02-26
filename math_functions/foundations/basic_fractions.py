@@ -27,7 +27,7 @@ def divide_fractions_quiz() -> bool:
     question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
-    config.write_solution(question,answer)
+    config.write_solution_json(question,answer)
 
 def multiply_fractions_quiz() -> bool:
     '''
@@ -52,7 +52,7 @@ def multiply_fractions_quiz() -> bool:
     question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
-    config.write_solution(question,answer)
+    config.write_solution_json(question,answer)
 
 # TODO: Add in division function for this same process
 def multiply_fractions_with_exponents() -> bool:
@@ -78,7 +78,7 @@ def multiply_fractions_with_exponents() -> bool:
     question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
-    config.write_solution(question,answer)
+    config.write_solution_json(question,answer)
 
 # TODO: Add in division function for this same process
 # TODO: This function is going to be added back in when I split out the TUI event loop into two events, the way it's handled right now doesn't work.
@@ -97,4 +97,4 @@ def multiply_remainders() -> bool:
 
     question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?'
 
-    config.write_solution(question,answer)
+    config.write_solution_json(question,answer)

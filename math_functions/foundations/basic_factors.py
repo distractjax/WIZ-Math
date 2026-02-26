@@ -44,7 +44,7 @@ def factor_quiz() -> bool:
         3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
     }
 
-    config.write_solution(questions[random_number],answers[random_number])
+    config.write_solution_json(questions[random_number],answers[random_number])
 
 def prime_factor_quiz() -> bool:
     '''
@@ -69,7 +69,7 @@ def prime_factor_quiz() -> bool:
 
     random_number = randint(1,3)
 
-    config.write_solution(questions[random_number],answers[random_number])
+    config.write_solution_json(questions[random_number],answers[random_number])
 
 if __name__ == "__main__":
     factor_quiz()
