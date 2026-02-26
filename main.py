@@ -2,11 +2,10 @@
 
 from curses import wrapper
 from tui import tui_main_loop
-from config import ensure_application_path, write_db
+from config import ensure_application_path
 
 def main():
     ensure_application_path()
-    write_db()
     wrapper(tui_main_loop)
 
 if __name__ == "__main__":
