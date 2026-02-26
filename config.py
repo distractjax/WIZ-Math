@@ -68,7 +68,7 @@ def update_question_row(was_right: bool, exec_time: datetime.datetime, filepath:
 # and the backend. So the only things that need to be in the JSON file are things that both
 # the frontend and the backend need to know. I just need to write SQL functions that communicate the information
 # when the function runs on the backend to the DB.
-def write_solution_json(exec_time: datetime.datetime, question: str, answer: str, question_filepath: str = JSON_PATH) -> None:
+def write_solution_json(exec_time: datetime.datetime, question: str, answer: str, filepath: str = JSON_PATH) -> None:
     '''
     This is a function that writes the question and answer provided to a JSON file.
     '''
