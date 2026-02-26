@@ -1,7 +1,7 @@
 from collections import defaultdict
 from random import randint
 import json
-import time
+import datetime
 import sqlite3
 from os import path, mkdir
 
@@ -40,25 +40,41 @@ def ensure_sqlite_table(cursor, table_name: str, column_names: list[str]) -> Non
 # What functions do I actually need to be able to have?
 # I need one that creates a new row in the problem_history table, initializing with exec_time, q_type and q_func.
 # Then I need one that updates that table with was_right and solve_time
-def write_db(question: str = '', answer: str = '', filepath: str = SQLITE_PATH) -> None:
+def create_question_row(exec_time: datetime.datetime, q_type: str, q_func: str, filepath: str = SQLITE_PATH) -> None:
     '''
-    This is a function that writes the question, answer, time and truth value of the answer to a database.
+    This function creates a new row in the problem_history table with values for exec_time, q_type and q_func.
     '''
     with sqlite3.connect(filepath) as conn:
         c = conn.cursor()
         ensure_sqlite_table(c, "problem_history", ["exec_time primary key","q_type","q_func","was_right","solve_time"])
+        c.execute(f'''INSERT INTO problem_history (exec_time, q_type, q_func) 
+            VALUES({exec_time}, {q_type}, {q_func});
+            ''')
+
+def update_question_row(was_right: bool, exec_time: datetime.datetime, filepath: str = SQLITE_PATH) -> None:
+    '''
+    This function updates a row in the problem_history table with values for was_right and solve_time.
+    '''
+    end_time = datetime.datetime.now()
+    with sqlite3.connect(filepath) as conn:
+        c = conn.cursor()
+        c.execute(f'''UPDATE problem_history 
+            SET was_right = {was_right}, solve_time = {exec_time - end_time} 
+            WHERE exec_time = {exec_time};
+            ''')
 
 # Read and Write from JSON
 # Let me actually think about this. The point of the JSON file is to communicate between the frontend
 # and the backend. So the only things that need to be in the JSON file are things that both
-# the frontend and the backend need to know. I just need to write SQL modules that communicate the information
+# the frontend and the backend need to know. I just need to write SQL functions that communicate the information
 # when the function runs on the backend to the DB.
-def write_solution_json(question: str, answer: str, question_filepath: str = JSON_PATH) -> None:
+def write_solution_json(exec_time: datetime.datetime, question: str, answer: str, question_filepath: str = JSON_PATH) -> None:
     '''
     This is a function that writes the question and answer provided to a JSON file.
     '''
     json_dict = {'question': question, 
                  'answer': answer,
+                 'exec_time': exec_time,
                  }
     with open(filepath, 'w') as jfp:
         json.dump(json_dict,fp=jfp)
