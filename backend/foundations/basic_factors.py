@@ -49,7 +49,7 @@ def factor_quiz() -> bool:
     exec_time = datetime.now()
 
     config.write_solution_json(exec_time, questions[random_number],answers[random_number])
-    config.create_question_row(exec_time,MODULE_NAME,"factor_quiz")
+    config.create_question_row(exec_time,MODULE_NAME,"Factor Operations")
 
 def prime_factor_quiz() -> bool:
     '''
@@ -77,7 +77,7 @@ def prime_factor_quiz() -> bool:
     exec_time = datetime.now()
 
     config.write_solution_json(exec_time, questions[random_number],answers[random_number])
-    config.create_question_row(exec_time,MODULE_NAME,"factor_quiz")
+    config.create_question_row(exec_time,MODULE_NAME,"Prime Factor Operations")
 
 if __name__ == "__main__":
     factor_quiz()
