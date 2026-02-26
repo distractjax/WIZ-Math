@@ -50,3 +50,25 @@
 * Option to generate questions like the questions you've gotten wrong.
 * Customized study plan.
 * Distributed on Docker (and maybe nixpkgs)
+
+## Stats Screen
+
+I'm going to set up a display for your historical stats. This is going
+to be driven by Pandas. It's going to basically work like this:
+
+* Backend loads data from the sql database into Pandas.
+* Pandas will transform the data in whatever way is necessary for the display.
+* The data for the display will be sent in a JSON object.
+* The frontend will retrieve the JSON object and render it.
+
+These are pretty much the four sections that I want to have:
+
+* Overview: This is just a bar chart that gives the number of questions answered
+  correctly/incorrectly by module.
+* Module: This is a bar chart that gives the number of questions answered
+  correctly/incorrectly by function.
+* History: This gives your history of how many questions you've answered on each
+  day.
+* Rank: This just lists the functions in terms of how good you are at them
+  (average time to answer this question type * % of the time that you've
+  answered it correctly).
