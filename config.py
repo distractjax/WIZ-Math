@@ -47,9 +47,9 @@ def create_question_row(exec_time: datetime.datetime, q_type: str, q_func: str, 
     with sqlite3.connect(filepath) as conn:
         c = conn.cursor()
         ensure_sqlite_table(c, "problem_history", ["exec_time primary key","q_type","q_func","was_right","solve_time"])
-        c.execute(f'''INSERT INTO problem_history (exec_time, q_type, q_func) 
-            VALUES({exec_time}, {q_type}, {q_func});
-            ''')
+        sql = '''INSERT INTO problem_history (exec_time, q_type, q_func)
+            VALUES(?, ?, ?);'''
+        c.execute(sql, (exec_time,q_type,q_func))
 
 def update_question_row(was_right: bool, exec_time: datetime.datetime, filepath: str = SQLITE_PATH) -> None:
     '''
@@ -74,7 +74,7 @@ def write_solution_json(exec_time: datetime.datetime, question: str, answer: str
     '''
     json_dict = {'question': question, 
                  'answer': answer,
-                 'exec_time': exec_time,
+                 'exec_time': str(exec_time),
                  }
     with open(filepath, 'w') as jfp:
         json.dump(json_dict,fp=jfp)
