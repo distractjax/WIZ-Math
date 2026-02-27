@@ -14,6 +14,7 @@ def enter_is_terminate(x):
         return 7
     return x
 
+# TODO: Make this more abstract so that the Stats function can use it.
 def handle_cursor(c):
     '''
     This function manages cursor movement.
@@ -36,6 +37,7 @@ def tui_main_loop(stdscr):
     stdscr.keypad(True)
     curses.curs_set(2)
     stdscr.clear()
+    curses.set_escdelay(50)
 
     # Header needs to be global
     global header_set
