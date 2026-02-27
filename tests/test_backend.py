@@ -19,6 +19,7 @@ def create_overview():
     df['was_wrong'] = df['exec_time'] - df['was_right']
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
+    df = df.transpose()
     print(df.to_json())
 
 # Module Window
@@ -29,6 +30,7 @@ def create_module_view(module: str = "Foundations"):
     df['was_wrong'] = df['exec_time'] - df['was_right']
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
+    df = df.transpose()
     print(df.to_json())
 
 # History Window
