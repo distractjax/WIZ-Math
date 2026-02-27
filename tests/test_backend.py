@@ -51,8 +51,19 @@ def create_history_view():
 
 def create_rank_view():
     df = table_to_df()
-    df.replace(0,np.nan,inplace=True)
-    pass
+    swap_df = df[["q_func", "solve_time"]].copy()
+    df = df.groupby("q_func").count()
+    swap_df = swap_df.groupby("q_func").mean()
+    df['avg_time'] = swap_df['solve_time']
+    del swap_df
+    df['%_correct'] = df['was_right'] / df['exec_time']
+    df['rank_basis'] = df['%_correct'] / df['avg_time']
+    df.sort_values( by= ['rank_basis'], ascending= False, inplace= True )
+    for x in [x for x in df.columns if x != '%_correct' and x != 'avg_time']:
+        df.drop(x, axis=1, inplace=True)
+    df.reset_index(inplace=True)
+    df = df.transpose()
+    print(df.to_json())
 
 if __name__ == '__main__':
     test()
