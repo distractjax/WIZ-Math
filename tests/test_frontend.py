@@ -1,5 +1,6 @@
 import curses
 from curses.textpad import rectangle, Textbox
+from tests.stats_window import stats_loop
 from backend import function_dicts
 import config
 import json
@@ -53,6 +54,7 @@ def tui_main_loop(stdscr):
     global sidebar
     sidebar = stdscr.subwin(curses.LINES - 3, sidebar_cols, 1, 2)
 
+    print_win_lines = 3 * (curses.LINES - 5) // 4
     print_win = stdscr.subwin(curses.LINES - 3, remain_cols + 3, 1, sidebar_cols + 2)
 
     sidebar.keypad(True)
@@ -103,6 +105,11 @@ def tui_main_loop(stdscr):
                 header_set.pop()
                 sidebar_contents = [x for x in function_dicts.category_dict.keys()]
                 sidebar_contents.append('Quit')
+            elif sidebar_contents[y-1] == 'Stats':
+                print_win.clear()
+                header_set.append(sidebar_contents[y-1])
+                stats_loop(print_win)
+
             elif sidebar_contents[y-1] == 'Quit':
                 break
             elif header == 'Main Menu':
