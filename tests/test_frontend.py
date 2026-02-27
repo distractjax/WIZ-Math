@@ -26,29 +26,6 @@ def handle_cursor(c):
     elif c == curses.KEY_DOWN:
         side_y = 1 if side_y >= len(sidebar_contents) else side_y + 1
 
-def answer_question(edit_win, results_win):
-    '''
-    This function moves the cursor and allows the user to answer questions.
-    '''
-    edit_win.move(0,0)
-    tb = Textbox(edit_win)
-    tb.edit(enter_is_terminate)
-    answer = tb.gather().strip()
-    message = config.check_solution(answer)
-
-    results_win.addstr(1,1,f'{message}')
-    results_win.clrtoeol()
-    edit_win.clear()
-    
-    results_win.refresh()
-    edit_win.refresh()
-
-def tui_questions_loop(stdscr):
-    '''
-    This handles the loop for answering questions.
-    '''
-    return None
-
 # stdscr is already global because of how the wrapper works.
 def tui_main_loop(stdscr):
     '''
@@ -76,18 +53,12 @@ def tui_main_loop(stdscr):
     global sidebar
     sidebar = stdscr.subwin(curses.LINES - 3, sidebar_cols, 1, 2)
 
-    print_win_lines = 3 * (curses.LINES - 5) // 4
-    print_win = stdscr.subwin(print_win_lines,remain_cols + 3, 1, sidebar_cols + 2)
-
-    textbox_lines = curses.LINES - 5 - print_win_lines
-    textbox = stdscr.subwin(textbox_lines,remain_cols - 2, print_win_lines + 2, sidebar_cols + 3)
+    print_win = stdscr.subwin(curses.LINES - 3, remain_cols + 3, 1, sidebar_cols + 2)
 
     sidebar.keypad(True)
     sidebar.leaveok(False)
     print_win.keypad(True)
     print_win.leaveok(False)
-    textbox.keypad(True)
-    textbox.leaveok(False)
 
     global sidebar_contents
     sidebar_contents = [x for x in function_dicts.category_dict.keys()]
@@ -107,7 +78,7 @@ def tui_main_loop(stdscr):
         sidebar.border()
         print_win.border()
 
-        rectangle(stdscr,print_win_lines + 1, sidebar_cols + 2, curses.LINES - 3, curses.COLS - 2)
+        rectangle(stdscr,1, sidebar_cols + 2, curses.LINES - 3, curses.COLS - 2)
 
         for a,b in enumerate(sidebar_contents):
             sidebar.addstr(a+1,1,f'[ ] {b}')
@@ -115,7 +86,6 @@ def tui_main_loop(stdscr):
         stdscr.noutrefresh()
         sidebar.noutrefresh()
         print_win.noutrefresh()
-        textbox.noutrefresh()
 
         y, x = side_y, side_x
         sidebar.move(y,x)
@@ -148,6 +118,5 @@ def tui_main_loop(stdscr):
                 print_win.addstr(1,1,f'{question}')
                 print_win.border()
                 print_win.refresh()
-                answer_question(textbox,print_win)
         else:
             handle_cursor(c)

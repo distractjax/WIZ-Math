@@ -1,6 +1,7 @@
 from backend.foundations import basic_factors, basic_fractions, basic_multiples
 # This is going to be the holding area for all of my function dicts so I don't end up with an insane
 # import statement in my TUI file.
+import tests.test_backend
 
 foundations_dict = {
     'multiply by fractions': basic_fractions.multiply_fractions_quiz,
@@ -15,7 +16,8 @@ foundations_dict = {
 }
 
 category_dict = {
-    'Foundations': foundations_dict
+    'Foundations': foundations_dict,
+    'Stats': tests.test_backend.function_dict
 }
 
 # This is just to test my imports

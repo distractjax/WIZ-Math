@@ -65,5 +65,12 @@ def create_rank_view():
     df = df.transpose()
     df.to_json(config.JSON_PATH)
 
+function_dict = {
+    "create overview": create_overview,
+    "create module view": create_module_view,
+    "create history view": create_history_view,
+    "create rank view": create_rank_view
+}
+
 if __name__ == '__main__':
     test()
