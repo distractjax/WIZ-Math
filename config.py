@@ -74,13 +74,13 @@ def write_solution_json(exec_time: datetime.datetime, question: str, answer: str
     with open(filepath, 'w') as jfp:
         json.dump(json_dict,fp=jfp)
 
-def read_question_json(filepath: str = JSON_PATH) -> dict[str]:
+def read_json(filepath: str = JSON_PATH) -> dict[str]:
     '''
     This is a function that reads the question and answer out of a provided JSON file.
     '''
     with open(filepath, 'r') as jfp:
         json_dict = json.load(jfp)
-    return json_dict['question']
+    return json_dict
 
 # Check Solution from frontend
 def check_solution(user_in: str, filepath: str = JSON_PATH) -> str:

@@ -109,15 +109,6 @@ def tui_main_loop(stdscr):
                 header_set.pop()
                 sidebar_contents = [x for x in function_dicts.category_dict.keys()]
                 sidebar_contents.append('Quit')
-            elif sidebar_contents[y-1] == 'Stats':
-                header = 'Stats'
-                stdscr.addstr(0,2,header,curses.A_BOLD)
-                stdscr.clrtoeol()
-                stdscr.refresh()
-                print_win.clear()
-                stats_loop(print_win)
-                sidebar.move(side_y,side_x)
-                sidebar.refresh()
             elif sidebar_contents[y-1] == 'Quit':
                 break
             elif header == 'Main Menu':
@@ -127,11 +118,21 @@ def tui_main_loop(stdscr):
                 sidebar_contents.insert(0,'<-')
                 sidebar_contents.append('Quit')
             else:
-                function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
-                question = config.read_question_json()
-                print_win.clear()
-                print_win.addstr(1,1,f'{question}')
-                print_win.border()
-                print_win.refresh()
+                # This is where I need to handle the different kinds of functions I have
+                function_dicts.category_dict[header][sidebar_contents[y-1].lower()]()
+                json = config.read_json()
+                if header == 'Stats':
+                    print_win.clear()
+                    print_win.addstr(1,1,f'{json}')
+                    print_win.border()
+                    print_win.refresh()
+                    pass
+                else:
+                    question = json['question']
+                    del json
+                    print_win.clear()
+                    print_win.addstr(1,1,f'{question}')
+                    print_win.border()
+                    print_win.refresh()
         else:
             handle_cursor(c)
