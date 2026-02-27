@@ -6,11 +6,12 @@ import json
 
 # stdscr is already global because of how the wrapper works.
 def stats_loop(print_win):
+    curses.curs_set(0)
     ind = 0
     while True:
         print_win.border()
         print_win.addstr(1,2,'')
-        stat_views = function_dicts.category_dict['Stats'].keys()
+        stat_views = [x.title() for x in function_dicts.category_dict['Stats'].keys()]
         for x, y in enumerate(stat_views):
             if x == ind:
                 print_win.addstr(y, curses.A_BOLD)
@@ -20,11 +21,13 @@ def stats_loop(print_win):
         print_win.refresh()
         c = print_win.getch()
         if c == curses.ascii.ESC:
+            print_win.clear()
+            curses.curs_set(2)
             break
         elif c == curses.KEY_LEFT:
-            ind = len(stat_views) - 1 if ind <= 1 else ind - 1
+            ind = len(stat_views) - 1 if ind <= 0 else ind - 1
         elif c == curses.KEY_RIGHT:
-            ind = 1 if ind >= len(stat_views) else ind + 1
+            ind = 0 if ind >= len(stat_views) - 1 else ind + 1
 
         # stdscr.clrtoeol()
         # stdscr.addstr(curses.LINES-2,2,footer,curses.A_BOLD)

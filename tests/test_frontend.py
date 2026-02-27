@@ -4,6 +4,7 @@ from tests.stats_window import stats_loop
 from backend import function_dicts
 import config
 import json
+import sys
 
 def enter_is_terminate(x):
     '''
@@ -92,6 +93,7 @@ def tui_main_loop(stdscr):
         print_win.noutrefresh()
 
         y, x = side_y, side_x
+        sidebar.touchwin()
         sidebar.move(y,x)
 
         curses.doupdate()
@@ -108,10 +110,14 @@ def tui_main_loop(stdscr):
                 sidebar_contents = [x for x in function_dicts.category_dict.keys()]
                 sidebar_contents.append('Quit')
             elif sidebar_contents[y-1] == 'Stats':
+                header = 'Stats'
+                stdscr.addstr(0,2,header,curses.A_BOLD)
+                stdscr.clrtoeol()
+                stdscr.refresh()
                 print_win.clear()
-                header_set.append(sidebar_contents[y-1])
                 stats_loop(print_win)
-
+                sidebar.move(side_y,side_x)
+                sidebar.refresh()
             elif sidebar_contents[y-1] == 'Quit':
                 break
             elif header == 'Main Menu':
