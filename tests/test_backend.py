@@ -25,7 +25,6 @@ def create_overview():
 
 def create_module_view(module: str = "Foundations"):
     df = table_to_df()
-    df.replace(0,np.nan,inplace=True)
     df = df[df['q_type'] == module].groupby("q_func").count()
     df['was_wrong'] = df['exec_time'] - df['was_right']
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
@@ -36,6 +35,15 @@ def create_module_view(module: str = "Foundations"):
 
 def create_history_view():
     df = table_to_df()
+    df.replace(0,np.nan,inplace=True)
+    df['exec_time'] = pd.to_datetime(df['exec_time'],format='%Y-%m-%d %H:%M:%S.%f')
+    df['exec_time'] = df['exec_time'].dt.to_period("D")
+    df = df.groupby('exec_time').count()
+    df['was_wrong'] = df['q_type'] - df['was_right']
+    for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
+        df.drop(x, axis=1, inplace=True)
+    df = df.transpose()
+    print(df.to_json())
     pass
 
 # Rank Window
