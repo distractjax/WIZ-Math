@@ -72,3 +72,12 @@ These are pretty much the four sections that I want to have:
 * Rank: This just lists the functions in terms of how good you are at them
   (average time to answer this question type * % of the time that you've
   answered it correctly).
+
+I think the best strategy for all of these graphs would be bar graphs with
+labels on the y-axis and values on the x-axis.
+
+* Horizontal bars: Just have a new line for every label and a string of
+len(was_wrong) or len(was_right) filled with a braille character for the graph.
+* Vertical bars: Start printing the labels at the bottom and then print a string
+that contains a number of braille characters equal to the number of bars that
+have values at that position.
