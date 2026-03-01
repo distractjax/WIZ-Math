@@ -26,6 +26,7 @@
             (python3.withPackages (ps: with ps; [
               debugpy
               pandas
+							pytest
             ]))
             basedpyright
             ruff
