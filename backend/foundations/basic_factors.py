@@ -4,13 +4,13 @@ from random import randint, getrandbits
 import config
 from datetime import datetime
 
-def factor_quiz() -> None:
+def factor_quiz(num_range: tuple[int,int] = (4,200)) -> None:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
-    num1 = randint(4, 200)
+    num1 = randint(num_range[0],num_range[1])
     while len(find_factors(num1)) == 2:
-        num1 = randint(4,200)
+        num1 = randint(num_range[0],num_range[1])
     num1_factors = find_factors(num1)
     num1_factors.pop(0)
     num1_factors.pop(-1)
@@ -51,11 +51,11 @@ def factor_quiz() -> None:
     config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
     config.create_question_row(exec_time,MODULE_NAME,"Factor Operations")
 
-def prime_factor_quiz() -> None:
+def prime_factor_quiz(num_range: tuple[int, int] = (4,200)) -> None:
     '''
     This generates simple quiz questions about the prime factors of a number.
     '''
-    num1 = randint(4, 200)
+    num1 = randint(num_range[0], num_range[1])
     num1_factors = find_factors(num1)
 
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
