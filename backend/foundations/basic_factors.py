@@ -4,7 +4,7 @@ from random import randint, getrandbits
 import config
 from datetime import datetime
 
-def factor_quiz() -> bool:
+def factor_quiz() -> None:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
@@ -48,10 +48,10 @@ def factor_quiz() -> bool:
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],answers[random_number])
+    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
     config.create_question_row(exec_time,MODULE_NAME,"Factor Operations")
 
-def prime_factor_quiz() -> bool:
+def prime_factor_quiz() -> None:
     '''
     This generates simple quiz questions about the prime factors of a number.
     '''
@@ -76,7 +76,7 @@ def prime_factor_quiz() -> bool:
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],answers[random_number])
+    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
     config.create_question_row(exec_time,MODULE_NAME,"Prime Factor Operations")
 
 if __name__ == "__main__":
