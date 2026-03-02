@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Fractions
 
-def divide_fractions_quiz() -> bool:
+def divide_fractions_quiz() -> None:
     '''
     Generates a string that divides two fractions.
     '''
@@ -34,7 +34,7 @@ def divide_fractions_quiz() -> bool:
     config.write_solution_json(exec_time, question, answer)
     config.create_question_row(exec_time,MODULE_NAME,"Divide by Fractions")
 
-def multiply_fractions_quiz() -> bool:
+def multiply_fractions_quiz() -> None:
     '''
     Generates a string that multiplies two fractions.
     '''
@@ -63,7 +63,7 @@ def multiply_fractions_quiz() -> bool:
     config.create_question_row(exec_time,MODULE_NAME,"Multiply by Fractions")
 
 # TODO: Add in division function for this same process
-def multiply_fractions_with_exponents() -> bool:
+def multiply_fractions_with_exponents() -> None:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
@@ -93,7 +93,7 @@ def multiply_fractions_with_exponents() -> bool:
 
 # TODO: Add in division function for this same process
 # TODO: This function is going to be added back in when I split out the TUI event loop into two events, the way it's handled right now doesn't work.
-def multiply_remainders() -> bool:
+def multiply_remainders() -> None:
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
     '''
@@ -110,5 +110,5 @@ def multiply_remainders() -> bool:
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, question, answer)
+    config.write_solution_json(exec_time, question, str(answer))
     config.create_question_row(exec_time,MODULE_NAME,"Multiply Remainders")

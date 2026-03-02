@@ -4,7 +4,7 @@ from backend.foundations.common import MODULE_NAME
 from datetime import datetime
 import config
 
-def common_n_digit_multiples_quiz() -> bool:
+def common_n_digit_multiples_quiz() -> None:
     '''
     Generates questions about the common multiples of a set of numbers. 
     '''
@@ -34,10 +34,10 @@ def common_n_digit_multiples_quiz() -> bool:
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],answers[random_number])
+    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
     config.create_question_row(exec_time,MODULE_NAME,"Common N-Digit Multiples")
 
-def n_digit_multiples_quiz() -> bool:
+def n_digit_multiples_quiz() -> None:
     '''
     Generates questions about the properties of the set of multiples of a given number that are n-digits long. 
     '''
@@ -61,7 +61,7 @@ def n_digit_multiples_quiz() -> bool:
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],answers[random_number])
+    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
     config.create_question_row(exec_time,MODULE_NAME,"N-Digit Multiples")
 
 if __name__ == "__main__":

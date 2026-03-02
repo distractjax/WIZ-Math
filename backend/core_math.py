@@ -14,7 +14,7 @@ def find_factors(input: int) -> array[int]:
     return output
 
 # Basic Fraction Functions
-def simplify_fractions(numerator: int, denominator: int) -> tuple[int]:
+def simplify_fractions(numerator: int, denominator: int) -> tuple[int, int]:
     '''
     This returns the most simplified version of a given fraction
     '''
@@ -53,6 +53,9 @@ def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
     return multiples
 
 def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
+    '''
+    This function returns the lowest common multiple between two numbers.
+    '''
     higher_number_multiples = [x * higher_number for x in range(1, lower_number + 1)]
     for multiple in higher_number_multiples:
         if multiple % lower_number == 0:
