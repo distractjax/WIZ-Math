@@ -4,20 +4,28 @@ from random import randint, getrandbits
 import config
 from datetime import datetime
 
-def factor_quiz(num_range: tuple[int,int] = (4,200)) -> None:
+def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> None:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
-    num1 = randint(num_range[0],num_range[1])
-    while len(find_factors(num1)) == 2:
-        num1 = randint(num_range[0],num_range[1])
+    num1 = num1 or randint(4, 200)
+    question_num = question_num or randint(1,3)
+
+    if num1 > 200 or num1 < 4:
+        raise ValueError("Your number must be between 4 and 200.")
+    if question_num > 3 or question_num < 1:
+        raise ValueError("The question list only has 3 entries.")
+
+    # Handle prime number
+    if len(find_factors(num1)) == 2:
+        # This is the old logic
+        # num1 = randint(num_range[0],num_range[1])
+        find_factors(num1 + 1)
     num1_factors = find_factors(num1)
     num1_factors.pop(0)
     num1_factors.pop(-1)
 
-    if 2 not in num1_factors:
-        is_even = False
-    else:
+    if 2 in num1_factors:
         is_even = bool(getrandbits(1))
 
     if is_even:
@@ -27,56 +35,58 @@ def factor_quiz(num_range: tuple[int,int] = (4,200)) -> None:
         is_even_string = 'odd'
         output_factors = [x for x in num1_factors if x % 2 == 1]
 
-    random_number = randint(1,3)
-
-    # This is kind of a micro-optimization thing, but these dictionaries are running these functions regardless of the input
-    questions = {
-        1: f'What is the largest {is_even_string} factor of {num1}?\n',
-        2: f'What is the smallest {is_even_string} factor of {num1}?\n',
-        3: f'How many {is_even_string} factors of {num1} are there?\n'
-    }
-    answers = {
-        1: max(output_factors),
-        2: min(output_factors),
-        3: len(output_factors),
-    }
-    responses = {
-        1: f'The largest {is_even_string} factor of {num1} is \n{answers[random_number]}',
-        2: f'The smallest {is_even_string} factor of {num1} is \n{answers[random_number]}',
-        3: f'The {is_even_string} factors of {num1} are \n{output_factors}',
-    }
+    questions = [
+        f'What is the largest {is_even_string} factor of {num1}?\n',
+        f'What is the smallest {is_even_string} factor of {num1}?\n',
+        f'How many {is_even_string} factors of {num1} are there?\n'
+    ]
+    answers = [
+        max(output_factors),
+        min(output_factors),
+        len(output_factors),
+    ]
+    responses = [
+        f'The largest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
+        f'The smallest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
+        f'The {is_even_string} factors of {num1} are \n{output_factors}',
+    ]
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
+    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
     config.create_question_row(exec_time,MODULE_NAME,"Factor Operations")
 
-def prime_factor_quiz(num_range: tuple[int, int] = (4,200)) -> None:
+def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> None:
     '''
     This generates simple quiz questions about the prime factors of a number.
     '''
-    num1 = randint(num_range[0], num_range[1])
+    num1 = num1 or randint(4, 200)
+    question_num = question_num or randint(1,3)
+
+    if num1 > 200 or num1 < 4:
+        raise ValueError("Your number must be between 4 and 200.")
+    if question_num > 3 or question_num < 1:
+        raise ValueError("The question list only has 3 entries.")
+
     num1_factors = find_factors(num1)
 
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
     prime_factors.insert(0,1)
 
-    questions = {
-        1: f'What is the largest prime factor of {num1}?\n',
-        2: f'What is the smallest prime factor of {num1}?\n',
-        3: f'How many prime factors of {num1} are there?\n'
-    }
-    answers = {
-        1: max(prime_factors),
-        2: min(prime_factors),
-        3: len(prime_factors),
-    }
-
-    random_number = randint(1,3)
+    questions = [
+        f'What is the largest prime factor of {num1}?\n',
+        f'What is the smallest prime factor of {num1}?\n',
+        f'How many prime factors of {num1} are there?\n'
+    ]
+    answers = [
+        max(prime_factors),
+        min(prime_factors),
+        len(prime_factors),
+    ]
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
+    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
     config.create_question_row(exec_time,MODULE_NAME,"Prime Factor Operations")
 
 if __name__ == "__main__":

@@ -6,20 +6,20 @@ from datetime import datetime
 
 # Fractions
 
-def divide_fractions_quiz(numerator_range: tuple[int, int] = (1,20), denominator_range: tuple[int, int] = (2, 20)) -> None:
+def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> None:
     '''
     Generates a string that divides two fractions.
     '''
-    numerator1 = randint(numerator_range[0],numerator_range[1])
-    numerator2 = randint(numerator_range[0],numerator_range[1])
+    numerator1 = numerator1 or randint(1,20)
+    numerator2 = numerator2 or randint(1,20)
 
-    denominator1 = randint(denominator_range[0],denominator_range[1])
-    denominator2 = randint(denominator_range[0],denominator_range[1])
+    denominator1 = denominator1 or randint(2,20)
+    denominator2 = denominator2 or randint(2,20)
 
-    while denominator1 == numerator1:
-        denominator1 = randint(denominator_range[0],denominator_range[1])
-    while denominator2 == numerator2:
-        denominator2 = randint(denominator_range[0],denominator_range[1])
+    if denominator1 == numerator1:
+        denominator1 += numerator1 - 1
+    if denominator2 == numerator2:
+        denominator2 += numerator2 - 1
 
     solution_numerator = numerator1 * denominator2
     solution_denominator = denominator1 * numerator2
@@ -34,20 +34,20 @@ def divide_fractions_quiz(numerator_range: tuple[int, int] = (1,20), denominator
     config.write_solution_json(exec_time, question, answer)
     config.create_question_row(exec_time,MODULE_NAME,"Divide by Fractions")
 
-def multiply_fractions_quiz(numerator_range: tuple[int, int] = (1,20), denominator_range: tuple[int, int] = (2,20)) -> None:
+def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> None:
     '''
     Generates a string that multiplies two fractions.
     '''
-    numerator1 = randint(numerator_range[0],numerator_range[1])
-    numerator2 = randint(numerator_range[0],numerator_range[1])
+    numerator1 = numerator1 or randint(1,20)
+    numerator2 = numerator2 or randint(1,20)
 
-    denominator1 = randint(denominator_range[0],denominator_range[1])
-    denominator2 = randint(denominator_range[0],denominator_range[1])
+    denominator1 = denominator1 or randint(2,20)
+    denominator2 = denominator2 or randint(2,20)
 
-    while denominator1 == numerator1:
-        denominator1 = randint(denominator_range[0],denominator_range[1])
+    if denominator1 == numerator1:
+        denominator1 += numerator1 - 1
     while denominator2 == numerator2:
-        denominator2 = randint(denominator_range[0],denominator_range[1])
+        denominator2 += numerator2 - 1
 
     solution_numerator = numerator1 * numerator2
     solution_denominator = denominator1 * denominator2
@@ -63,20 +63,20 @@ def multiply_fractions_quiz(numerator_range: tuple[int, int] = (1,20), denominat
     config.create_question_row(exec_time,MODULE_NAME,"Multiply by Fractions")
 
 # TODO: Add in division function for this same process
-def multiply_fractions_with_exponents(num_range: tuple[int, int] = (2,10), exponent_range: tuple[int, int] = (2,3)) -> None:
+def multiply_fractions_with_exponents(numerator1: int = 0, numerator2: int = 0, denominator: int = 0, numerator1_exponent: int = 0, numerator2_exponent: int = 0, denominator_exponent: int = 0) -> None:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
-    numerator1 = randint(num_range[0],num_range[1])
-    numerator2 = randint(num_range[0],num_range[1])
-    denominator = randint(num_range[0],num_range[1])
+    numerator1 = numerator1 or randint(2,10)
+    numerator2 = numerator2 or randint(2,10)
+    denominator = denominator or randint(2,10)
 
-    while denominator == numerator1 or denominator == numerator2:
-        denominator = randint(num_range[0],num_range[1])
+    if denominator == numerator1 or denominator == numerator2:
+        denominator += (numerator1 + numerator2) // 2
 
-    numerator1_exponent = randint(exponent_range[0],exponent_range[1])
-    numerator2_exponent = randint(exponent_range[0],exponent_range[1])
-    denominator_exponent = randint(exponent_range[0],exponent_range[1])
+    numerator1_exponent = numerator1_exponent or randint(2,3)
+    numerator2_exponent = numerator2_exponent or randint(2,3)
+    denominator_exponent = denominator_exponent or randint(2,3)
 
     solution_numerator = (numerator1 ** numerator1_exponent) * (numerator2 ** numerator2_exponent)
     solution_denominator = denominator ** denominator_exponent
@@ -93,13 +93,13 @@ def multiply_fractions_with_exponents(num_range: tuple[int, int] = (2,10), expon
 
 # TODO: Add in division function for this same process
 # TODO: This function is going to be added back in when I split out the TUI event loop into two events, the way it's handled right now doesn't work.
-def multiply_remainders(numerator_range: tuple[int, int] = (2,20), denominator_range: tuple[int, int] = (2,9)) -> None:
+def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: int = 0) -> None:
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
     '''
-    numerator1 = randint(numerator_range[0],numerator_range[1])
-    numerator2 = randint(numerator_range[0],numerator_range[1])
-    denominator = randint(denominator_range[0],denominator_range[1])
+    numerator1 = numerator1 or randint(2, 20)
+    numerator2 = numerator2 or randint(2, 20)
+    denominator = denominator or randint(2, 9)
 
     remainder1 = numerator1 % denominator
     remainder2 = numerator2 % denominator

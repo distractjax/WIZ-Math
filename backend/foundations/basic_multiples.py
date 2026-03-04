@@ -4,13 +4,23 @@ from backend.foundations.common import MODULE_NAME
 from datetime import datetime
 import config
 
-def common_n_digit_multiples_quiz(num_range: tuple[int, int] = (2,20), exponent_range: tuple[int, int] = (2,4)) -> None:
+
+def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 0, question_num: int = 0) -> None:
     '''
     Generates questions about the common multiples of a set of numbers. 
     '''
-    num1 = randint(num_range[0],num_range[1])
-    num2 = randint(num_range[0],num_range[1])
-    n_digits = randint(exponent_range[0],exponent_range[1])
+    # num1 will evaluate to "False" if it equals 0
+    num1 = num1 or randint(2,20)
+    num2 = num2 or randint(2,20)
+    n_digits = n_digits or randint(2,4)
+    question_num = question_num or randint(1,3)
+
+    if num1 < 2 or num1 > 20 or num2 < 2 or num2 > 20:
+        raise ValueError("This function only accepts numbers as small as 2 and as large as 20.")
+    elif n_digits < 2 or n_digits > 4:
+        raise ValueError("The number of digits in this function must be greater than 2 and less than 4.")
+    elif question_num < 1 or question_num > 3:
+        raise ValueError("The question list only has 3 entries.")
 
     numbers = [num1, num2]
     numbers.sort()
@@ -19,52 +29,56 @@ def common_n_digit_multiples_quiz(num_range: tuple[int, int] = (2,20), exponent_
 
     common_n_digit_multiples = get_n_digit_multiples(least_common_multiple, n_digits)
 
-    questions = {
-        1: f'What is the largest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
-        2: f'What is the smallest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
-        3: f'How many {n_digits}-digit multiples of {num1} are also multiples of {num2}?\n'
-    }
-    answers = {
-        1: max(common_n_digit_multiples),
-        2: min(common_n_digit_multiples),
-        3: len(common_n_digit_multiples),
-    }
-
-    random_number = randint(1,3)
+    questions = [
+        f'What is the largest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
+        f'What is the smallest {n_digits}-digit multiple of {num1} that is also a multiple of {num2}?\n',
+        f'How many {n_digits}-digit multiples of {num1} are also multiples of {num2}?\n'
+    ]
+    answers = [
+        max(common_n_digit_multiples),
+        min(common_n_digit_multiples),
+        len(common_n_digit_multiples),
+    ]
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
+    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
     config.create_question_row(exec_time,MODULE_NAME,"Common N-Digit Multiples")
 
-def n_digit_multiples_quiz(num_range: tuple[int, int] = (2, 25), digit_range: tuple[int, int] = (2, 4)) -> None:
+def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 0) -> None:
     '''
     Generates questions about the properties of the set of multiples of a given number that are n-digits long. 
     '''
 
-    num = randint(num_range[0], num_range[1])
-    num_digits = randint(digit_range[0],digit_range[1])
-    multiples = get_n_digit_multiples(number = num, number_of_digits = num_digits)
+    num = num or randint(2, 25)
+    n_digits = n_digits or randint(2, 4)
+    question_num = question_num or randint(1,3)
 
-    questions = {
-        1: f'What is the largest {num_digits}-digit multiple of {num}?\n',
-        2: f'What is the smallest {num_digits}-digit multiple of {num}?\n',
-        3: f'How many {num_digits}-digit multiples are there of {num}?\n'
-    }
-    answers = {
-        1: max(multiples),
-        2: min(multiples),
-        3: len(multiples),
-    }
+    if num < 2 or num > 25:
+        raise ValueError("This function only accepts numbers as small as 2 and as large as 25.")
+    elif n_digits < 2 or n_digits > 4:
+        raise ValueError("The number of digits in this function must be greater than 2 and less than 4.")
+    elif question_num < 1 or question_num > 3:
+        raise ValueError("The question list only has 3 entries.")
 
-    random_number = randint(1,3)
+    multiples = get_n_digit_multiples(number = num, number_of_digits = n_digits)
+
+    questions = [
+        f'What is the largest {n_digits}-digit multiple of {num}?\n',
+        f'What is the smallest {n_digits}-digit multiple of {num}?\n',
+        f'How many {n_digits}-digit multiples are there of {num}?\n'
+    ]
+    answers = [
+        max(multiples),
+        min(multiples),
+        len(multiples),
+    ]
 
     exec_time = datetime.now()
 
-    config.write_solution_json(exec_time, questions[random_number],str(answers[random_number]))
+    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
     config.create_question_row(exec_time,MODULE_NAME,"N-Digit Multiples")
 
 if __name__ == "__main__":
     common_n_digit_multiples_quiz()
     # n_digit_multiples_quiz()
-
