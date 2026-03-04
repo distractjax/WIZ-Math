@@ -4,7 +4,8 @@ from random import randint, getrandbits
 import config
 from datetime import datetime
 
-def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> None:
+@config.quiz
+def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> tuple[str, str, str, str]:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
@@ -40,23 +41,23 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
         f'What is the smallest {is_even_string} factor of {num1}?\n',
         f'How many {is_even_string} factors of {num1} are there?\n'
     ]
+
     answers = [
         max(output_factors),
         min(output_factors),
         len(output_factors),
     ]
+
     responses = [
         f'The largest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
         f'The smallest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
         f'The {is_even_string} factors of {num1} are \n{output_factors}',
     ]
 
-    exec_time = datetime.now()
+    return (questions[question_num - 1], str(answers[question_num - 1]), "Factor Operations", MODULE_NAME)
 
-    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
-    config.create_question_row(exec_time,MODULE_NAME,"Factor Operations")
-
-def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> None:
+@config.quiz
+def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
     '''
     This generates simple quiz questions about the prime factors of a number.
     '''
@@ -78,16 +79,14 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> None:
         f'What is the smallest prime factor of {num1}?\n',
         f'How many prime factors of {num1} are there?\n'
     ]
+
     answers = [
         max(prime_factors),
         min(prime_factors),
         len(prime_factors),
     ]
 
-    exec_time = datetime.now()
-
-    config.write_solution_json(exec_time, questions[question_num - 1],str(answers[question_num - 1]))
-    config.create_question_row(exec_time,MODULE_NAME,"Prime Factor Operations")
+    return (questions[question_num - 1], str(answers[question_num - 1]), "Prime Factor Operations", MODULE_NAME)
 
 if __name__ == "__main__":
     factor_quiz()

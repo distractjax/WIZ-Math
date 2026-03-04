@@ -4,16 +4,7 @@ from backend.foundations.common import MODULE_NAME
 from datetime import datetime
 import config
 
-def quiz(func):
-    def record_question() -> None:
-        question, answer, func_name, module_name = func()
-        exec_time = datetime.now()
-        config.write_solution_json(exec_time, question, answer)
-        config.create_question_row(exec_time, module_name, func_name)
-        print(question, answer, func_name)
-    return record_question
-
-@quiz
+@config.quiz
 def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
     '''
     Generates questions about the common multiples of a set of numbers. 
@@ -50,7 +41,7 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
     ]
     return (questions[question_num-1], str(answers[question_num-1]), "Common N-Digit Multiples", MODULE_NAME)
 
-@quiz
+@config.quiz
 def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str,str,str,str]:
     '''
     Generates questions about the properties of the set of multiples of a given number that are n-digits long. 

@@ -96,3 +96,13 @@ def check_solution(user_in: str, filepath: str = JSON_PATH) -> str:
     update_question_row(was_right, json_dict['exec_time'])
 
     return f'{['Incorrect!', 'Correct!'][was_right]} The answer is {json_dict["answer"]}.'
+
+# Decorators
+def quiz(func):
+    def record_question() -> None:
+        question, answer, func_name, module_name = func()
+        exec_time = datetime.datetime.now()
+        write_solution_json(exec_time, question, answer)
+        create_question_row(exec_time, module_name, func_name)
+        print(question, answer, func_name, module_name)
+    return record_question
