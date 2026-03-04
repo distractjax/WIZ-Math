@@ -74,7 +74,7 @@ def write_solution_json(exec_time: datetime.datetime, question: str, answer: str
     with open(filepath, 'w') as jfp:
         json.dump(json_dict,fp=jfp)
 
-def read_json(filepath: str = JSON_PATH) -> dict[str]:
+def read_json(filepath: str = JSON_PATH) -> dict[str, str]:
     '''
     This is a function that reads the question and answer out of a provided JSON file.
     '''

@@ -143,7 +143,7 @@ def tui_main_loop(stdscr):
                 sidebar_contents.append('Quit')
             else:
                 function_dicts.foundations_dict[sidebar_contents[y-1].lower()]()
-                question = config.read_question_json()
+                question = config.read_json()['question']
                 print_win.clear()
                 print_win.addstr(1,1,f'{question}')
                 print_win.border()
