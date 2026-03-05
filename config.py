@@ -99,10 +99,10 @@ def check_solution(user_in: str, filepath: str = JSON_PATH) -> str:
 
 # Decorators
 def quiz(func):
-    def record_question() -> None:
-        question, answer, func_name, module_name = func()
+    def record_question(**kwargs) -> tuple[str, str, str, str]:
+        question, answer, func_name, module_name = func(**kwargs)
         exec_time = datetime.datetime.now()
         write_solution_json(exec_time, question, answer)
         create_question_row(exec_time, module_name, func_name)
-        print(question, answer, func_name, module_name)
+        return (question, answer, func_name, module_name)
     return record_question

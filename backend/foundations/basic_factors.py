@@ -27,7 +27,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     num1_factors.pop(-1)
 
     if 2 in num1_factors:
-        is_even = bool(getrandbits(1))
+        is_even = bool(question_num % 2)
 
     if is_even:
         is_even_string = 'even'
@@ -53,7 +53,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
         f'The smallest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
         f'The {is_even_string} factors of {num1} are \n{output_factors}',
     ]
-
+ 
     return (questions[question_num - 1], str(answers[question_num - 1]), "Factor Operations", MODULE_NAME)
 
 @config.quiz
