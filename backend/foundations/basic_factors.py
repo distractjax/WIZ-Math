@@ -4,6 +4,9 @@ from random import randint, getrandbits
 import config
 from datetime import datetime
 
+# Current issues with factor_quiz:
+# 1. It breaks on numbers that only have the factors [1, sqrt(x), x]
+# 2. It breaks on the number 4 when is_even is set to False
 @config.quiz
 def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> tuple[str, str, str, str]:
     '''
@@ -25,7 +28,8 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     num1_factors = find_factors(num1)
 
     if 2 in num1_factors:
-        is_even = bool(num1_factors[2] % 2)
+        # This would actually solve the problem of 4, because it'll never ask if 4 has an odd factor.
+        is_even = bool((num1_factors[2] + 1) % 2)
 
     if is_even:
         is_even_string = 'even'
@@ -53,7 +57,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
         f'The {is_even_string} factors of {num1} are {output_factors}',
     ]
  
-    return (questions[question_num - 1], str(responses[question_num - 1]), "Factor Operations", MODULE_NAME)
+    return (questions[question_num - 1], str(answers[question_num - 1]), "Factor Operations", MODULE_NAME)
 
 @config.quiz
 def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
