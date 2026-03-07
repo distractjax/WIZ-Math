@@ -23,11 +23,9 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
         # num1 = randint(num_range[0],num_range[1])
         find_factors(num1 + 1)
     num1_factors = find_factors(num1)
-    num1_factors.pop(0)
-    num1_factors.pop(-1)
 
     if 2 in num1_factors:
-        is_even = bool(question_num % 2)
+        is_even = bool(num1_factors[2] % 2)
 
     if is_even:
         is_even_string = 'even'
@@ -43,8 +41,9 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     ]
 
     answers = [
-        max(output_factors),
-        min(output_factors),
+        # Output_factors is sorted.
+        output_factors[-2],
+        output_factors[1],
         len(output_factors),
     ]
 
@@ -81,8 +80,8 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
     ]
 
     answers = [
-        max(prime_factors),
-        min(prime_factors),
+        prime_factors[-2],
+        prime_factors[1],
         len(prime_factors),
     ]
 
