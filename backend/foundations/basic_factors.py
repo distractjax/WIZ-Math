@@ -21,7 +21,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     if len(find_factors(num1)) == 2:
         # This is the old logic
         # num1 = randint(num_range[0],num_range[1])
-        find_factors(num1 + 1)
+        factor_quiz(num1 = num1 + 1, question_num = question_num, is_even = is_even)
     num1_factors = find_factors(num1)
 
     if 2 in num1_factors:
@@ -48,12 +48,12 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     ]
 
     responses = [
-        f'The largest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
-        f'The smallest {is_even_string} factor of {num1} is \n{answers[question_num - 1]}',
-        f'The {is_even_string} factors of {num1} are \n{output_factors}',
+        f'The largest {is_even_string} factor of {num1} is {answers[question_num - 1]}',
+        f'The smallest {is_even_string} factor of {num1} is {answers[question_num - 1]}',
+        f'The {is_even_string} factors of {num1} are {output_factors}',
     ]
  
-    return (questions[question_num - 1], str(answers[question_num - 1]), "Factor Operations", MODULE_NAME)
+    return (questions[question_num - 1], str(responses[question_num - 1]), "Factor Operations", MODULE_NAME)
 
 @config.quiz
 def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
