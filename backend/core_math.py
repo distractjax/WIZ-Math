@@ -16,7 +16,7 @@ def find_factors(input: int) -> array[int]:
 # Basic Fraction Functions
 def simplify_fractions(numerator: int, denominator: int) -> tuple[int, int]:
     '''
-    This returns the most simplified version of a given fraction
+    This returns the most simplified version of a given fraction.
     '''
     numerator_factors = find_factors(numerator)
     denominator_factors = find_factors(denominator)
@@ -40,15 +40,16 @@ def simplify_fractions(numerator: int, denominator: int) -> tuple[int, int]:
 # Basic Multiples Functions
 def get_n_digit_multiples(number: int, number_of_digits: int) -> array[int]:
     '''
-    Generates the multiples of a number that are n-number of digits
+    Generates a sorted array of the multiples of a number that are n-number of digits
     '''
     digits_check = int('1'+''.join(['0' for x in range(1,number_of_digits)]))
-    current_number = (ceil(digits_check / number))
+    multiple = (ceil(digits_check / number))
+    digits_check *= 10
 
     multiples = array('I')
-    while len(str(current_number * number)) == number_of_digits:
-        multiples.append(current_number * number)
-        current_number += 1
+    while multiple * number < digits_check:
+        multiples.append(multiple * number)
+        multiple += 1
 
     return multiples
 
@@ -60,6 +61,7 @@ def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
     for multiple in higher_number_multiples:
         if multiple % lower_number == 0:
             return multiple
+    return 0
 
 if __name__ == "__main__":
     find_factors(9)

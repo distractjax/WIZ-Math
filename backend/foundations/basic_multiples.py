@@ -35,8 +35,8 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
         f'How many {n_digits}-digit multiples of {num1} are also multiples of {num2}?\n'
     ]
     answers = [
-        max(common_n_digit_multiples),
-        min(common_n_digit_multiples),
+        common_n_digit_multiples[-1],
+        common_n_digit_multiples[0],
         len(common_n_digit_multiples),
     ]
     return (questions[question_num-1], str(answers[question_num-1]), "Common N-Digit Multiples", MODULE_NAME)
@@ -66,8 +66,8 @@ def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 
         f'How many {n_digits}-digit multiples are there of {num}?\n'
     ]
     answers = [
-        max(multiples),
-        min(multiples),
+        multiples[-1],
+        multiples[0],
         len(multiples),
     ]
 
