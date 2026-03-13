@@ -19,6 +19,8 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
         raise ValueError("Your number must be between 4 and 200.")
     if question_num > 3 or question_num < 1:
         raise ValueError("The question list only has 3 entries.")
+    if is_even > 2 or is_even < 0:
+        raise ValueError("The is_even argument of this function must be between 0 and 2, inclusive.")
 
     # Handle prime number
     if len(find_factors(num1)) == 2:
