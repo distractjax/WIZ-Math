@@ -26,7 +26,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
     if len(find_factors(num1)) == 2:
         # This is the old logic
         # num1 = randint(num_range[0],num_range[1])
-        factor_quiz(num1 = num1 + 1, question_num = question_num, is_even = is_even)
+        return factor_quiz(num1 = num1 + 1, question_num = question_num, is_even = is_even)
     num1_factors = find_factors(num1)
 
     if 2 in num1_factors:
@@ -46,6 +46,8 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
         is_even_string = 'odd'
         output_factors = [x for x in num1_factors if x % 2 == 1]
 
+    output_len = len(output_factors)
+
     try:
         output_factors.remove(num1)
     except Exception:
@@ -64,7 +66,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
         response = f'The smallest {is_even_string} factor of {num1} is {answer}'
     elif 3 == question_num:
         question = f'How many {is_even_string} factors of {num1} are there?\n'
-        answer = len(output_factors)
+        answer = output_len
         response = f'The {is_even_string} factors of {num1} are {output_factors}'
  
     return (question, str(answer), "Factor Operations", MODULE_NAME)
