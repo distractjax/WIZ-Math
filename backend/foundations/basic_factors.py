@@ -64,7 +64,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
         question = f'What is the smallest {is_even_string} factor of {num1} that is not {output_factors[0]}?\n'
         answer = output_factors[1]
         response = f'The smallest {is_even_string} factor of {num1} is {answer}'
-    elif 3 == question_num:
+    else:
         question = f'How many {is_even_string} factors of {num1} are there?\n'
         answer = output_len
         response = f'The {is_even_string} factors of {num1} are {output_factors}'
@@ -86,12 +86,15 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
 
     num1_factors = find_factors(num1)
 
+    if 2 == len(num1_factors):
+        return prime_factor_quiz(num1 = num1 + 1, question_num = question_num)
+
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
     prime_factors.insert(0,1)
 
     questions = [
         f'What is the largest prime factor of {num1}?\n',
-        f'What is the smallest prime factor of {num1}?\n',
+        f'What is the smallest prime factor of {num1} that is not 1 or 2?\n',
         f'How many prime factors of {num1} are there?\n'
     ]
 
