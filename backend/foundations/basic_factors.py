@@ -8,7 +8,7 @@ from datetime import datetime
 # 1. It breaks on numbers that only have the factors [1, sqrt(x), x]
 # 2. It breaks on the number 4 when is_even is set to False
 @config.quiz
-def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> tuple[str, str, str, str]:
+def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple[str, str, str, str]:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
@@ -28,8 +28,10 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
     num1_factors = find_factors(num1)
 
     if 2 in num1_factors:
-        # This would actually solve the problem of 4, because it'll never ask if 4 has an odd factor.
-        is_even = bool((num1_factors[2] + 1) % 2)
+        if 0 == is_even:
+            is_even = bool(getrandbits(1))
+        else:
+            is_even = bool(is_even - 1)
 
     if is_even:
         is_even_string = 'even'
@@ -38,15 +40,20 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: bool = False) -> 
         is_even_string = 'odd'
         output_factors = [x for x in num1_factors if x % 2 == 1]
 
+    try:
+        output_factors.remove(num1)
+    except Exception:
+        pass
+
     questions = [
         f'What is the largest {is_even_string} factor of {num1}?\n',
-        f'What is the smallest {is_even_string} factor of {num1}?\n',
+        f'What is the smallest {is_even_string} factor of {num1} that is not {output_factors[0]}?\n',
         f'How many {is_even_string} factors of {num1} are there?\n'
     ]
 
     answers = [
         # Output_factors is sorted.
-        output_factors[-2],
+        output_factors[-1],
         output_factors[1],
         len(output_factors),
     ]
@@ -92,5 +99,5 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
     return (questions[question_num - 1], str(answers[question_num - 1]), "Prime Factor Operations", MODULE_NAME)
 
 if __name__ == "__main__":
-    factor_quiz()
+    factor_quiz(num1=18,question_num=1,is_even=1)
     # prime_factor_quiz()

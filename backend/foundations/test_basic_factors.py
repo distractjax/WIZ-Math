@@ -2,7 +2,10 @@ import backend.foundations.basic_factors as bf
 import pytest
 
 testdata = [
-    (12, 1, False, ('What is the largest odd factor of 12?\n','6','Factor Operations', 'Foundations'))
+    (36, 1, 2, ('What is the largest even factor of 36?\n','18','Factor Operations', 'Foundations')),
+    (36, 1, 1, ('What is the largest odd factor of 36?\n','9','Factor Operations', 'Foundations')),
+    (36, 2, 2, ('What is the smallest even factor of 36 that is not 2?\n','4','Factor Operations', 'Foundations')),
+    (36, 2, 1, ('What is the smallest odd factor of 36 that is not 1?\n','3','Factor Operations', 'Foundations')),
 ]
 
 @pytest.mark.parametrize("num,question,even,answer", testdata)
