@@ -25,12 +25,25 @@ exception_data = [
 power_of_two_data = [
     (4, 1, 2, ('What is the largest even factor of 4?\n', '2')),
     (4, 1, 1, ('What is the largest even factor of 4?\n', '2')),
+    (4, 1, 0, ('What is the largest even factor of 4?\n', '2')),
     (4, 2, 2, ('What is the smallest even factor of 4?\n', '2')),
     (4, 2, 1, ('What is the smallest even factor of 4?\n', '2')),
+    (4, 2, 0, ('What is the smallest even factor of 4?\n', '2')),
     (16, 1, 2, ('What is the largest even factor of 16?\n', '8')),
     (16, 1, 1, ('What is the largest even factor of 16?\n', '8')),
+    (16, 1, 0, ('What is the largest even factor of 16?\n', '8')),
     (16, 2, 2, ('What is the smallest even factor of 16 that is not 2?\n', '4')),
     (16, 2, 1, ('What is the smallest even factor of 16 that is not 2?\n', '4')),
+    (16, 2, 0, ('What is the smallest even factor of 16 that is not 2?\n', '4')),
+]
+
+power_of_three_data = [
+    (9, 1, 2, ('What is the largest odd factor of 9?\n', '3')),
+    (9, 1, 1, ('What is the largest odd factor of 9?\n', '3')),
+    (9, 1, 0, ('What is the largest odd factor of 9?\n', '3')),
+    (9, 2, 2, ('What is the smallest odd factor of 9 that is not 1?\n', '3')),
+    (9, 2, 1, ('What is the smallest odd factor of 9 that is not 1?\n', '3')),
+    (9, 2, 0, ('What is the smallest odd factor of 9 that is not 1?\n', '3')),
 ]
 
 class TestBasicFactors:
@@ -51,6 +64,11 @@ class TestBasicFactors:
 
     @pytest.mark.parametrize("num,question,even,answer", power_of_two_data)
     def test_powers_of_two(self, num, question, even, answer):
+        factors = bf.factor_quiz(num1 = num, question_num = question, is_even = even)
+        assert factors[0] == answer[0] and factors[1] == answer[1]
+
+    @pytest.mark.parametrize("num,question,even,answer", power_of_three_data)
+    def test_powers_of_three(self, num, question, even, answer):
         factors = bf.factor_quiz(num1 = num, question_num = question, is_even = even)
         assert factors[0] == answer[0] and factors[1] == answer[1]
 

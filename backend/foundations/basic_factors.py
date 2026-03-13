@@ -36,6 +36,8 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
             is_even = bool(getrandbits(1))
         else:
             is_even = bool(is_even - 1)
+    else:
+        is_even = 0
 
     if is_even:
         is_even_string = 'even'
