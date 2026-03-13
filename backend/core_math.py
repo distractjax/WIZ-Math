@@ -63,7 +63,12 @@ def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
             return multiple
     return 0
 
+def is_power_of_two(num):
+    # This uses some bit manipulation. The first argument checks if num == 0 and the second checks if the binary of a number (say 4, which in 8-bit would be 00000100) minus the binary of the number one less than it ( which here would be 00000011) is equal to 0 (00000000).
+    return (num != 0) and (num & (num - 1) == 0)
+
 if __name__ == "__main__":
     find_factors(9)
     # simplify_fractions(2,4)
     # get_n_digit_multiples(4,2)
+    # print(is_power_of_two(28))

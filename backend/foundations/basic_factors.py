@@ -1,4 +1,4 @@
-from backend.core_math import find_factors
+from backend.core_math import find_factors, is_power_of_two
 from backend.foundations.common import MODULE_NAME
 from random import randint, getrandbits
 import config
@@ -30,7 +30,9 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
     num1_factors = find_factors(num1)
 
     if 2 in num1_factors:
-        if 0 == is_even:
+        if is_power_of_two(num1):
+            is_even = True
+        elif 0 == is_even:
             is_even = bool(getrandbits(1))
         else:
             is_even = bool(is_even - 1)
@@ -47,26 +49,23 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
     except Exception:
         pass
 
-    questions = [
-        f'What is the largest {is_even_string} factor of {num1}?\n',
-        f'What is the smallest {is_even_string} factor of {num1} that is not {output_factors[0]}?\n',
-        f'How many {is_even_string} factors of {num1} are there?\n'
-    ]
-
-    answers = [
-        # Output_factors is sorted.
-        output_factors[-1],
-        output_factors[1],
-        len(output_factors),
-    ]
-
-    responses = [
-        f'The largest {is_even_string} factor of {num1} is {answers[question_num - 1]}',
-        f'The smallest {is_even_string} factor of {num1} is {answers[question_num - 1]}',
-        f'The {is_even_string} factors of {num1} are {output_factors}',
-    ]
+    if 4 == num1 and 2 == question_num:
+        question = f'What is the smallest even factor of {num1}?\n'
+        answer = 2
+    elif 1 == question_num:
+        question = f'What is the largest {is_even_string} factor of {num1}?\n'
+        answer = output_factors[-1]
+        response = f'The largest {is_even_string} factor of {num1} is {answer}'
+    elif 2 == question_num:
+        question = f'What is the smallest {is_even_string} factor of {num1} that is not {output_factors[0]}?\n'
+        answer = output_factors[1]
+        response = f'The smallest {is_even_string} factor of {num1} is {answer}'
+    elif 3 == question_num:
+        question = f'How many {is_even_string} factors of {num1} are there?\n'
+        answer = len(output_factors)
+        response = f'The {is_even_string} factors of {num1} are {output_factors}'
  
-    return (questions[question_num - 1], str(answers[question_num - 1]), "Factor Operations", MODULE_NAME)
+    return (question, str(answer), "Factor Operations", MODULE_NAME)
 
 @config.quiz
 def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:

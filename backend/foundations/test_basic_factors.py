@@ -4,7 +4,7 @@ import datetime
 import config
 import sqlite3
 
-testdata = [
+standard_data = [
     (36, 1, 2, ('What is the largest even factor of 36?\n','18','Factor Operations', 'Foundations')),
     (36, 1, 1, ('What is the largest odd factor of 36?\n','9','Factor Operations', 'Foundations')),
     (36, 2, 2, ('What is the smallest even factor of 36 that is not 2?\n','4','Factor Operations', 'Foundations')),
@@ -22,6 +22,17 @@ exception_data = [
     (201, 1, -1),
 ]
 
+power_of_two_data = [
+    (4, 1, 2, ('What is the largest even factor of 4?\n', '2')),
+    (4, 1, 1, ('What is the largest even factor of 4?\n', '2')),
+    (4, 2, 2, ('What is the smallest even factor of 4?\n', '2')),
+    (4, 2, 1, ('What is the smallest even factor of 4?\n', '2')),
+    (16, 1, 2, ('What is the largest even factor of 16?\n', '8')),
+    (16, 1, 1, ('What is the largest even factor of 16?\n', '8')),
+    (16, 2, 2, ('What is the smallest even factor of 16 that is not 2?\n', '4')),
+    (16, 2, 1, ('What is the smallest even factor of 16 that is not 2?\n', '4')),
+]
+
 class TestBasicFactors:
 
     def setup_method(self):
@@ -33,12 +44,17 @@ class TestBasicFactors:
             c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
             conn.commit()
 
-    @pytest.mark.parametrize("num,question,even,answer", testdata)
-    def test_factor_quiz(self, num, question, even, answer):
+    @pytest.mark.parametrize("num,question,even,answer", standard_data)
+    def test_standard_data(self, num, question, even, answer):
         factors = bf.factor_quiz(num1 = num, question_num = question, is_even = even)
         assert factors == answer
 
+    @pytest.mark.parametrize("num,question,even,answer", power_of_two_data)
+    def test_powers_of_two(self, num, question, even, answer):
+        factors = bf.factor_quiz(num1 = num, question_num = question, is_even = even)
+        assert factors[0] == answer[0] and factors[1] == answer[1]
+
     @pytest.mark.parametrize("num,question,even", exception_data)
-    def test_factor_quiz_exceptions(self, num, question, even):
+    def test_exceptions(self, num, question, even):
         with pytest.raises(ValueError):
             bf.factor_quiz(num1 = num, question_num = question, is_even = even)
