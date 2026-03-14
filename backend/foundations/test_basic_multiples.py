@@ -62,6 +62,12 @@ class TestNDigitMultipleQuiz:
                       'Common N-Digit Multiples', 'Foundations')),
         (5, 10, 2, 3, ('How many 2-digit multiples of 6 are also multiples of 10?\n', '3',
                       'Common N-Digit Multiples', 'Foundations')),
+        (5, 5, 2, 1, ('What is the largest 2-digit multiple of 6 that is also a multiple of 5?\n', '90',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (5, 5, 2, 2, ('What is the smallest 2-digit multiple of 6 that is also a multiple of 5?\n', '30',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (5, 5, 2, 3, ('How many 2-digit multiples of 6 are also multiples of 5?\n', '3',
+                      'Common N-Digit Multiples', 'Foundations')),
     ]
 
     @pytest.mark.parametrize("num1,num2,n_digits,question,answer", standard_data)
