@@ -25,6 +25,9 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
     numbers = [num1, num2]
     numbers.sort()
 
+    if numbers[1] % numbers[0] == 0:
+        return common_n_digit_multiples_quiz(num1 = num1 + 1, num2 = num2, n_digits = n_digits, question_num = question_num)
+
     least_common_multiple = get_least_common_multiple(numbers[0], numbers[1])
 
     if least_common_multiple > 10 ** (n_digits):

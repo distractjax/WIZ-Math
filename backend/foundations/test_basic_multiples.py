@@ -39,6 +39,7 @@ class TestNDigitMultipleQuiz:
         (10, 10, 2, -1),
         (10, 10, 2, 4),
     ]
+    # Test if the least common multiple of num1 and num2 is greater than the n-digit boundary.
     n_digit_bound_data = [
         (19, 18, 2, 1, ('What is the largest 3-digit multiple of 19 that is also a multiple of 18?\n', '684',
                       'Common N-Digit Multiples', 'Foundations')),
@@ -47,18 +48,36 @@ class TestNDigitMultipleQuiz:
         (19, 18, 2, 3, ('How many 3-digit multiples of 19 are also multiples of 18?\n', '2',
                       'Common N-Digit Multiples', 'Foundations')),
     ]
-
-    # Potential edge cases: numbers that may not have a common multiples within the specified range and numbers that are both primes.
+    # Test if num2 is a factor of num1 and vice versa.
+    factors_data = [
+        (10, 5, 2, 1, ('What is the largest 2-digit multiple of 11 that is also a multiple of 5?\n', '55',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (10, 5, 2, 2, ('What is the smallest 2-digit multiple of 11 that is also a multiple of 5?\n', '55',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (10, 5, 2, 3, ('How many 2-digit multiples of 11 are also multiples of 5?\n', '1',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (5, 10, 2, 1, ('What is the largest 2-digit multiple of 6 that is also a multiple of 10?\n', '90',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (5, 10, 2, 2, ('What is the smallest 2-digit multiple of 6 that is also a multiple of 10?\n', '30',
+                      'Common N-Digit Multiples', 'Foundations')),
+        (5, 10, 2, 3, ('How many 2-digit multiples of 6 are also multiples of 10?\n', '3',
+                      'Common N-Digit Multiples', 'Foundations')),
+    ]
 
     @pytest.mark.parametrize("num1,num2,n_digits,question,answer", standard_data)
     def test_standard_data(self, num1, num2, n_digits, question, answer):
-        factors = bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
-        assert factors == answer
+        multiples = bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
+        assert multiples == answer
 
     @pytest.mark.parametrize("num1,num2,n_digits,question,answer", n_digit_bound_data)
     def test_n_digit_bound(self, num1, num2, n_digits, question, answer):
-        factors = bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
-        assert factors == answer
+        multiples = bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
+        assert multiples == answer
+
+    @pytest.mark.parametrize("num1,num2,n_digits,question,answer", factors_data)
+    def test_mutual_factors(self, num1, num2, n_digits, question, answer):
+        multiples = bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
+        assert multiples == answer
 
     @pytest.mark.parametrize("num1,num2,n_digits,question", exception_data)
     def test_exceptions(self, num1, num2, n_digits, question):
