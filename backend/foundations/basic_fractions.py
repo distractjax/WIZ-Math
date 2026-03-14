@@ -17,6 +17,15 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
     denominator1 = denominator1 or randint(2,20)
     denominator2 = denominator2 or randint(2,20)
 
+    if numerator1 > 20 or numerator1 < 1:
+        raise ValueError("Numerator 1 must be a number between 1 and 20.")
+    if numerator2 > 20 or numerator2 < 1:
+        raise ValueError("Numerator 2 must be a number between 1 and 20.")
+    if denominator1 > 20 or denominator1 < 2:
+        raise ValueError("Denominator 1 must be a number between 2 and 20.")
+    if denominator2 > 20 or denominator2 < 2:
+        raise ValueError("Denominator 2 must be a number between 2 and 20.")
+
     if denominator1 == numerator1:
         denominator1 += numerator1 - 1
     if denominator2 == numerator2:
@@ -27,7 +36,7 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?'
+    question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
     return (question, answer, "Divide by Fractions", MODULE_NAME)
@@ -53,7 +62,7 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?'
+    question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
     return (question, answer, "Multiply by Fractions", MODULE_NAME)
@@ -80,7 +89,7 @@ def multiply_fractions_with_exponents(numerator1: int = 0, numerator2: int = 0, 
 
     simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
 
-    question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?'
+    question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?\n'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
     return (question, answer, "Multiply Fractions with Exponents", MODULE_NAME)
@@ -101,6 +110,6 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
 
     answer = (remainder1 * remainder2) % denominator
 
-    question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?'
+    question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?\n'
 
     return (question, str(answer), "Multiply Remainders", MODULE_NAME)
