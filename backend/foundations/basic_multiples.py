@@ -27,6 +27,9 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
 
     least_common_multiple = get_least_common_multiple(numbers[0], numbers[1])
 
+    if least_common_multiple > 10 ** (n_digits):
+        return common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits = n_digits + 1, question_num = question_num)
+
     common_n_digit_multiples = get_n_digit_multiples(least_common_multiple, n_digits)
 
     questions = [
