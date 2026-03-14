@@ -107,19 +107,19 @@ prime_exception_data = [
 ]
 prime_power_of_two_data = [
     (4, 1, ('What is the largest prime factor of 4?\n', '2')),
-    (4, 2, ('What is the smallest prime factor of 4 that is not 1 or 2?\n', '2')),
-    (16, 1, ('What is the largest prime factor of 16?\n', '8')),
-    (16, 2, ('What is the smallest prime factor of 16 that is not 1 or 2?\n', '4')),
+    (4, 2, ('What is the smallest prime factor of 4?\n', '1')),
+    (16, 1, ('What is the largest prime factor of 16?\n', '2')),
+    (16, 2, ('What is the smallest prime factor of 16?\n', '1')),
 ]
 prime_power_of_three_data = [
     (9, 1, ('What is the largest prime factor of 9?\n', '3')),
-    (9, 2, ('What is the smallest prime factor of 9 that is not 1?\n', '3')),
+    (9, 2, ('What is the smallest prime factor of 9 that is not 1 or 2?\n', '3')),
     (27, 1, ('What is the largest prime factor of 27?\n', '3')),
-    (27, 2, ('What is the smallest prime factor of 27 that is not 1?\n', '3')),
+    (27, 2, ('What is the smallest prime factor of 27 that is not 1 or 2?\n', '3')),
 ]
 prime_test_recursion_data = [
     (83, 1, ('What is the largest prime factor of 84?\n', '7', 'Prime Factor Operations', 'Foundations')),
-    (83, 2, ('What is the smallest prime factor of 84 that is not 2?\n', '3', 'Prime Factor Operations', 'Foundations')),
+    (83, 2, ('What is the smallest prime factor of 84 that is not 1 or 2?\n', '3', 'Prime Factor Operations', 'Foundations')),
     (83, 3, ('How many prime factors of 84 are there?\n','4','Prime Factor Operations', 'Foundations')),
 ]
 

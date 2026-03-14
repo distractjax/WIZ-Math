@@ -90,21 +90,34 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
         return prime_factor_quiz(num1 = num1 + 1, question_num = question_num)
 
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]
-    prime_factors.insert(0,1)
+    prime_factors_len = len(prime_factors) + 1
 
-    questions = [
-        f'What is the largest prime factor of {num1}?\n',
-        f'What is the smallest prime factor of {num1} that is not 1 or 2?\n',
-        f'How many prime factors of {num1} are there?\n'
-    ]
+    try:
+        prime_factors.remove(2)
+    except Exception:
+        pass
 
-    answers = [
-        prime_factors[-2],
-        prime_factors[1],
-        len(prime_factors),
-    ]
+    if is_power_of_two(num1):
+        if 1 == question_num:
+            question = f'What is the largest prime factor of {num1}?\n'
+            answer = 2
+        elif 2 == question_num:
+            question = f'What is the smallest prime factor of {num1}?\n'
+            answer = 1
+        else:
+            question = f'How many prime factors of {num1} are there?\n'
+            answer = 2
+    elif 1 == question_num:
+        question = f'What is the largest prime factor of {num1}?\n'
+        answer = prime_factors[-1]
+    elif 2 == question_num:
+        question = f'What is the smallest prime factor of {num1} that is not 1 or 2?\n'
+        answer = prime_factors[0]
+    else:
+        question = f'How many prime factors of {num1} are there?\n'
+        answer = prime_factors_len
 
-    return (questions[question_num - 1], str(answers[question_num - 1]), "Prime Factor Operations", MODULE_NAME)
+    return (question, str(answer), "Prime Factor Operations", MODULE_NAME)
 
 if __name__ == "__main__":
     factor_quiz(num1=18,question_num=1,is_even=1)
