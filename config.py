@@ -41,12 +41,16 @@ def create_question_row(exec_time: datetime.datetime, q_type: str, q_func: str, 
     '''
     This function creates a new row in the problem_history table with values for exec_time, q_type and q_func.
     '''
-    with sqlite3.connect(filepath) as conn:
-        c = conn.cursor()
-        ensure_sqlite_table(c, "problem_history", ["exec_time primary key","q_type","q_func","was_right","solve_time"])
-        sql = '''INSERT INTO problem_history (exec_time, q_type, q_func)
-            VALUES(?, ?, ?);'''
-        c.execute(sql, (exec_time,q_type,q_func))
+    conn = sqlite3.connect(filepath)
+    try:
+        with conn:
+            c = conn.cursor()
+            ensure_sqlite_table(c, "problem_history", ["exec_time primary key","q_type","q_func","was_right","solve_time"])
+            sql = '''INSERT INTO problem_history (exec_time, q_type, q_func)
+                VALUES(?, ?, ?);'''
+            c.execute(sql, (exec_time,q_type,q_func))
+    finally:
+        conn.close()
 
 def update_question_row(was_right: bool, exec_time: str, filepath: str = SQLITE_PATH) -> None:
     '''
@@ -54,13 +58,17 @@ def update_question_row(was_right: bool, exec_time: str, filepath: str = SQLITE_
     '''
     exec_time = datetime.datetime.strptime(exec_time, "%Y-%m-%d %H:%M:%S.%f") 
     end_time = datetime.datetime.now()
-    with sqlite3.connect(filepath) as conn:
-        c = conn.cursor()
-        sql = '''UPDATE problem_history
-            SET was_right = ?, solve_time = ?
-            WHERE exec_time = ?;
-        '''
-        c.execute(sql, (was_right, (end_time - exec_time).total_seconds(), exec_time))
+    conn = sqlite3.connect(filepath)
+    try:
+        with conn:
+            c = conn.cursor()
+            sql = '''UPDATE problem_history
+                SET was_right = ?, solve_time = ?
+                WHERE exec_time = ?;
+            '''
+            c.execute(sql, (was_right, (end_time - exec_time).total_seconds(), exec_time))
+    finally:
+        conn.close()
 
 # Read and Write from JSON
 def write_solution_json(exec_time: datetime.datetime, question: str, answer: str, filepath: str = JSON_PATH) -> None:

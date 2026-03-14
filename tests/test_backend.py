@@ -4,8 +4,12 @@ import config
 from sqlite3 import connect
 
 def table_to_df(tablename: str = "problem_history", filepath: str = config.SQLITE_PATH):
-    with connect(filepath) as conn:
-        df = pd.read_sql(f"SELECT * FROM {tablename}",conn)
+    conn = connect(filepath)
+    try:
+        with conn:
+            df = pd.read_sql(f"SELECT * FROM {tablename}",conn)
+    finally:
+        conn.close()
     df.replace(0,np.nan,inplace=True)
     return df
 

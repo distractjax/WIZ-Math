@@ -71,10 +71,13 @@ class TestFactorQuiz:
         self.test_start_time = datetime.datetime.now()
 
     def teardown_method(self):
-        with sqlite3.connect(config.SQLITE_PATH) as conn:
-            c = conn.cursor()
-            c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-            conn.commit()
+        conn = sqlite3.connect(config.SQLITE_PATH)
+        try:
+            with conn:
+                c = conn.cursor()
+                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
+        finally:
+            conn.close()
 
     @pytest.mark.parametrize("num,question,even,answer", standard_data)
     def test_standard_data(self, num, question, even, answer):
@@ -142,10 +145,13 @@ class TestPrimeFactorQuiz:
         self.test_start_time = datetime.datetime.now()
 
     def teardown_method(self):
-        with sqlite3.connect(config.SQLITE_PATH) as conn:
-            c = conn.cursor()
-            c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-            conn.commit()
+        conn = sqlite3.connect(config.SQLITE_PATH)
+        try:
+            with conn:
+                c = conn.cursor()
+                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
+        finally:
+            conn.close()
 
     @pytest.mark.parametrize("num,question,answer", prime_standard_data)
     def test_standard_data(self, num, question, answer):
