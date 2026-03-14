@@ -6,7 +6,7 @@ import sqlite3
 
 # Common N-Digit Multiples Data
 
-class TestNDigitMultipleQuiz:
+class TestCommonNDigitMultipleQuiz:
     def setup_method(self):
         self.test_start_time = datetime.datetime.now()
 
@@ -89,3 +89,51 @@ class TestNDigitMultipleQuiz:
     def test_exceptions(self, num1, num2, n_digits, question):
         with pytest.raises(ValueError):
             bm.common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits= n_digits,question_num=question)
+
+class TestNDigitMultipleQuiz:
+    def setup_method(self):
+        self.test_start_time = datetime.datetime.now()
+
+    def teardown_method(self):
+        with sqlite3.connect(config.SQLITE_PATH) as conn:
+            c = conn.cursor()
+            c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
+            conn.commit()
+
+    # Data
+    standard_data = [
+        # Testing the questions and calculations for easy numbers.
+        (5, 2, 1, ('What is the largest 2-digit multiple of 5?\n', '95',
+                      'N-Digit Multiples', 'Foundations')),
+        (5, 2, 2, ('What is the smallest 2-digit multiple of 5?\n', '10',
+                      'N-Digit Multiples', 'Foundations')),
+        (5, 2, 3, ('How many 2-digit multiples are there of 5?\n', '18',
+                      'N-Digit Multiples', 'Foundations')),
+        (5, 3, 1, ('What is the largest 3-digit multiple of 5?\n', '995',
+                      'N-Digit Multiples', 'Foundations')),
+        (5, 3, 2, ('What is the smallest 3-digit multiple of 5?\n', '100',
+                      'N-Digit Multiples', 'Foundations')),
+        (5, 3, 3, ('How many 3-digit multiples are there of 5?\n', '180',
+                      'N-Digit Multiples', 'Foundations')),
+    ]
+    exception_data = [
+        # num1 Exceptions
+        (26, 2, 1),
+        (1, 2, 1),
+        # n_digits Exceptions
+        (10, 5, 1),
+        (10, 1, 1),
+        # question_num Exceptions
+        (10, 2, -1),
+        (10, 2, 4),
+    ]
+
+    @pytest.mark.parametrize("num1,n_digits,question,answer", standard_data)
+    def test_standard_data(self, num1, n_digits, question, answer):
+        multiples = bm.n_digit_multiples_quiz(num = num1, n_digits= n_digits,question_num=question)
+        assert multiples == answer
+
+    @pytest.mark.parametrize("num1,n_digits,question", exception_data)
+    def test_exceptions(self, num1, n_digits, question):
+        with pytest.raises(ValueError):
+            bm.n_digit_multiples_quiz(num = num1, n_digits= n_digits,question_num=question)
