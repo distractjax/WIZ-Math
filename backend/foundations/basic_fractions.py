@@ -54,7 +54,7 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
 
     if denominator1 == numerator1:
         denominator1 += numerator1 - 1
-    while denominator2 == numerator2:
+    if denominator2 == numerator2:
         denominator2 += numerator2 - 1
 
     solution_numerator = numerator1 * numerator2

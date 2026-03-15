@@ -9,7 +9,6 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
     '''
     Generates questions about the common multiples of a set of numbers. 
     '''
-    # num1 will evaluate to "False" if it equals 0
     num1 = num1 or randint(2,20)
     num2 = num2 or randint(2,20)
     n_digits = n_digits or randint(2,4)
@@ -26,10 +25,13 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
     numbers.sort()
 
     if numbers[1] % numbers[0] == 0:
-        return common_n_digit_multiples_quiz(num1 = num1 + 1, num2 = num2, n_digits = n_digits, question_num = question_num)
+        # Had to add in this conditional here to handle what would happen if num1 = 2 and num2 is even.
+        return common_n_digit_multiples_quiz(num1 = num1 - 1 if num1 > 2 else num1 + 1, num2 = num2, n_digits = n_digits, question_num = question_num)
 
     least_common_multiple = get_least_common_multiple(numbers[0], numbers[1])
 
+    # 20 x 20 is 400, so it's not possible for the least common multiple
+    # of two of my numbers to be greater than 10^3. 
     if least_common_multiple > 10 ** (n_digits):
         return common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits = n_digits + 1, question_num = question_num)
 

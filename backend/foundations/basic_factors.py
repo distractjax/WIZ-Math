@@ -26,6 +26,7 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
     if len(find_factors(num1)) == 2:
         # This is the old logic
         # num1 = randint(num_range[0],num_range[1])
+        # This works fine because 200 isn't a prime number.
         return factor_quiz(num1 = num1 + 1, question_num = question_num, is_even = is_even)
     num1_factors = find_factors(num1)
 
@@ -87,6 +88,7 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
     num1_factors = find_factors(num1)
 
     if 2 == len(num1_factors):
+        # This will always work because 200 isn't prime, so the number won't overflow over the bound.
         return prime_factor_quiz(num1 = num1 + 1, question_num = question_num)
 
     prime_factors = [x for x in num1_factors[1:] if len(find_factors(x)) == 2]

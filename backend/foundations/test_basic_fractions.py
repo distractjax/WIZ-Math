@@ -4,7 +4,10 @@ import datetime
 import config
 import sqlite3
 
-# Common N-Digit Multiples Data
+# Test Divide Fractions
+# Some potential problems are popping up as I look at the file.
+# I want to handle equal numerators and denominators with recursion, but doing that could create the following problems:
+# 1. 
 
 class TestDivideFractionsQuiz:
     def setup_method(self):
