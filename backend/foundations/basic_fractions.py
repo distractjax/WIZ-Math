@@ -42,6 +42,17 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
     question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n'
     answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
+    record = {
+        "Data": {
+            "Numerator 1": numerator1,
+            "Numerator 2": numerator2,
+            "Denominator 1": denominator1,
+            "Denominator 2": denominator2,
+            "Solution Numerator": simplified_solution[0],
+            "Solution Denominator": simplified_solution[1],
+        },
+    }
+
     return (question, answer, "Divide by Fractions", MODULE_NAME)
 
 @config.quiz

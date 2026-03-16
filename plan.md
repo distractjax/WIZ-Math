@@ -17,12 +17,13 @@
  functions, generating math problems.
 * The way that the math problems will work is that a solution is generated
  first, then the rest of the formula.
-* Once the variables and the solution have been generated, they will be fed
- into a local AI prompt that will generate a word problem.
 * That word problem will be printed to the terminal, and input will be requested
  from the user.
 * If the input matches the variable that's the subject of the question, the
  program will print "Correct", else it will print "Incorrect".
+* I need to restructure my functions so that they return a dictionary not only
+  with the question and answer, but also with all the variables. This will make
+  testing WAY easier.
 
 ## Stage 2: Light Webpage
 
