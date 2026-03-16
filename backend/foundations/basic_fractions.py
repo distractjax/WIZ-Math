@@ -26,10 +26,12 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
     if denominator2 > 20 or denominator2 < 2:
         raise ValueError("Denominator 2 must be a number between 2 and 20.")
 
-    if denominator1 == numerator1:
-        denominator1 += numerator1 - 1
-    if denominator2 == numerator2:
-        denominator2 += numerator2 - 1
+    if denominator1 == numerator1 or numerator1 == numerator2:
+        return divide_fractions_quiz(numerator1 = numerator1 + 1 if numerator1 < 20 else numerator1 - 1,
+                                     numerator2 = numerator2, denominator1 = denominator1, denominator2 = denominator2)
+    if denominator2 == numerator2 or denominator1 == denominator2:
+        return divide_fractions_quiz(numerator1 = numerator1, numerator2 = numerator2, denominator1 = denominator1,
+                                     denominator2 = denominator2 + 1 if denominator2 < 20 else denominator2 - 1)
 
     solution_numerator = numerator1 * denominator2
     solution_denominator = denominator1 * numerator2
