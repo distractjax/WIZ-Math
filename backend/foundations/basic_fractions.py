@@ -89,6 +89,17 @@ def multiply_fractions_with_exponents(numerator1: int = 0, numerator2: int = 0, 
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
+    # What kind of behavior do I actually want here?
+    # What's the point of this practice problem in the book?
+    # In the book, the exponents of the numerator are the same. The numerators multiplied by each other resolve to a power of the denominator.
+    # The exponents of the numerator don't strictly HAVE to be the same for the numerator to evaluate to a power of the denominator.
+    # For example: 2^4 x 9^3 / 6^5 and 4^3 x 3^4 / 6^5 both evaluate to the exactl same number as 4^3 x 9^3 / 6^5.
+    # To make the most interesting problem that still basically follows these rules, here's how you should start:
+    # 1. Select a denominator. Whatever the exponent of the denominator is doesn't actually matter.
+    # 2. Take either the square or cube of that denominator and make that be what the numerator evaluates to (again, the exponent doesn't really matter).
+    # 3. Select two different factors of that number that evaluate to it (bisect the array of factors and select the 2nd numbers back from the midsection).
+    # 4. Simplify those down exponentially.
+    # 5. Serve the output question.
     numerator1 = numerator1 or randint(2,10)
     numerator2 = numerator2 or randint(2,10)
     denominator = denominator or randint(2,10)
