@@ -26,6 +26,7 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
     if denominator2 > 20 or denominator2 < 2:
         raise ValueError("Denominator 2 must be a number between 2 and 20.")
 
+    # I don't really care if cross-wise equality happens (ex: 5/6 / 6/5) because that won't simplify down to 1. This just keeps problems interesting.
     if denominator1 == numerator1 or numerator1 == numerator2:
         return divide_fractions_quiz(numerator1 = numerator1 + 1 if numerator1 < 20 else numerator1 - 1,
                                      numerator2 = numerator2, denominator1 = denominator1, denominator2 = denominator2)
@@ -54,10 +55,23 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
     denominator1 = denominator1 or randint(2,20)
     denominator2 = denominator2 or randint(2,20)
 
-    if denominator1 == numerator1:
-        denominator1 += numerator1 - 1
-    if denominator2 == numerator2:
-        denominator2 += numerator2 - 1
+    if numerator1 > 20 or numerator1 < 1:
+        raise ValueError("Numerator 1 must be a number between 1 and 20.")
+    if numerator2 > 20 or numerator2 < 1:
+        raise ValueError("Numerator 2 must be a number between 1 and 20.")
+    if denominator1 > 20 or denominator1 < 2:
+        raise ValueError("Denominator 1 must be a number between 2 and 20.")
+    if denominator2 > 20 or denominator2 < 2:
+        raise ValueError("Denominator 2 must be a number between 2 and 20.")
+
+    # I don't care about horizontal equality here (ex: 5/6 * 5/6) because it won't simplify to 1. This just keeps problems more interesting.
+    if numerator1 == denominator1 or numerator1 == denominator2:
+        return multiply_fractions_quiz(numerator1 = numerator1 + 1 if numerator1 < 20 else numerator1 - 1,
+                                     numerator2 = numerator2, denominator1 = denominator1, denominator2 = denominator2)
+    if numerator2 == denominator1 or numerator2 == denominator2:
+        return multiply_fractions_quiz(numerator1 = numerator1, 
+                                     numerator2 = numerator2 + 1 if numerator2 < 20 else numerator2 - 1,
+                                     denominator1 = denominator1, denominator2 = denominator2)
 
     solution_numerator = numerator1 * numerator2
     solution_denominator = denominator1 * denominator2
