@@ -63,9 +63,62 @@ def get_least_common_multiple(lower_number: int, higher_number: int) -> int:
             return multiple
     return 0
 
+def get_greatest_common_factor(lower_number: int, higher_number: int) -> int:
+    '''
+    This function returns the greatest common factor between two numbers.
+    '''
+    higher_number_factors = find_factors(higher_number)
+    for factor in higher_number_factors[::-1]:
+        if lower_number % factor == 0:
+            return factor
+    return 0
+
 def is_power_of_two(num):
     # This uses some bit manipulation. The first argument checks if num == 0 and the second checks if the binary of a number (say 4, which in 8-bit would be 00000100) minus the binary of the number one less than it ( which here would be 00000011) is equal to 0 (00000000).
     return (num != 0) and (num & (num - 1) == 0)
+
+def prime_factorization(num):
+    '''
+    This returns the prime factors with exponents of a given number.
+    '''
+    if num < 2:
+        return []
+
+    factors = {}
+
+    while 0 == num % 2:
+        factors[2] = factors.get(2,0) + 1
+        num //= 2
+
+    divisor = 3
+    while divisor * divisor <= num:
+        while 0 == num % divisor:
+            factors[divisor] = factors.get(divisor, 0) + 1
+            num //= divisor
+        divisor += 2
+
+    if num > 2:
+        factors[num] = 1
+
+    return list(factors.items())
+
+def simplify_exponents(num):
+    '''
+    This simplies any number that is the power of another number down to itself raised by an exponent.
+    '''
+    if num <= 3:
+        return num, 1
+
+    prime_factors = dict(prime_factorization(num))
+    exponents = list(prime_factors.values())
+    common_exponent = reduce(get_greatest_common_factor, exponents)
+
+    new_base = 1
+    for p, e in prime_factors.items():
+        new_base *= (p ** (e // common_exponent))
+    
+    return new_base, common_exponent
+
 
 if __name__ == "__main__":
     find_factors(9)

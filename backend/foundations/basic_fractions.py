@@ -1,5 +1,5 @@
 from random import randint
-from backend.core_math import simplify_fractions
+from backend.core_math import simplify_fractions, find_factors, simplify_exponents
 from backend.foundations.common import MODULE_NAME
 import config
 from datetime import datetime
@@ -85,7 +85,7 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
 
 # TODO: Add in division function for this same process
 @config.quiz
-def multiply_fractions_with_exponents(numerator1: int = 0, numerator2: int = 0, denominator: int = 0, numerator1_exponent: int = 0, numerator2_exponent: int = 0, denominator_exponent: int = 0) -> tuple[str, str, str, str]:
+def multiply_fractions_with_exponents(denominator: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0, denominator_exponent: int = 0) -> tuple[str, str, str, str]:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
@@ -100,24 +100,44 @@ def multiply_fractions_with_exponents(numerator1: int = 0, numerator2: int = 0, 
     # 3. Select two different factors of that number that evaluate to it (bisect the array of factors and select the 2nd numbers back from the midsection).
     # 4. Simplify those down exponentially.
     # 5. Serve the output question.
-    numerator1 = numerator1 or randint(2,10)
-    numerator2 = numerator2 or randint(2,10)
-    denominator = denominator or randint(2,10)
 
-    if denominator == numerator1 or denominator == numerator2:
-        denominator += (numerator1 + numerator2) // 2
+    denominator = denominator or randint(2,9)
+    denominator_exponent = denominator_exponent or randint(2,9)
+    numerator_exponent = numerator_exponent or randint(1,3)
+    square_or_cube = square_or_cube or randint(1,2)
 
-    numerator1_exponent = numerator1_exponent or randint(2,3)
-    numerator2_exponent = numerator2_exponent or randint(2,3)
-    denominator_exponent = denominator_exponent or randint(2,3)
+    if denominator > 9 or denominator < 2:
+        raise ValueError("Denominator must be between 2 and 9")
+    if denominator_exponent > 9 or denominator_exponent < 2:
+        raise ValueError("Denominator's exponent must be between 2 and 9")
+    if numerator_exponent > 3 or numerator_exponent < 1:
+        raise ValueError("Numerator's exponent must be between 1 and 3")
+    if square_or_cube > 2 or square_or_cube < 1:
+        raise ValueError("square_or_cube - 1 must evaluate to either 0 or 1")
 
-    solution_numerator = (numerator1 ** numerator1_exponent) * (numerator2 ** numerator2_exponent)
-    solution_denominator = denominator ** denominator_exponent
+    numerator = denominator ** (1 + square_or_cube)
+    solution_exponent = denominator * (1 + square_or_cube)
 
-    simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
+    answer = f'{denominator}^{solution_exponent - denominator_exponent}'
+
+    numerator_factors = find_factors(numerator)
+    factor_count = len(numerator_factors)
+    if factor_count < 5:
+        return multiply_fractions_with_exponents(denominator = denominator + 1 if denominator < 9 else denominator - 1, 
+                                                 numerator_exponent = numerator_exponent, 
+                                                 square_or_cube = square_or_cube,
+                                                 denominator_exponent = denominator_exponent)
+
+    numerator_factors_bisect = factor_count // 2
+    numerator1 = numerator_factors[numerator_factors_bisect - 1]
+    numerator2 = numerator // numerator1
+
+    numerator1, numerator1_exponent = simplify_exponents(numerator1)
+    numerator2, numerator2_exponent = simplify_exponents(numerator2)
+
+    numerator1_exponent, numerator2_exponent = (x * numerator_exponent for x in [numerator1_exponent, numerator2_exponent])
 
     question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?\n'
-    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
 
     return (question, answer, "Multiply Fractions with Exponents", MODULE_NAME)
 
@@ -140,3 +160,9 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
     question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?\n'
 
     return (question, str(answer), "Multiply Remainders", MODULE_NAME)
+
+if __name__ == "__main__":
+    # divide_fractions_quiz()
+    # multiply_fractions_quiz()
+    multiply_fractions_with_exponents()
+    # multiply_remainders()

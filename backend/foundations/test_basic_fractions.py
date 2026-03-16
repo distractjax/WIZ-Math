@@ -3,6 +3,8 @@ import pytest
 import datetime
 import config
 import sqlite3
+from core_math import find_factors
+from itertools import product
 
 # Test Divide Fractions
 class TestDivideFractionsQuiz:
@@ -164,62 +166,18 @@ class TestMultiplyFractionsExponentsQuiz:
         finally:
             conn.close()
 
-    # Data
-    standard_data = [
-        # Testing the questions and calculations for easy numbers.
-        (5, 7, 13, 2, 2, 2, ('What is the result of (5/13) * (7/16)?\n', '35/208',
-                             'Multiply by Fractions', 'Foundations')),
-        (5, 6, 15, 2, 2, 2, ('What is the result of (5/15) * (6/20)?\n', '1/10',
-                             'Multiply by Fractions', 'Foundations')),
-    ]
-    exception_data = [
-        # numerator1 Exceptions
-        (21, 4, 4, 4),
-        (-1, 4, 4, 4),
-        # numerator2 Exceptions
-        (4, 21, 4, 4),
-        (4, -1, 4, 4),
-        # denominator1 Exceptions
-        (4, 4, 21, 4),
-        (4, 4, -1, 4),
-        # denominator2 Exceptions
-        (4, 4, 4, 21),
-        (4, 4, 4, -1),
-    ]
-    equality_data = [
-        # Num1 == Den1
-        (5, 6, 5, 20, ('What is the result of (6/5) * (6/20)?\n', '9/25',
-                       'Multiply by Fractions', 'Foundations')),
-        (20, 7, 20, 16, ('What is the result of (19/20) * (7/16)?\n', '133/320',
-                         'Multiply by Fractions', 'Foundations')),
-        # Num1 == Den2
-        (5, 16, 13, 5, ('What is the result of (6/13) * (16/5)?\n', '96/65',
-                        'Multiply by Fractions', 'Foundations')),
-        (20, 16, 13, 20, ('What is the result of (19/13) * (16/20)?\n', '76/65',
-                          'Multiply by Fractions', 'Foundations')),
-        # Num2 == Den1
-        (5, 10, 10, 16, ('What is the result of (5/10) * (11/16)?\n', '11/32',
-                        'Multiply by Fractions', 'Foundations')),
-        (5, 20, 20, 16, ('What is the result of (5/20) * (19/16)?\n', '19/64',
-                        'Multiply by Fractions', 'Foundations')),
-        # Num2 == Den2
-        (5, 6, 15, 6, ('What is the result of (5/15) * (7/6)?\n', '7/18',
-                       'Multiply by Fractions', 'Foundations')),
-        (5, 20, 13, 20, ('What is the result of (5/13) * (19/20)?\n', '19/52',
-                         'Multiply by Fractions', 'Foundations')),
-    ]
+    denominators = range(2, 10)
+    denominator_exponents = range(2,10)
+    numerator_exponents = range(1,4)
+    square_or_cube = range(1,3)
 
-    @pytest.mark.parametrize("num1,num2,den,answer", standard_data)
-    def test_standard_data(self, num1, num2, den, answer):
-        fraction = bf.multiply_fractions_with_exponents(numerator1 = num1, numerator2 = num2, denominator = den)
-        assert fraction == answer
+    all_combinations = list(product(denominators,denominator_exponents,numerator_exponents,square_or_cube))
 
-    @pytest.mark.parametrize("num1,num2,den", exception_data)
-    def test_exceptions(self, num1, num2, den):
-        with pytest.raises(ValueError):
-            bf.multiply_fractions_with_exponents(numerator1 = num1, numerator2 = num2, denominator = den)
-
-    @pytest.mark.parametrize("num1,num2,den,answer", equality_data)
-    def test_equality(self, num1, num2, den, answer):
-        fraction = bf.multiply_fractions_with_exponents(numerator1 = num1, numerator2 = num2, denominator = den)
-        assert fraction == answer
+    @pytest.mark.parametrize("d, d_exp, n_exp, soc", all_combinations)
+    def test_multiply_fractions_exponents(self, d, d_exp, n_exp, soc):
+        question, answer, function_type, module_name = bf.multiply_fractions_with_exponents(
+            denominator = d,
+            denominator_exponent= d_exp,
+            numerator_exponent= n_exp,
+            square_or_cube = soc
+        )
