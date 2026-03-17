@@ -1,5 +1,6 @@
 from random import randint
-from backend.core_math import simplify_fractions, find_factors, simplify_exponents
+from backend.core_math import find_factors, simplify_exponents
+from fractions import Fraction
 from backend.foundations.common import MODULE_NAME
 import config
 from datetime import datetime
@@ -34,24 +35,11 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
         return divide_fractions_quiz(numerator1 = numerator1, numerator2 = numerator2, denominator1 = denominator1,
                                      denominator2 = denominator2 + 1 if denominator2 < 20 else denominator2 - 1)
 
-    solution_numerator = numerator1 * denominator2
-    solution_denominator = denominator1 * numerator2
-
-    simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
+    solution = Fraction(numerator = (numerator1 * denominator2),
+                        denominator = (numerator2 * denominator1))
 
     question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n'
-    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
-
-    record = {
-        "Data": {
-            "Numerator 1": numerator1,
-            "Numerator 2": numerator2,
-            "Denominator 1": denominator1,
-            "Denominator 2": denominator2,
-            "Solution Numerator": simplified_solution[0],
-            "Solution Denominator": simplified_solution[1],
-        },
-    }
+    answer = f'{solution.numerator}/{solution.denominator}'
 
     return (question, answer, "Divide by Fractions", MODULE_NAME)
 
@@ -84,13 +72,11 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
                                      numerator2 = numerator2 + 1 if numerator2 < 20 else numerator2 - 1,
                                      denominator1 = denominator1, denominator2 = denominator2)
 
-    solution_numerator = numerator1 * numerator2
-    solution_denominator = denominator1 * denominator2
-
-    simplified_solution = simplify_fractions(solution_numerator,solution_denominator)
+    solution = Fraction(numerator = (numerator1 * numerator2),
+                        denominator = (denominator1 * denominator2))
 
     question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n'
-    answer = f'{simplified_solution[0]}/{simplified_solution[1]}'
+    answer = f'{solution.numerator}/{solution.denominator}'
 
     return (question, answer, "Multiply by Fractions", MODULE_NAME)
 
@@ -134,8 +120,8 @@ def multiply_fractions_with_exponents(denominator: int = 0, numerator_exponent: 
     numerator_factors = find_factors(numerator)
     factor_count = len(numerator_factors)
     if factor_count < 5:
-        return multiply_fractions_with_exponents(denominator = denominator + 1 if denominator < 9 else denominator - 1, 
-                                                 numerator_exponent = numerator_exponent, 
+        return multiply_fractions_with_exponents(denominator = denominator + 1 if denominator < 9 else denominator - 1,
+                                                 numerator_exponent = numerator_exponent,
                                                  square_or_cube = square_or_cube,
                                                  denominator_exponent = denominator_exponent)
 
@@ -143,6 +129,7 @@ def multiply_fractions_with_exponents(denominator: int = 0, numerator_exponent: 
     numerator1 = numerator_factors[numerator_factors_bisect - 1]
     numerator2 = numerator // numerator1
 
+    # Do some tests on simplify_exponents
     numerator1, numerator1_exponent = simplify_exponents(numerator1)
     numerator2, numerator2_exponent = simplify_exponents(numerator2)
 

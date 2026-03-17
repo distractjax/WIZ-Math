@@ -3,7 +3,7 @@ import pytest
 import datetime
 import config
 import sqlite3
-from core_math import find_factors
+from backend.core_math import find_factors
 from itertools import product
 
 # Test Divide Fractions
@@ -153,6 +153,8 @@ class TestMultiplyFractionsQuiz:
         fraction = bf.multiply_fractions_quiz(numerator1 = num1, numerator2 = num2, denominator1 = den1, denominator2 = den2)
         assert fraction == answer
 
+# Just test your edge cases here. 
+# You can test the simplify_exponents function in a config test.
 class TestMultiplyFractionsExponentsQuiz:
     def setup_method(self):
         self.test_start_time = datetime.datetime.now()
@@ -172,12 +174,3 @@ class TestMultiplyFractionsExponentsQuiz:
     square_or_cube = range(1,3)
 
     all_combinations = list(product(denominators,denominator_exponents,numerator_exponents,square_or_cube))
-
-    @pytest.mark.parametrize("d, d_exp, n_exp, soc", all_combinations)
-    def test_multiply_fractions_exponents(self, d, d_exp, n_exp, soc):
-        question, answer, function_type, module_name = bf.multiply_fractions_with_exponents(
-            denominator = d,
-            denominator_exponent= d_exp,
-            numerator_exponent= n_exp,
-            square_or_cube = soc
-        )

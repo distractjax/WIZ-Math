@@ -1,5 +1,6 @@
 from random import randint
-from backend.core_math import get_n_digit_multiples, get_least_common_multiple
+from backend.core_math import get_n_digit_multiples
+from math import lcm
 from backend.foundations.common import MODULE_NAME
 from datetime import datetime
 import config
@@ -28,13 +29,14 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
         # Had to add in this conditional here to handle what would happen if num1 = 2 and num2 is even.
         return common_n_digit_multiples_quiz(num1 = num1 - 1 if num1 > 2 else num1 + 1, num2 = num2, n_digits = n_digits, question_num = question_num)
 
-    least_common_multiple = get_least_common_multiple(numbers[0], numbers[1])
+    least_common_multiple = lcm(numbers[0], numbers[1])
 
     # 20 x 20 is 400, so it's not possible for the least common multiple
     # of two of my numbers to be greater than 10^3. 
     if least_common_multiple > 10 ** (n_digits):
         return common_n_digit_multiples_quiz(num1 = num1, num2 = num2, n_digits = n_digits + 1, question_num = question_num)
 
+    # Might want to add tests for get_n_digit_multiples.
     common_n_digit_multiples = get_n_digit_multiples(least_common_multiple, n_digits)
 
     questions = [
