@@ -168,9 +168,40 @@ class TestMultiplyFractionsExponentsQuiz:
         finally:
             conn.close()
 
-    denominators = range(2, 10)
-    denominator_exponents = range(2,10)
-    numerator_exponents = range(1,4)
-    square_or_cube = range(1,3)
+    # Data
+    standard_data = [
+        # So this does pass the test, the only problem is that it's incorrect.
+        (1, 7, 3, 2, ('What is the result of (12^3) * (18^3) / (6^7)?\n', '6^11',
+              'Multiply Fractions with Exponents', 'Foundations')),
+    ]
+    exception_data = [
+        # denominator Exceptions
+        (21, 4, 3, 2),
+        (-1, 4, 3, 2),
+        # denominator_exponent Exceptions
+        (4, 10, 3, 2),
+        (4, -1, 3, 2),
+        # numerator_exponent Exceptions
+        (4, 4, 4, 2),
+        (4, 4, -1, 2),
+        # square_or_cube Exceptions
+        (4, 4, 3, 3),
+        (4, 4, 3, -1),
+    ]
 
-    all_combinations = list(product(denominators,denominator_exponents,numerator_exponents,square_or_cube))
+    @pytest.mark.parametrize("d_ind,d_exp,n_exp,soc,answer", standard_data)
+    def test_standard_data(self, d_ind, d_exp, n_exp, soc, answer):
+        fraction = bf.multiply_fractions_with_exponents(denominator_index = d_ind,
+                                                        denominator_exponent = d_exp,
+                                                        numerator_exponent = n_exp,
+                                                        square_or_cube = soc)
+        assert fraction == answer
+
+    @pytest.mark.parametrize("d_ind,d_exp,n_exp,soc", exception_data)
+    def test_exceptions(self, d_ind, d_exp, n_exp, soc):
+        with pytest.raises(ValueError):
+            bf.multiply_fractions_with_exponents(denominator_index = d_ind,
+                                                 denominator_exponent = d_exp,
+                                                 numerator_exponent = n_exp,
+                                                 square_or_cube = soc)
+

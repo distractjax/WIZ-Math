@@ -82,29 +82,22 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
 
 # TODO: Add in division function for this same process
 @config.quiz
-def multiply_fractions_with_exponents(denominator: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0, denominator_exponent: int = 0) -> tuple[str, str, str, str]:
+def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_exponent: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0) -> tuple[str, str, str, str]:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
-    # What kind of behavior do I actually want here?
-    # What's the point of this practice problem in the book?
-    # In the book, the exponents of the numerator are the same. The numerators multiplied by each other resolve to a power of the denominator.
-    # The exponents of the numerator don't strictly HAVE to be the same for the numerator to evaluate to a power of the denominator.
-    # For example: 2^4 x 9^3 / 6^5 and 4^3 x 3^4 / 6^5 both evaluate to the exactl same number as 4^3 x 9^3 / 6^5.
-    # To make the most interesting problem that still basically follows these rules, here's how you should start:
-    # 1. Select a denominator. Whatever the exponent of the denominator is doesn't actually matter.
-    # 2. Take either the square or cube of that denominator and make that be what the numerator evaluates to (again, the exponent doesn't really matter).
-    # 3. Select two different factors of that number that evaluate to it (bisect the array of factors and select the 2nd numbers back from the midsection).
-    # 4. Simplify those down exponentially.
-    # 5. Serve the output question.
+    # You really only want to use numbers that have at least two prime factors to make this interesting. I listed all those numbers up to 20.
 
-    denominator = denominator or randint(2,9)
+    compound_numbers = [6, 10, 12, 14, 15, 18, 20]
+    denominator_index = denominator_index or randint(1,7)
     denominator_exponent = denominator_exponent or randint(2,9)
     numerator_exponent = numerator_exponent or randint(1,3)
     square_or_cube = square_or_cube or randint(1,2)
 
-    if denominator > 9 or denominator < 2:
-        raise ValueError("Denominator must be between 2 and 9")
+    denominator_index -= 1
+
+    if denominator_index > 6 or denominator_index < 0:
+        raise ValueError("Denominator must be between 0 and 6")
     if denominator_exponent > 9 or denominator_exponent < 2:
         raise ValueError("Denominator's exponent must be between 2 and 9")
     if numerator_exponent > 3 or numerator_exponent < 1:
@@ -112,18 +105,15 @@ def multiply_fractions_with_exponents(denominator: int = 0, numerator_exponent: 
     if square_or_cube > 2 or square_or_cube < 1:
         raise ValueError("square_or_cube - 1 must evaluate to either 0 or 1")
 
+    denominator = compound_numbers[denominator_index]
+
     numerator = denominator ** (1 + square_or_cube)
     solution_exponent = denominator * (1 + square_or_cube)
 
     answer = f'{denominator}^{solution_exponent - denominator_exponent}'
 
-    numerator_factors = find_factors(numerator)
+    numerator_factors = find_factors(numerator) 
     factor_count = len(numerator_factors)
-    if factor_count < 5:
-        return multiply_fractions_with_exponents(denominator = denominator + 1 if denominator < 9 else denominator - 1,
-                                                 numerator_exponent = numerator_exponent,
-                                                 square_or_cube = square_or_cube,
-                                                 denominator_exponent = denominator_exponent)
 
     numerator_factors_bisect = factor_count // 2
     numerator1 = numerator_factors[numerator_factors_bisect - 1]
