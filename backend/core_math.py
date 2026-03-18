@@ -33,7 +33,7 @@ def is_power_of_two(num):
     # This uses some bit manipulation. The first argument checks if num == 0 and the second checks if the binary of a number (say 4, which in 8-bit would be 00000100) minus the binary of the number one less than it ( which here would be 00000011) is equal to 0 (00000000).
     return (num != 0) and (num & (num - 1) == 0)
 
-def prime_factorization(num):
+def prime_factorization(num: int) -> list[tuple[int, int]]:
     '''
     This returns the prime factors with exponents of a given number.
     '''

@@ -171,7 +171,9 @@ class TestMultiplyFractionsExponentsQuiz:
     # Data
     standard_data = [
         # So this does pass the test, the only problem is that it's incorrect.
-        (1, 7, 3, 2, ('What is the result of (12^3) * (18^3) / (6^7)?\n', '6^11',
+        (1, 5, 3, 2, ('What is the result of (2^6) * (3^6) / (6^5)?\n', '6^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        (2, 5, 3, 2, ('What is the result of (2^6) * (5^6) / (10^5)?\n', '10^1',
               'Multiply Fractions with Exponents', 'Foundations')),
     ]
     exception_data = [
@@ -185,8 +187,8 @@ class TestMultiplyFractionsExponentsQuiz:
         (4, 4, 4, 2),
         (4, 4, -1, 2),
         # square_or_cube Exceptions
-        (4, 4, 3, 3),
-        (4, 4, 3, -1),
+        (4, 4, 3, 4),
+        (4, 4, 3, 1),
     ]
 
     @pytest.mark.parametrize("d_ind,d_exp,n_exp,soc,answer", standard_data)

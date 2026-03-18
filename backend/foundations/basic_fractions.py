@@ -1,5 +1,5 @@
 from random import randint
-from backend.core_math import find_factors, simplify_exponents
+from backend.core_math import find_factors, simplify_exponents, prime_factorization
 from fractions import Fraction
 from backend.foundations.common import MODULE_NAME
 import config
@@ -87,12 +87,15 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
     # You really only want to use numbers that have at least two prime factors to make this interesting. I listed all those numbers up to 20.
+    # Okay, how does this math actually work?
+    # I have an example from the book. So I'm just going to reverse-engineer the steps from the book one-by-one to make sure that it works,
+    # then I'll add in extra functionality.
 
     compound_numbers = [6, 10, 12, 14, 15, 18, 20]
     denominator_index = denominator_index or randint(1,7)
     denominator_exponent = denominator_exponent or randint(2,9)
     numerator_exponent = numerator_exponent or randint(1,3)
-    square_or_cube = square_or_cube or randint(1,2)
+    square_or_cube = square_or_cube or randint(2,3)
 
     denominator_index -= 1
 
@@ -102,28 +105,22 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
         raise ValueError("Denominator's exponent must be between 2 and 9")
     if numerator_exponent > 3 or numerator_exponent < 1:
         raise ValueError("Numerator's exponent must be between 1 and 3")
-    if square_or_cube > 2 or square_or_cube < 1:
-        raise ValueError("square_or_cube - 1 must evaluate to either 0 or 1")
+    if square_or_cube > 3 or square_or_cube < 2:
+        raise ValueError("square_or_cube must be either 2 or 3")
 
     denominator = compound_numbers[denominator_index]
 
-    numerator = denominator ** (1 + square_or_cube)
-    solution_exponent = denominator * (1 + square_or_cube)
+    numerator1, numerator2 = prime_factorization(denominator)
 
-    answer = f'{denominator}^{solution_exponent - denominator_exponent}'
+    numerator1 = numerator1[0]
+    numerator2 = numerator2[0]
 
-    numerator_factors = find_factors(numerator) 
-    factor_count = len(numerator_factors)
+    numerator_exponent = numerator_exponent * square_or_cube
 
-    numerator_factors_bisect = factor_count // 2
-    numerator1 = numerator_factors[numerator_factors_bisect - 1]
-    numerator2 = numerator // numerator1
+    numerator1_exponent = numerator_exponent
+    numerator2_exponent = numerator_exponent
 
-    # Do some tests on simplify_exponents
-    numerator1, numerator1_exponent = simplify_exponents(numerator1)
-    numerator2, numerator2_exponent = simplify_exponents(numerator2)
-
-    numerator1_exponent, numerator2_exponent = (x * numerator_exponent for x in [numerator1_exponent, numerator2_exponent])
+    answer = f'{denominator}^{numerator_exponent - denominator_exponent}'
 
     question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?\n'
 
