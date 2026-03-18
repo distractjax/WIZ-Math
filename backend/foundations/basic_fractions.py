@@ -86,15 +86,12 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
-    # You really only want to use numbers that have at least two prime factors to make this interesting. I listed all those numbers up to 20.
-    # Okay, how does this math actually work?
-    # I have an example from the book. So I'm just going to reverse-engineer the steps from the book one-by-one to make sure that it works,
-    # then I'll add in extra functionality.
+    # There are special properties of exponents that I can add in later that would make these more interesting, but for right now I think this is fine. I can always come back later and add in some more functionality, and I don't think continuing to work on this is a good use of my dev time.
 
     compound_numbers = [6, 10, 12, 14, 15, 18, 20]
     denominator_index = denominator_index or randint(1,7)
     denominator_exponent = denominator_exponent or randint(2,9)
-    numerator_exponent = numerator_exponent or randint(1,3)
+    numerator_exponent = numerator_exponent or randint(1,9)
     square_or_cube = square_or_cube or randint(2,3)
 
     denominator_index -= 1
@@ -103,7 +100,7 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
         raise ValueError("Denominator must be between 0 and 6")
     if denominator_exponent > 9 or denominator_exponent < 2:
         raise ValueError("Denominator's exponent must be between 2 and 9")
-    if numerator_exponent > 3 or numerator_exponent < 1:
+    if numerator_exponent > 9 or numerator_exponent < 1:
         raise ValueError("Numerator's exponent must be between 1 and 3")
     if square_or_cube > 3 or square_or_cube < 2:
         raise ValueError("square_or_cube must be either 2 or 3")

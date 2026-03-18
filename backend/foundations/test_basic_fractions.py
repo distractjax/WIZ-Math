@@ -170,7 +170,7 @@ class TestMultiplyFractionsExponentsQuiz:
 
     # Data
     standard_data = [
-        # This is working now.
+        # Full set of standard data tests for every possible denominator
         (1, 5, 3, 2, ('What is the result of (2^6) * (3^6) / (6^5)?\n', '6^1',
               'Multiply Fractions with Exponents', 'Foundations')),
         (2, 5, 3, 2, ('What is the result of (2^6) * (5^6) / (10^5)?\n', '10^1',
@@ -179,16 +179,31 @@ class TestMultiplyFractionsExponentsQuiz:
               'Multiply Fractions with Exponents', 'Foundations')),
         (4, 5, 3, 2, ('What is the result of (2^6) * (7^6) / (14^5)?\n', '14^1',
               'Multiply Fractions with Exponents', 'Foundations')),
+        (5, 5, 3, 2, ('What is the result of (3^6) * (5^6) / (15^5)?\n', '15^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        (6, 5, 3, 2, ('What is the result of (2^6) * (3^7) / (18^5)?\n', '18^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        (7, 5, 3, 2, ('What is the result of (2^7) * (5^6) / (20^5)?\n', '20^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        # Test on changed denominator_exponent
+        (1, 7, 3, 2, ('What is the result of (2^6) * (3^6) / (6^7)?\n', '6^-1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        # Test on changed numerator_exponent
+        (1, 5, 9, 2, ('What is the result of (2^18) * (3^18) / (6^5)?\n', '6^13',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        # Test on changed square_or_cube
+        (1, 5, 3, 3, ('What is the result of (2^9) * (3^9) / (6^5)?\n', '6^4',
+              'Multiply Fractions with Exponents', 'Foundations')),
     ]
     exception_data = [
         # denominator Exceptions
-        (21, 4, 3, 2),
+        (8, 4, 3, 2),
         (-1, 4, 3, 2),
         # denominator_exponent Exceptions
         (4, 10, 3, 2),
         (4, -1, 3, 2),
         # numerator_exponent Exceptions
-        (4, 4, 4, 2),
+        (4, 4, 10, 2),
         (4, 4, -1, 2),
         # square_or_cube Exceptions
         (4, 4, 3, 4),
