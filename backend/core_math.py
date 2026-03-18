@@ -58,24 +58,6 @@ def prime_factorization(num: int) -> list[tuple[int, int]]:
 
     return list(factors.items())
 
-def simplify_exponents(num):
-    '''
-    This simplies any number that is the power of another number down to itself raised by an exponent.
-    '''
-    if num <= 3:
-        return num, 1
-
-    prime_factors = dict(prime_factorization(num))
-    exponents = list(prime_factors.values())
-    common_exponent = reduce(gcd, exponents)
-
-    new_base = 1
-    for p, e in prime_factors.items():
-        new_base *= (p ** (e // common_exponent))
-    
-    return new_base, common_exponent
-
-
 if __name__ == "__main__":
     find_factors(9)
     # simplify_fractions(2,4)

@@ -154,7 +154,6 @@ class TestMultiplyFractionsQuiz:
         assert fraction == answer
 
 # Just test your edge cases here. 
-# You can test the simplify_exponents function in a config test.
 class TestMultiplyFractionsExponentsQuiz:
     def setup_method(self):
         self.test_start_time = datetime.datetime.now()
@@ -225,4 +224,104 @@ class TestMultiplyFractionsExponentsQuiz:
                                                  denominator_exponent = d_exp,
                                                  numerator_exponent = n_exp,
                                                  square_or_cube = soc)
+
+class TestMultiplyRemaindersQuiz:
+    def setup_method(self):
+        self.test_start_time = datetime.datetime.now()
+
+    def teardown_method(self):
+        conn = sqlite3.connect(config.SQLITE_PATH)
+        try:
+            with conn:
+                c = conn.cursor()
+                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
+        finally:
+            conn.close()
+
+    # Data
+    standard_data = [
+        (10, 5, 3, (
+            'When integer a is divided by 3, the remainder is 1.\nWhen integer b is divided by 3, the remainder is 2.\nWhat is the remainder when a x b is divided by 3?\n', 
+            '2',
+            'Multiply Remainders',
+            'Foundations')),
+    ]
+    exception_data = [
+        # numerator1 Exceptions
+        (21, 11, 5),
+        (1, 11, 5),
+        # numerator2 Exceptions
+        (11, 21, 5),
+        (11, 1, 5),
+        # denominator Exceptions
+        (11, 12, 10),
+        (11, 12, 1),
+    ]
+    recursion_data = [
+        # numerator1 == numerator2
+        (10, 10, 3, (
+            'When integer a is divided by 3, the remainder is 2.\nWhen integer b is divided by 3, the remainder is 1.\nWhat is the remainder when a x b is divided by 3?\n', 
+            '2',
+            'Multiply Remainders',
+            'Foundations')),
+        # numerator1 % divisor == 0
+        (10, 9, 5, (
+            'When integer a is divided by 5, the remainder is 1.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '4',
+            'Multiply Remainders',
+            'Foundations')),
+        # numerator2 % divisor == 0
+        (9, 10, 5, (
+            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 1.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '4',
+            'Multiply Remainders',
+            'Foundations')),
+        # numerator1 == numerator2, then recursion causes numerator1 % divisor == 0
+        (9, 9, 5, (
+            'When integer a is divided by 5, the remainder is 1.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '4',
+            'Multiply Remainders',
+            'Foundations')),
+        # numerator1 == numerator2, then recursion causes numerator1 % divisor == 0
+        (19, 19, 5, (
+            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 3.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '2',
+            'Multiply Remainders',
+            'Foundations')),
+        # I think this recursion might break the program.
+        # Yeah it bonked it.
+        # I should really look back at how I'm handling recursion in my other functions.
+        (19, 18, 6, (
+            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 3.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '2',
+            'Multiply Remainders',
+            'Foundations')),
+    ]
+
+    @pytest.mark.parametrize("n_1,n_2,d,answer", standard_data)
+    def test_standard_data(self, n_1, n_2, d, answer):
+        remainder = bf.multiply_remainders(
+            numerator1 = n_1,
+            numerator2 = n_2,
+            denominator = d,
+        )
+        assert remainder == answer
+
+    @pytest.mark.parametrize("n_1,n_2,d", exception_data)
+    def test_exception_data(self, n_1, n_2, d):
+        with pytest.raises(ValueError):
+            bf.multiply_remainders(
+                numerator1 = n_1,
+                numerator2 = n_2,
+                denominator = d,
+            )
+
+    @pytest.mark.parametrize("n_1,n_2,d,answer", recursion_data)
+    def test_recursion_data(self, n_1, n_2, d, answer):
+        remainder = bf.multiply_remainders(
+            numerator1 = n_1,
+            numerator2 = n_2,
+            denominator = d,
+        )
+        assert remainder == answer
 

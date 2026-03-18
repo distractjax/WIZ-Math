@@ -1,5 +1,5 @@
 from random import randint
-from backend.core_math import find_factors, simplify_exponents, prime_factorization
+from backend.core_math import find_factors, prime_factorization
 from fractions import Fraction
 from backend.foundations.common import MODULE_NAME
 import config
@@ -80,7 +80,6 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
 
     return (question, answer, "Multiply by Fractions", MODULE_NAME)
 
-# TODO: Add in division function for this same process
 @config.quiz
 def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_exponent: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0) -> tuple[str, str, str, str]:
     '''
@@ -134,6 +133,27 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
     numerator1 = numerator1 or randint(2, 20)
     numerator2 = numerator2 or randint(2, 20)
     denominator = denominator or randint(2, 9)
+
+    # Out of bounds exceptions
+
+    if numerator1 > 20 or numerator1 < 2:
+        raise ValueError("Numerator 1 must be between 2 and 20.")
+    if numerator2 > 20 or numerator2 < 2:
+        raise ValueError("Numerator 2 must be between 2 and 20.")
+    if denominator > 9 or denominator < 2:
+        raise ValueError("Denominator must be between 2 and 20.")
+
+    # Recursion for handling if numerator1 == numerator 2 or denominator is a factor of either.
+    if numerator1 == numerator2 or not numerator1 % denominator:
+        return multiply_remainders(
+            numerator1 = numerator1 + 1 if numerator1 < 20 else numerator1 -1,
+            numerator2 = numerator2 if numerator2 < 19 else numerator2 - 1,
+            denominator = denominator)
+    elif not numerator2 % denominator:
+        return multiply_remainders(
+            numerator1 = numerator1 if numerator1 < 19 else numerator1 - 1,
+            numerator2 = numerator2 + 1 if numerator2 < 20 else numerator2 -1,
+            denominator = denominator)
 
     remainder1 = numerator1 % denominator
     remainder2 = numerator2 % denominator
