@@ -170,10 +170,14 @@ class TestMultiplyFractionsExponentsQuiz:
 
     # Data
     standard_data = [
-        # So this does pass the test, the only problem is that it's incorrect.
+        # This is working now.
         (1, 5, 3, 2, ('What is the result of (2^6) * (3^6) / (6^5)?\n', '6^1',
               'Multiply Fractions with Exponents', 'Foundations')),
         (2, 5, 3, 2, ('What is the result of (2^6) * (5^6) / (10^5)?\n', '10^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        (3, 5, 3, 2, ('What is the result of (2^7) * (3^6) / (12^5)?\n', '12^1',
+              'Multiply Fractions with Exponents', 'Foundations')),
+        (4, 5, 3, 2, ('What is the result of (2^6) * (7^6) / (14^5)?\n', '14^1',
               'Multiply Fractions with Exponents', 'Foundations')),
     ]
     exception_data = [

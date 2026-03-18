@@ -110,15 +110,16 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
 
     denominator = compound_numbers[denominator_index]
 
-    numerator1, numerator2 = prime_factorization(denominator)
-
-    numerator1 = numerator1[0]
-    numerator2 = numerator2[0]
+    denominator_primes = prime_factorization(denominator)
+    numerator1 = denominator_primes[0][0]
+    numerator1_exponent = denominator_primes[0][1]
+    numerator2 = denominator_primes[1][0]
+    numerator2_exponent = denominator_primes[1][1]
 
     numerator_exponent = numerator_exponent * square_or_cube
 
-    numerator1_exponent = numerator_exponent
-    numerator2_exponent = numerator_exponent
+    numerator1_exponent += numerator_exponent - 1
+    numerator2_exponent += numerator_exponent - 1
 
     answer = f'{denominator}^{numerator_exponent - denominator_exponent}'
 
