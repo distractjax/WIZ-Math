@@ -21,9 +21,7 @@
  from the user.
 * If the input matches the variable that's the subject of the question, the
  program will print "Correct", else it will print "Incorrect".
-* I need to restructure my functions so that they return a dictionary not only
-  with the question and answer, but also with all the variables. This will make
-  testing WAY easier.
+* Ladies and gentlemen, we are pivoting to The Elm Architecture.
 
 ## Stage 2: Light Webpage
 
