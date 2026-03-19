@@ -249,10 +249,10 @@ class TestMultiplyRemaindersQuiz:
     exception_data = [
         # numerator1 Exceptions
         (21, 11, 5),
-        (1, 11, 5),
+        (-1, 11, 5),
         # numerator2 Exceptions
         (11, 21, 5),
-        (11, 1, 5),
+        (11, -1, 5),
         # denominator Exceptions
         (11, 12, 10),
         (11, 12, 1),
@@ -285,13 +285,13 @@ class TestMultiplyRemaindersQuiz:
             'Foundations')),
         # numerator1 == numerator2, then recursion causes numerator1 % divisor == 0
         (19, 19, 5, (
-            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 3.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '2',
+            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
+            '1',
             'Multiply Remainders',
             'Foundations')),
         (19, 18, 6, (
-            'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 3.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '2',
+            'When integer a is divided by 6, the remainder is 1.\nWhen integer b is divided by 6, the remainder is 1.\nWhat is the remainder when a x b is divided by 6?\n', 
+            '1',
             'Multiply Remainders',
             'Foundations')),
     ]

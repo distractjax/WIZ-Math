@@ -130,16 +130,16 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
     '''
-    numerator1 = numerator1 or randint(2, 20)
-    numerator2 = numerator2 or randint(2, 20)
+    numerator1 = numerator1 or randint(1, 20)
+    numerator2 = numerator2 or randint(1, 20)
     denominator = denominator or randint(2, 9)
 
     # Out of bounds exceptions
 
-    if numerator1 > 20 or numerator1 < 2:
-        raise ValueError("Numerator 1 must be between 2 and 20.")
-    if numerator2 > 20 or numerator2 < 2:
-        raise ValueError("Numerator 2 must be between 2 and 20.")
+    if numerator1 > 20 or numerator1 < 1:
+        raise ValueError("Numerator 1 must be between 1 and 20.")
+    if numerator2 > 20 or numerator2 < 1:
+        raise ValueError("Numerator 2 must be between 1 and 20.")
     if denominator > 9 or denominator < 2:
         raise ValueError("Denominator must be between 2 and 20.")
 
