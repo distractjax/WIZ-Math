@@ -1,32 +1,13 @@
 import backend.foundations.basic_fractions as bf
 import pytest
-import datetime
-import config
-import sqlite3
-from backend.core_math import find_factors
-from itertools import product
 
 # Test Divide Fractions
 class TestDivideFractionsQuiz:
-    def setup_method(self):
-        self.test_start_time = datetime.datetime.now()
-
-    def teardown_method(self):
-        conn = sqlite3.connect(config.SQLITE_PATH)
-        try:
-            with conn:
-                c = conn.cursor()
-                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-        finally:
-            conn.close()
-
     # Data
     standard_data = [
         # Testing the questions and calculations for easy numbers.
-        (5, 7, 13, 16, ('What is the result of (5/13) / (7/16)?\n', '80/91',
-                      'Divide by Fractions', 'Foundations')),
-        (5, 6, 15, 20, ('What is the result of (5/15) / (6/20)?\n', '10/9',
-                      'Divide by Fractions', 'Foundations')),
+        (5, 7, 13, 16, ('What is the result of (5/13) / (7/16)?\n', '80/91')),
+        (5, 6, 15, 20, ('What is the result of (5/15) / (6/20)?\n', '10/9')),
     ]
     exception_data = [
         # numerator1 Exceptions
@@ -44,25 +25,17 @@ class TestDivideFractionsQuiz:
     ]
     equality_data = [
         # Num1 == Num2
-        (5, 5, 13, 16, ('What is the result of (6/13) / (5/16)?\n', '96/65',
-                      'Divide by Fractions', 'Foundations')),
-        (20, 20, 13, 16, ('What is the result of (19/13) / (20/16)?\n', '76/65',
-                      'Divide by Fractions', 'Foundations')),
+        (5, 5, 13, 16, ('What is the result of (6/13) / (5/16)?\n', '96/65')),
+        (20, 20, 13, 16, ('What is the result of (19/13) / (20/16)?\n', '76/65')),
         # Num1 == Den1
-        (5, 6, 5, 20, ('What is the result of (7/5) / (6/20)?\n', '14/3',
-                      'Divide by Fractions', 'Foundations')),
-        (20, 7, 20, 16, ('What is the result of (19/20) / (7/16)?\n', '76/35',
-                      'Divide by Fractions', 'Foundations')),
+        (5, 6, 5, 20, ('What is the result of (7/5) / (6/20)?\n', '14/3')),
+        (20, 7, 20, 16, ('What is the result of (19/20) / (7/16)?\n', '76/35')),
         # Num2 == Den2
-        (5, 6, 15, 6, ('What is the result of (5/15) / (6/7)?\n', '7/18',
-                      'Divide by Fractions', 'Foundations')),
-        (5, 20, 13, 20, ('What is the result of (5/13) / (20/19)?\n', '19/52',
-                      'Divide by Fractions', 'Foundations')),
+        (5, 6, 15, 6, ('What is the result of (5/15) / (6/7)?\n', '7/18')),
+        (5, 20, 13, 20, ('What is the result of (5/13) / (20/19)?\n', '19/52')),
         # Den1 == Den2
-        (5, 6, 15, 15, ('What is the result of (5/15) / (6/16)?\n', '8/9',
-                      'Divide by Fractions', 'Foundations')),
-        (5, 7, 20, 20, ('What is the result of (5/20) / (7/19)?\n', '19/28',
-                      'Divide by Fractions', 'Foundations')),
+        (5, 6, 15, 15, ('What is the result of (5/15) / (6/16)?\n', '8/9')),
+        (5, 7, 20, 20, ('What is the result of (5/20) / (7/19)?\n', '19/28')),
     ]
 
     @pytest.mark.parametrize("num1,num2,den1,den2,answer", standard_data)
@@ -81,25 +54,11 @@ class TestDivideFractionsQuiz:
         assert fraction == answer
 
 class TestMultiplyFractionsQuiz:
-    def setup_method(self):
-        self.test_start_time = datetime.datetime.now()
-
-    def teardown_method(self):
-        conn = sqlite3.connect(config.SQLITE_PATH)
-        try:
-            with conn:
-                c = conn.cursor()
-                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-        finally:
-            conn.close()
-
     # Data
     standard_data = [
         # Testing the questions and calculations for easy numbers.
-        (5, 7, 13, 16, ('What is the result of (5/13) * (7/16)?\n', '35/208',
-                      'Multiply by Fractions', 'Foundations')),
-        (5, 6, 15, 20, ('What is the result of (5/15) * (6/20)?\n', '1/10',
-                      'Multiply by Fractions', 'Foundations')),
+        (5, 7, 13, 16, ('What is the result of (5/13) * (7/16)?\n', '35/208')),
+        (5, 6, 15, 20, ('What is the result of (5/15) * (6/20)?\n', '1/10')),
     ]
     exception_data = [
         # numerator1 Exceptions
@@ -117,25 +76,17 @@ class TestMultiplyFractionsQuiz:
     ]
     equality_data = [
         # Num1 == Den1
-        (5, 6, 5, 20, ('What is the result of (6/5) * (6/20)?\n', '9/25',
-                       'Multiply by Fractions', 'Foundations')),
-        (20, 7, 20, 16, ('What is the result of (19/20) * (7/16)?\n', '133/320',
-                         'Multiply by Fractions', 'Foundations')),
+        (5, 6, 5, 20, ('What is the result of (6/5) * (6/20)?\n', '9/25')),
+        (20, 7, 20, 16, ('What is the result of (19/20) * (7/16)?\n', '133/320')),
         # Num1 == Den2
-        (5, 16, 13, 5, ('What is the result of (6/13) * (16/5)?\n', '96/65',
-                        'Multiply by Fractions', 'Foundations')),
-        (20, 16, 13, 20, ('What is the result of (19/13) * (16/20)?\n', '76/65',
-                          'Multiply by Fractions', 'Foundations')),
+        (5, 16, 13, 5, ('What is the result of (6/13) * (16/5)?\n', '96/65')),
+        (20, 16, 13, 20, ('What is the result of (19/13) * (16/20)?\n', '76/65')),
         # Num2 == Den1
-        (5, 10, 10, 16, ('What is the result of (5/10) * (11/16)?\n', '11/32',
-                        'Multiply by Fractions', 'Foundations')),
-        (5, 20, 20, 16, ('What is the result of (5/20) * (19/16)?\n', '19/64',
-                        'Multiply by Fractions', 'Foundations')),
+        (5, 10, 10, 16, ('What is the result of (5/10) * (11/16)?\n', '11/32')),
+        (5, 20, 20, 16, ('What is the result of (5/20) * (19/16)?\n', '19/64')),
         # Num2 == Den2
-        (5, 6, 15, 6, ('What is the result of (5/15) * (7/6)?\n', '7/18',
-                       'Multiply by Fractions', 'Foundations')),
-        (5, 20, 13, 20, ('What is the result of (5/13) * (19/20)?\n', '19/52',
-                         'Multiply by Fractions', 'Foundations')),
+        (5, 6, 15, 6, ('What is the result of (5/15) * (7/6)?\n', '7/18')),
+        (5, 20, 13, 20, ('What is the result of (5/13) * (19/20)?\n', '19/52')),
     ]
 
     @pytest.mark.parametrize("num1,num2,den1,den2,answer", standard_data)
@@ -155,44 +106,22 @@ class TestMultiplyFractionsQuiz:
 
 # Just test your edge cases here. 
 class TestMultiplyFractionsExponentsQuiz:
-    def setup_method(self):
-        self.test_start_time = datetime.datetime.now()
-
-    def teardown_method(self):
-        conn = sqlite3.connect(config.SQLITE_PATH)
-        try:
-            with conn:
-                c = conn.cursor()
-                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-        finally:
-            conn.close()
-
     # Data
     standard_data = [
         # Full set of standard data tests for every possible denominator
-        (1, 5, 3, 2, ('What is the result of (2^6) * (3^6) / (6^5)?\n', '6^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (2, 5, 3, 2, ('What is the result of (2^6) * (5^6) / (10^5)?\n', '10^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (3, 5, 3, 2, ('What is the result of (2^7) * (3^6) / (12^5)?\n', '12^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (4, 5, 3, 2, ('What is the result of (2^6) * (7^6) / (14^5)?\n', '14^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (5, 5, 3, 2, ('What is the result of (3^6) * (5^6) / (15^5)?\n', '15^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (6, 5, 3, 2, ('What is the result of (2^6) * (3^7) / (18^5)?\n', '18^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
-        (7, 5, 3, 2, ('What is the result of (2^7) * (5^6) / (20^5)?\n', '20^1',
-              'Multiply Fractions with Exponents', 'Foundations')),
+        (1, 5, 3, 2, ('What is the result of (2^6) * (3^6) / (6^5)?\n', '6^1')),
+        (2, 5, 3, 2, ('What is the result of (2^6) * (5^6) / (10^5)?\n', '10^1')),
+        (3, 5, 3, 2, ('What is the result of (2^7) * (3^6) / (12^5)?\n', '12^1')),
+        (4, 5, 3, 2, ('What is the result of (2^6) * (7^6) / (14^5)?\n', '14^1')),
+        (5, 5, 3, 2, ('What is the result of (3^6) * (5^6) / (15^5)?\n', '15^1')),
+        (6, 5, 3, 2, ('What is the result of (2^6) * (3^7) / (18^5)?\n', '18^1')),
+        (7, 5, 3, 2, ('What is the result of (2^7) * (5^6) / (20^5)?\n', '20^1')),
         # Test on changed denominator_exponent
-        (1, 7, 3, 2, ('What is the result of (2^6) * (3^6) / (6^7)?\n', '6^-1',
-              'Multiply Fractions with Exponents', 'Foundations')),
+        (1, 7, 3, 2, ('What is the result of (2^6) * (3^6) / (6^7)?\n', '6^-1')),
         # Test on changed numerator_exponent
-        (1, 5, 9, 2, ('What is the result of (2^18) * (3^18) / (6^5)?\n', '6^13',
-              'Multiply Fractions with Exponents', 'Foundations')),
+        (1, 5, 9, 2, ('What is the result of (2^18) * (3^18) / (6^5)?\n', '6^13')),
         # Test on changed square_or_cube
-        (1, 5, 3, 3, ('What is the result of (2^9) * (3^9) / (6^5)?\n', '6^4',
-              'Multiply Fractions with Exponents', 'Foundations')),
+        (1, 5, 3, 3, ('What is the result of (2^9) * (3^9) / (6^5)?\n', '6^4')),
     ]
     exception_data = [
         # denominator Exceptions
@@ -226,25 +155,11 @@ class TestMultiplyFractionsExponentsQuiz:
                                                  square_or_cube = soc)
 
 class TestMultiplyRemaindersQuiz:
-    def setup_method(self):
-        self.test_start_time = datetime.datetime.now()
-
-    def teardown_method(self):
-        conn = sqlite3.connect(config.SQLITE_PATH)
-        try:
-            with conn:
-                c = conn.cursor()
-                c.execute("DELETE FROM problem_history WHERE exec_time > ?", (self.test_start_time,))
-        finally:
-            conn.close()
-
     # Data
     standard_data = [
         (10, 5, 3, (
             'When integer a is divided by 3, the remainder is 1.\nWhen integer b is divided by 3, the remainder is 2.\nWhat is the remainder when a x b is divided by 3?\n', 
-            '2',
-            'Multiply Remainders',
-            'Foundations')),
+            '2')),
     ]
     exception_data = [
         # numerator1 Exceptions
@@ -262,38 +177,26 @@ class TestMultiplyRemaindersQuiz:
         # numerator1 == numerator2
         (10, 10, 3, (
             'When integer a is divided by 3, the remainder is 2.\nWhen integer b is divided by 3, the remainder is 1.\nWhat is the remainder when a x b is divided by 3?\n', 
-            '2',
-            'Multiply Remainders',
-            'Foundations')),
+            '2')),
         # numerator1 % divisor == 0
         (10, 9, 5, (
             'When integer a is divided by 5, the remainder is 1.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '4',
-            'Multiply Remainders',
-            'Foundations')),
+            '4')),
         # numerator2 % divisor == 0
         (9, 10, 5, (
             'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 1.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '4',
-            'Multiply Remainders',
-            'Foundations')),
+            '4')),
         # numerator1 == numerator2, then recursion causes numerator1 % divisor == 0
         (9, 9, 5, (
             'When integer a is divided by 5, the remainder is 1.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '4',
-            'Multiply Remainders',
-            'Foundations')),
+            '4')),
         # numerator1 == numerator2, then recursion causes numerator1 % divisor == 0
         (19, 19, 5, (
             'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 4.\nWhat is the remainder when a x b is divided by 5?\n', 
-            '1',
-            'Multiply Remainders',
-            'Foundations')),
+            '1')),
         (19, 18, 6, (
             'When integer a is divided by 6, the remainder is 1.\nWhen integer b is divided by 6, the remainder is 1.\nWhat is the remainder when a x b is divided by 6?\n', 
-            '1',
-            'Multiply Remainders',
-            'Foundations')),
+            '1')),
     ]
 
     @pytest.mark.parametrize("n_1,n_2,d,answer", standard_data)

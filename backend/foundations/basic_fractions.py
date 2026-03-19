@@ -1,14 +1,10 @@
 from random import randint
 from backend.core_math import find_factors, prime_factorization
 from fractions import Fraction
-from backend.foundations.common import MODULE_NAME
-import config
-from datetime import datetime
 
 # Fractions
 
-@config.quiz
-def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> tuple[str, str, str, str]:
+def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> tuple[str, str]:
     '''
     Generates a string that divides two fractions.
     '''
@@ -41,10 +37,9 @@ def divide_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1
     question = f'What is the result of ({numerator1}/{denominator1}) / ({numerator2}/{denominator2})?\n'
     answer = f'{solution.numerator}/{solution.denominator}'
 
-    return (question, answer, "Divide by Fractions", MODULE_NAME)
+    return (question, answer)
 
-@config.quiz
-def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> tuple[str, str, str, str]:
+def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominator1: int = 0, denominator2: int = 0) -> tuple[str, str]:
     '''
     Generates a string that multiplies two fractions.
     '''
@@ -78,10 +73,9 @@ def multiply_fractions_quiz(numerator1: int = 0, numerator2: int = 0, denominato
     question = f'What is the result of ({numerator1}/{denominator1}) * ({numerator2}/{denominator2})?\n'
     answer = f'{solution.numerator}/{solution.denominator}'
 
-    return (question, answer, "Multiply by Fractions", MODULE_NAME)
+    return (question, answer)
 
-@config.quiz
-def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_exponent: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0) -> tuple[str, str, str, str]:
+def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_exponent: int = 0, numerator_exponent: int = 0, square_or_cube: int = 0) -> tuple[str, str]:
     '''
     Generates a string that multiplies two fractions that are defined by exponents.
     '''
@@ -121,12 +115,11 @@ def multiply_fractions_with_exponents(denominator_index: int = 0, denominator_ex
 
     question = f'What is the result of ({numerator1}^{numerator1_exponent}) * ({numerator2}^{numerator2_exponent}) / ({denominator}^{denominator_exponent})?\n'
 
-    return (question, answer, "Multiply Fractions with Exponents", MODULE_NAME)
+    return (question, answer)
 
 # TODO: Add in division function for this same process
 # TODO: This function is going to be added back in when I split out the TUI event loop into two events, the way it's handled right now doesn't work.
-@config.quiz
-def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: int = 0) -> tuple[str, str, str, str]:
+def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: int = 0) -> tuple[str, str]:
     '''
     This generates a question based off the remainders of numbers when divided by a given number.
     '''
@@ -162,7 +155,7 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
 
     question = f'When integer a is divided by {denominator}, the remainder is {remainder1}.\nWhen integer b is divided by {denominator}, the remainder is {remainder2}.\nWhat is the remainder when a x b is divided by {denominator}?\n'
 
-    return (question, str(answer), "Multiply Remainders", MODULE_NAME)
+    return question, str(answer)
 
 if __name__ == "__main__":
     # divide_fractions_quiz()

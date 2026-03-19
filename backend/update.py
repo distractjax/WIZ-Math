@@ -1,15 +1,17 @@
 from typing import Union
-import tea_model as tm
+import model as m
 from dataclasses import replace
+import function_dicts
 
-Message = Union[tm.Msg, tm.RequestNewQuestion]
+Message = Union[m.Msg, m.RequestNewQuestion]
 
-def update(model: tm.GlobalState, message: Message):
+def update(model: m.GlobalState, message: Message):
     match message:
-        case tm.Msg.QUIT:
+        case m.Msg.QUIT:
             return replace(model, is_running = False)
-        case tm.RequestNewQuestion(question_module, question_type):
+        case m.RequestNewQuestion(question_module, question_type):
             # Fill in this logic when you're less sleepy.
+            function_dicts.category_dict[question_module][question_type]()
             return replace(model, math = 
                 replace(model.math, 
                         question_module = question_module,

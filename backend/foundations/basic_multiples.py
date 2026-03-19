@@ -1,12 +1,8 @@
 from random import randint
 from backend.core_math import get_n_digit_multiples
 from math import lcm
-from backend.foundations.common import MODULE_NAME
-from datetime import datetime
-import config
 
-@config.quiz
-def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
+def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str, str]:
     '''
     Generates questions about the common multiples of a set of numbers. 
     '''
@@ -49,14 +45,12 @@ def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 
         common_n_digit_multiples[0],
         len(common_n_digit_multiples),
     ]
-    return (questions[question_num-1], str(answers[question_num-1]), "Common N-Digit Multiples", MODULE_NAME)
+    return questions[question_num-1], str(answers[question_num-1])
 
-@config.quiz
-def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str,str,str,str]:
+def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str,str]:
     '''
     Generates questions about the properties of the set of multiples of a given number that are n-digits long. 
     '''
-
     num = num or randint(2, 25)
     n_digits = n_digits or randint(2, 4)
     question_num = question_num or randint(1,3)
@@ -81,7 +75,7 @@ def n_digit_multiples_quiz(num: int = 0, n_digits: int = 0, question_num: int = 
         len(multiples),
     ]
 
-    return (questions[question_num-1], str(answers[question_num-1]), "N-Digit Multiples", MODULE_NAME)
+    return questions[question_num-1], str(answers[question_num-1])
 
 if __name__ == "__main__":
     # common_n_digit_multiples_quiz()

@@ -57,7 +57,9 @@ class Msg(Enum):
 # NEW QUESTION state
 @dataclass(frozen=True)
 class RequestNewQuestion:
+    # Derived from side-menu
     question_type: str
+    # Derived from header
     question_module: str
 
 # LOG QUESTION state
@@ -72,32 +74,20 @@ class RequestPushQuestion:
     question_type: str
     question_module: str
 
-# NEW QUESTION state
+# LOG ANSWER state
 @dataclass(frozen=True)
-class RequestNewQuestion:
+class RequestLogAnswer:
     question_type: str
     question_module: str
 
-# NEW QUESTION state
+# GET HISTORY state
 @dataclass(frozen=True)
-class RequestNewQuestion:
+class RequestGetHistory:
     question_type: str
     question_module: str
 
-# NEW QUESTION state
+# PUSH HISTORY state
 @dataclass(frozen=True)
-class RequestNewQuestion:
-    question_type: str
-    question_module: str
-
-# NEW QUESTION state
-@dataclass(frozen=True)
-class RequestNewQuestion:
-    question_type: str
-    question_module: str
-    
-# NEW QUESTION state
-@dataclass(frozen=True)
-class RequestNewQuestion:
+class RequestPushHistory:
     question_type: str
     question_module: str

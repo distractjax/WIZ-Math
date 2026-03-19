@@ -1,14 +1,7 @@
 from backend.core_math import find_factors, is_power_of_two
-from backend.foundations.common import MODULE_NAME
 from random import randint, getrandbits
-import config
-from datetime import datetime
 
-# Current issues with factor_quiz:
-# 1. It breaks on numbers that only have the factors [1, sqrt(x), x]
-# 2. It breaks on the number 4 when is_even is set to False
-@config.quiz
-def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple[str, str, str, str]:
+def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple[str, str]:
     '''
     This generates simple quiz questions about the factors of a number.
     '''
@@ -24,8 +17,6 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
 
     # Handle prime number
     if len(find_factors(num1)) == 2:
-        # This is the old logic
-        # num1 = randint(num_range[0],num_range[1])
         # This works fine because 200 isn't a prime number.
         return factor_quiz(num1 = num1 + 1, question_num = question_num, is_even = is_even)
     num1_factors = find_factors(num1)
@@ -70,10 +61,9 @@ def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple
         answer = output_len
         response = f'The {is_even_string} factors of {num1} are {output_factors}'
  
-    return (question, str(answer), "Factor Operations", MODULE_NAME)
+    return (question, str(answer))
 
-@config.quiz
-def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, str, str]:
+def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str]:
     '''
     This generates simple quiz questions about the prime factors of a number.
     '''
@@ -119,7 +109,7 @@ def prime_factor_quiz(num1: int = 0, question_num: int = 0) -> tuple[str, str, s
         question = f'How many prime factors of {num1} are there?\n'
         answer = prime_factors_len
 
-    return (question, str(answer), "Prime Factor Operations", MODULE_NAME)
+    return (question, str(answer))
 
 if __name__ == "__main__":
     factor_quiz(num1=18,question_num=1,is_even=1)
