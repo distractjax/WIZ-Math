@@ -2,10 +2,7 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime
 from enum import Enum, auto
 from os import path
-from typing import TYPE_CHECKING, Union
-
-if TYPE_CHECKING:
-    import pandas as pd
+from typing import Union
 
 # Okay, let's think about what the actual events are
 # Step-by-step, what is my backend doing?
@@ -73,7 +70,7 @@ class AnswerChecked:
 # GET HISTORY state
 @dataclass(frozen=True)
 class StatsLoaded:
-    df: "pd.DataFrame"
+    history: dict
 
 # State classes
 @dataclass(frozen=True)
@@ -90,11 +87,12 @@ class MathState:
 @dataclass(frozen=True)
 class GlobalState:
     # History components
-    problem_history: "pd.DataFrame"
+    problem_history: dict
 
     # Path elements
     app_path: str = path.expanduser('~/.local/share/gre-prep')
-    json_path: str = path.join(app_path,'print_contents.json')
+    backend_json_path: str = path.join(app_path,'backend_model.json')
+    frontend_json_path: str = path.join(app_path,'frontend_model.json')
     db_path: str = path.join(app_path,'gre_prep.db')
 
     # State components

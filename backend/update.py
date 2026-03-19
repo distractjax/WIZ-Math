@@ -1,8 +1,6 @@
 from typing import Union
-import model as m
+import backend.model as m
 from dataclasses import replace
-import function_dicts
-from datetime import datetime
 
 Message = Union[
     m.Msg, 
@@ -39,8 +37,8 @@ def update(model: m.GlobalState, message: Message) -> tuple[m.GlobalState, m.Cmd
         case m.Msg.STATS_REQUESTED:
             return replace(model, state = m.AppStatus.STATS_REQUESTED), m.Cmd.PULL_STATS
 
-        case m.StatsLoaded(df): 
-            return replace(model, state = m.AppStatus.STATS_PULLED, problem_history = df), m.Cmd.NONE
+        case m.StatsLoaded(history): 
+            return replace(model, state = m.AppStatus.STATS_PULLED, problem_history = history), m.Cmd.NONE
 
         case _:
             return model, m.Cmd.NONE
