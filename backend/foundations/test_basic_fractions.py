@@ -258,6 +258,7 @@ class TestMultiplyRemaindersQuiz:
         (11, 12, 1),
     ]
     recursion_data = [
+        # Need to fix all these because I changed how recursion worked.
         # numerator1 == numerator2
         (10, 10, 3, (
             'When integer a is divided by 3, the remainder is 2.\nWhen integer b is divided by 3, the remainder is 1.\nWhat is the remainder when a x b is divided by 3?\n', 
@@ -288,9 +289,6 @@ class TestMultiplyRemaindersQuiz:
             '2',
             'Multiply Remainders',
             'Foundations')),
-        # I think this recursion might break the program.
-        # Yeah it bonked it.
-        # I should really look back at how I'm handling recursion in my other functions.
         (19, 18, 6, (
             'When integer a is divided by 5, the remainder is 4.\nWhen integer b is divided by 5, the remainder is 3.\nWhat is the remainder when a x b is divided by 5?\n', 
             '2',

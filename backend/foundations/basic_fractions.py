@@ -147,11 +147,11 @@ def multiply_remainders(numerator1: int = 0, numerator2: int = 0, denominator: i
     if numerator1 == numerator2 or not numerator1 % denominator:
         return multiply_remainders(
             numerator1 = numerator1 + 1 if numerator1 < 20 else numerator1 -1,
-            numerator2 = numerator2 if numerator2 < 19 else numerator2 - 1,
+            numerator2 = numerator2 if numerator2 < 19 else numerator2 % denominator,
             denominator = denominator)
     elif not numerator2 % denominator:
         return multiply_remainders(
-            numerator1 = numerator1 if numerator1 < 19 else numerator1 - 1,
+            numerator1 = numerator1 if numerator1 < 19 else numerator1 % denominator,
             numerator2 = numerator2 + 1 if numerator2 < 20 else numerator2 -1,
             denominator = denominator)
 
