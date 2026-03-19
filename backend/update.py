@@ -20,8 +20,9 @@ def update(model: m.GlobalState, message: Message) -> tuple[m.GlobalState, m.Cmd
             return replace(model, is_running = False), m.Cmd.NONE
 
         case m.NewQuestionRequested(q_type, q_module):
+            fresh_math = m.MathState(question_type = q_type, question_module = q_module)
             return replace(model, state = m.AppStatus.GENERATING_QUESTION,
-                           math = replace(model.math, question_type = q_type, question_module = q_module)), m.Cmd.GENERATE_QUESTION
+                           math = fresh_math), m.Cmd.GENERATE_QUESTION
 
         case m.NewQuestionGenerated(q, a):
             return replace(model, state = m.AppStatus.GENERATED_QUESTION,
