@@ -15,13 +15,27 @@
 * At this point the entire app will run in the terminal.
 * It will need to have a dictionary of problem types that activate different
  functions, generating math problems.
-* The way that the math problems will work is that a solution is generated
- first, then the rest of the formula.
-* That word problem will be printed to the terminal, and input will be requested
+* That word problem will be printed to the TUI, and input will be requested
  from the user.
 * If the input matches the variable that's the subject of the question, the
- program will print "Correct", else it will print "Incorrect".
-* Ladies and gentlemen, we are pivoting to The Elm Architecture.
+ program will print "Correct", otherwise it will print "Incorrect".
+
+### Terminal Stage Architecture
+
+* The full terminal application consists of three microservices: the TUI
+  (frontend), the core server (backend) and the quiz server (math). Each one of
+  these microservices is built on The Elm Architecture. The frontend keeps
+  its state in RAM and queries the backend for updates; whenever a math problem
+  needs to be generated, the backend queries the quiz server and replaces its
+  MathState with the full state of the Math server.
+* The eventual plan is for this to just be the backend and the frontend. In
+  the Webpage stage the TUI is going to be replaced by a Typescript webpage
+  and the backend is going to be re-written in Java. The reason that I am
+  breaking out the backend into the core server and the quiz server is that
+  I want to be able to perform that re-write gradually. I'll be able to port
+  over math generation functions and math tests one at a time into Java and
+  leave the remaining Python functions accessible over a socket for the Java
+  backend to use.
 
 ## Stage 2: Light Webpage
 
