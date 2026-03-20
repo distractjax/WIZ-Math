@@ -88,6 +88,7 @@ class Runtime():
                     self.state = handle_command(self.state, command)
                     response = {"status": "ok", "state": self.state.state.name}
                     conn.sendall(dumps(response).encode())
+                    v.write_json(self.state)
         finally:
             self.clean_sock()
 
