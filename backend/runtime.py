@@ -71,6 +71,7 @@ class Runtime():
         This is the backend runtime loop.
         '''
         print("Backend is running...")
+        v.write_json(self.state)
         server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         server.bind(self.state.socket_path)
         server.listen(1)
@@ -89,6 +90,8 @@ class Runtime():
                     response = {"status": "ok", "state": self.state.state.name}
                     conn.sendall(dumps(response).encode())
                     v.write_json(self.state)
+        except Exception as e:
+            print(f"Loop Error: {e}")
         finally:
             self.clean_sock()
 
