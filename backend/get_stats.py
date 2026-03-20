@@ -24,7 +24,7 @@ def create_overview():
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
     df = df.transpose()
-    df.to_json(config.JSON_PATH)
+    return df.to_dict()
 
 # Module Window
 
@@ -35,7 +35,7 @@ def create_module_view(module: str = "Foundations"):
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
     df = df.transpose()
-    df.to_json(config.JSON_PATH)
+    return df.to_dict()
 
 # History Window
 
@@ -48,8 +48,7 @@ def create_history_view():
     for x in [x for x in df.columns if x != 'was_wrong' and x != 'was_right']:
         df.drop(x, axis=1, inplace=True)
     df = df.transpose()
-    df.to_json(config.JSON_PATH)
-    pass
+    return df.to_dict()
 
 # Rank Window
 
@@ -67,7 +66,7 @@ def create_rank_view():
         df.drop(x, axis=1, inplace=True)
     df.reset_index(inplace=True)
     df = df.transpose()
-    df.to_json(config.JSON_PATH)
+    return df.to_dict()
 
 function_dict = {
     "create overview": create_overview,

@@ -1,6 +1,8 @@
 from typing import Union
+from backend import model as m
 import backend.model as m
 from dataclasses import replace
+from datetime import datetime
 
 Message = Union[
     m.Msg, 
@@ -8,6 +10,7 @@ Message = Union[
     m.NewQuestionGenerated,
     m.AnswerSubmitted,
     m.AnswerChecked,
+    m.StatsRequested,
     m.StatsLoaded,
 ]
 
@@ -34,11 +37,13 @@ def update(model: m.GlobalState, message: Message) -> tuple[m.GlobalState, m.Cmd
             return replace(model, state = m.AppStatus.ANSWER_CHECKED,
                            math = replace(model.math, is_answer_correct = is_correct)), m.Cmd.SAVE_A_TO_DB
 
-        case m.Msg.STATS_REQUESTED:
-            return replace(model, state = m.AppStatus.STATS_REQUESTED), m.Cmd.PULL_STATS
+        case m.StatsRequested(view_type):
+            return replace(model, state = m.AppStatus.STATS_REQUESTED,
+                           view_type = view_type), m.Cmd.PULL_STATS
 
         case m.StatsLoaded(history): 
             return replace(model, state = m.AppStatus.STATS_PULLED, problem_history = history), m.Cmd.NONE
 
         case _:
             return model, m.Cmd.NONE
+

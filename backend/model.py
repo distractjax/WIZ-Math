@@ -2,36 +2,21 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime
 from enum import Enum, auto
 from os import path
-from typing import Union
-
-# Okay, let's think about what the actual events are
-# Step-by-step, what is my backend doing?
-# 1. It's sitting idle and waiting for a request. (IDLE)
-# 2. It receives a message to generate a new question and it then generates the question-answer pair. (NEW QUESTION)
-# 5. It waits to receive the answer status and completion time from the frontend. (This can re-use the IDLE state).
-# 6. It writes the answer status and completion time to the database. (LOG ANSWER)
-# 7. It returns to IDLE.
-# 8. It queries the database and converts that to a dataframe, manipulates data to get the right shape. (GET HISTORY)
-    # 8a. I do think this qualifies as one event, even though there are multiple sub-parts.
-
-# Okay, let's re-think this. Don't think of every event, just think: when does the backend change?
-# 1. It's sitting idle
-# 2. The user inputs a command to generate a new question. (GENERATE QUESTION)
-# 3. A command runs and generates that question, returning the question and answer (RETRIEVE QUESTION)
-# 4. A command runs and logs that question to the database
+from backend.function_dicts import category_dict
 
 class Cmd(Enum):
     GENERATE_QUESTION = auto()
+    PULL_STATS = auto()
     SAVE_A_TO_DB = auto()
     SAVE_Q_TO_DB = auto()
     CHECK_ANSWER = auto()
-    PULL_STATS = auto()
     NONE = auto()
 
 # Message classes
 class Msg(Enum):
     # End the program
     QUIT = auto()
+    ERROR = auto()
     STATS_REQUESTED = auto()
 
 # Status classes
@@ -67,10 +52,15 @@ class AnswerSubmitted:
 class AnswerChecked:
     is_answer_correct: bool
 
-# GET HISTORY state
+# STATS PULLED state
 @dataclass(frozen=True)
 class StatsLoaded:
     history: dict
+
+# GET STATS state
+@dataclass(frozen=True)
+class StatsRequested:
+    view_type: str
 
 # State classes
 @dataclass(frozen=True)
@@ -78,6 +68,13 @@ class MathState:
     question: str = ""
     question_type: str = ""
     question_module: str = ""
+    # This doesn't currently work, I need to change how category_dict works.
+    math_modules: list = field(default_factory = lambda: [x for x in category_dict.keys()])
+    math_functions: list = field(default_factory = lambda: [
+        math_function
+        for math_module in category_dict.values()
+        for math_function in math_module.keys()
+        ])
     answer: str = ""
     user_answer: str = ""
     is_answer_correct: bool = False
@@ -88,11 +85,12 @@ class MathState:
 class GlobalState:
     # History components
     problem_history: dict
+    view_type: str = ""
 
     # Path elements
     app_path: str = path.expanduser('~/.local/share/gre-prep')
     backend_json_path: str = path.join(app_path,'backend_model.json')
-    frontend_json_path: str = path.join(app_path,'frontend_model.json')
+    socket_path: str = path.join(app_path,'backend.sock')
     db_path: str = path.join(app_path,'gre_prep.db')
 
     # State components
