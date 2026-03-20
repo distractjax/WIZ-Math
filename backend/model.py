@@ -3,6 +3,7 @@ from datetime import datetime
 from enum import Enum, auto
 from os import path
 from backend.function_dicts import category_dict
+from typing import Union
 
 class Cmd(Enum):
     GENERATE_QUESTION = auto()
@@ -84,7 +85,7 @@ class MathState:
 @dataclass(frozen=True)
 class GlobalState:
     # History components
-    problem_history: dict
+    problem_history: Union[dict, None]
     view_type: str = ""
 
     # Path elements
