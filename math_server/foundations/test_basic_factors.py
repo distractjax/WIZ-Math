@@ -1,4 +1,4 @@
-import backend.foundations.basic_factors as bf
+import math_server.foundations.basic_factors as bf
 import pytest
 
 class TestFactorQuiz:

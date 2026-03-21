@@ -1,4 +1,4 @@
-from backend.core_math import find_factors, is_power_of_two
+from math_server.core_math import find_factors, is_power_of_two
 from random import randint, getrandbits
 
 def factor_quiz(num1: int = 0, question_num: int = 0, is_even: int = 0) -> tuple[str, str]:

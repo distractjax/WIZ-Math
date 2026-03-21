@@ -1,5 +1,5 @@
 from random import randint
-from backend.core_math import find_factors, prime_factorization
+from math_server.core_math import find_factors, prime_factorization
 from fractions import Fraction
 
 # Fractions

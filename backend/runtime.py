@@ -1,4 +1,5 @@
-from backend import function_dicts as fd, model as m, update as u, view as v, get_stats as gs
+from math_server import function_dicts as fd 
+from backend import model as m, update as u, view as v, get_stats as gs
 from json import loads, dumps
 from datetime import datetime
 import socket

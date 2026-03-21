@@ -1,4 +1,4 @@
-import backend.foundations.basic_multiples as bm
+import math_server.foundations.basic_multiples as bm
 import pytest
 
 # Common N-Digit Multiples Data

@@ -1,7 +1,7 @@
 import curses
 from curses.textpad import rectangle, Textbox
 from tests.stats_window import stats_loop
-from backend import function_dicts
+from math_server import function_dicts
 import config
 import json
 import sys

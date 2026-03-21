@@ -1,5 +1,5 @@
 from random import randint
-from backend.core_math import get_n_digit_multiples
+from math_server.core_math import get_n_digit_multiples
 from math import lcm
 
 def common_n_digit_multiples_quiz(num1: int = 0, num2: int = 0, n_digits: int = 0, question_num: int = 0) -> tuple[str, str]:
