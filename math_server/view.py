@@ -44,4 +44,4 @@ def view(model: m.MathState):
             dump(math_state,fp = f, indent = 4)
 
 if __name__ == "__main__":
-    write_json(m.MathState())
+    view(m.MathState())
