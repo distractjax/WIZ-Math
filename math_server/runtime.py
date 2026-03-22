@@ -25,21 +25,18 @@ def msg_factory(json_data: dict[str, str]) -> Message:
         case _:
             return m.Msg.ERROR
 
-def handle_command(model: m.MathState, cmd: m.Cmd) -> m.MathState:
+def handle_command(model: m.MathState, cmd: m.Cmd) -> tuple[m.MathState, m.Cmd]:
     match cmd:
         case m.Cmd.GENERATE_QUESTION:
-            question, answer = fd.category_dict[model.question_type][model.question_module]
-            new_model, new_command = update(model, m.NewQuestionGenerated(question, answer))
-            return handle_command(new_model, new_command)
+            question, answer = fd.category_dict[model.question_type][model.question_module]()
+            return update(model, m.NewQuestionGenerated(question, answer))
         case m.Cmd.CHECK_ANSWER:
             is_correct = model.answer == model.user_answer
-            new_model, new_command = update(model, m.AnswerChecked(is_correct))
-            return handle_command(new_model, new_command)
+            return update(model, m.AnswerChecked(is_correct))
         case m.Cmd.WRITE:
-            new_model, new_command = update(model, m.Msg.WRITE_SAFE)
-            return handle_command(new_model, new_command)
-        case m.Cmd.NONE:
-            return model
+            return update(model, m.Msg.WRITE_SAFE)
+        case _:
+            return model, m.Cmd.ERROR
 
 class Runtime():
     def __init__(self):
@@ -73,7 +70,8 @@ class Runtime():
                     json_data = loads(data)
                     msg = msg_factory(json_data)
                     self.state, command = update(self.state, msg)
-                    self.state = handle_command(self.state, command)
+                    while command != m.Cmd.NONE:
+                        self.state, command = handle_command(self.state, command)
                     response = {"status": "ok", "state": self.state.state.name}
                     conn.sendall(dumps(response).encode())
                     view(self.state)

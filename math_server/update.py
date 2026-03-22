@@ -15,10 +15,10 @@ Message = Union[
 def update(model: m.MathState, message: Message) -> tuple[m.MathState, m.Cmd]:
     match message:
         case m.Msg.QUIT:
-            return replace(model, is_running = False), m.Cmd.NONE
+            return replace(model, state = m.AppStatus.IDLE, is_running = False), m.Cmd.NONE
 
         case m.Msg.WRITE_SAFE:
-            return replace(model, write_safe = True), m.Cmd.NONE
+            return replace(model, state = m.AppStatus.IDLE, write_safe = True), m.Cmd.NONE
 
         case m.NewQuestionRequested(q_type, q_module):
             fresh_math = m.MathState(question_type = q_type, question_module = q_module)

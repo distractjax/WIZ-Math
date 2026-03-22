@@ -9,6 +9,7 @@ class Cmd(Enum):
     GENERATE_QUESTION = auto()
     WRITE = auto()
     CHECK_ANSWER = auto()
+    ERROR = auto()
     NONE = auto()
 
 # Message classes

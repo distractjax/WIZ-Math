@@ -9,6 +9,7 @@ class TestUpdate:
         new_state, cmd = u.update(self.initial_state, msg)
 
         assert not new_state.is_running
+        assert new_state.state == m.AppStatus.IDLE
         assert cmd == m.Cmd.NONE
 
     def test_new_question_flow(self):
@@ -46,4 +47,13 @@ class TestUpdate:
 
         assert new_state.state == m.AppStatus.ANSWER_CHECKED
         assert new_state.is_answer_correct == is_correct
+        assert cmd == m.Cmd.WRITE
+
+    def test_write_flow(self):
+        msg = m.Msg.WRITE_SAFE
+        new_state, cmd = u.update(self.initial_state, msg)
+
+        assert new_state.write_safe
+        assert new_state.state == m.AppStatus.IDLE
         assert cmd == m.Cmd.NONE
+
