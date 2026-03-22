@@ -7,6 +7,7 @@ from typing import Union
 
 class Cmd(Enum):
     GENERATE_QUESTION = auto()
+    WRITE = auto()
     CHECK_ANSWER = auto()
     NONE = auto()
 
@@ -14,7 +15,7 @@ class Cmd(Enum):
 class Msg(Enum):
     # End the program
     QUIT = auto()
-    WRITE = auto()
+    WRITE_SAFE = auto()
     ERROR = auto()
 
 # Status classes

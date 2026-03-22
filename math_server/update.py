@@ -17,7 +17,7 @@ def update(model: m.MathState, message: Message) -> tuple[m.MathState, m.Cmd]:
         case m.Msg.QUIT:
             return replace(model, is_running = False), m.Cmd.NONE
 
-        case m.Msg.WRITE:
+        case m.Msg.WRITE_SAFE:
             return replace(model, write_safe = True), m.Cmd.NONE
 
         case m.NewQuestionRequested(q_type, q_module):
@@ -53,7 +53,7 @@ def update(model: m.MathState, message: Message) -> tuple[m.MathState, m.Cmd]:
                 replace(model, 
                     state = m.AppStatus.ANSWER_CHECKED,
                     is_answer_correct = is_correct), 
-                m.Cmd.NONE
+                m.Cmd.WRITE
             )
 
         case _:

@@ -35,6 +35,9 @@ def handle_command(model: m.MathState, cmd: m.Cmd) -> m.MathState:
             is_correct = model.answer == model.user_answer
             new_model, new_command = update(model, m.AnswerChecked(is_correct))
             return handle_command(new_model, new_command)
+        case m.Cmd.WRITE:
+            new_model, new_command = update(model, m.Msg.WRITE_SAFE)
+            return handle_command(new_model, new_command)
         case m.Cmd.NONE:
             return model
 
