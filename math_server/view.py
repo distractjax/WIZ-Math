@@ -27,6 +27,7 @@ def view(model: m.MathState):
         "end_time": model.end_time.isoformat(),
         "is_running": model.is_running,
         "state": model.state.name,
+        "write_safe": model.write_safe,
     }
 
     if path.exists(model.json_path):

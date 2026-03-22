@@ -14,6 +14,7 @@ class Cmd(Enum):
 class Msg(Enum):
     # End the program
     QUIT = auto()
+    WRITE = auto()
     ERROR = auto()
 
 # Status classes
@@ -73,3 +74,4 @@ class MathState:
 
     is_running: bool = True
     state: AppStatus = AppStatus.IDLE
+    write_safe: bool = False
