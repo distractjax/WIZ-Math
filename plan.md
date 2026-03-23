@@ -42,7 +42,6 @@
 ### Light Webpage Stage Overview
 
 * Very minimal webpage
-* No CSS or style sheet, just a bit of html and javascript
 * The math problem will appear in a box on the screen and the solution will
  need to be typed in a box and submitted with a button.
 * A history of correct and incorrect questions and answers, with their category,
