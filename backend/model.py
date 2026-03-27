@@ -7,8 +7,7 @@ from typing import Union
 
 class Cmd(Enum):
     PULL_STATS = auto()
-    SAVE_A_TO_DB = auto()
-    SAVE_Q_TO_DB = auto()
+    SAVE_TO_DB = auto()
     QUERY_SUBSTATE = auto()
     NONE = auto()
 
@@ -17,7 +16,7 @@ class Msg(Enum):
     # End the program
     QUIT = auto()
     ERROR = auto()
-    STATS_REQUESTED = auto()
+    WRITE_DB = auto()
 
 # Status classes
 class AppStatus(Enum):
@@ -65,6 +64,8 @@ class GlobalState:
 
     # State components
     sub_state: dict = field(default_factory = dict)
+    payload: Union[dict, None] = None
+    message: str = ""
 
     # Loop components
     is_running: bool = True

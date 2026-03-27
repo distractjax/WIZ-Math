@@ -7,6 +7,7 @@ Message = Union[
     m.Msg, 
     m.StatsRequested,
     m.StatsLoaded,
+    m.QueriedSubstate,
 ]
 
 # The new way that the backend is going to work:
@@ -18,8 +19,57 @@ Message = Union[
 def update(model: m.GlobalState, message: Message) -> tuple[m.GlobalState, m.Cmd]:
     match message:
         case m.Msg.QUIT:
-            return replace(model, is_running = False), m.Cmd.NONE
+            return (
+                replace (
+                    model, 
+                    is_running = False
+                ), 
+                m.Cmd.NONE
+            )
+
+        case m.Msg.WRITE_DB:
+            return (
+                replace (
+                    model,
+                    state = m.AppStatus.WRITING_DB
+                ),
+                m.Cmd.SAVE_TO_DB
+            )
+
+        case m.StatsRequested(view_type):
+            return (
+                replace (
+                    model, 
+                    view_type = view_type, 
+                    state = m.AppStatus.STATS_REQUESTED
+                ), 
+                m.Cmd.PULL_STATS
+            )
+
+        case m.StatsLoaded(history):
+            return (
+                replace (
+                    model, 
+                    problem_history = history, 
+                    state = m.AppStatus.STATS_PULLED
+                ), 
+                m.Cmd.NONE
+            )
+
+        case m.QueriedSubstate(msg, payload):
+            return (
+                replace (
+                    model, 
+                    state = m.AppStatus.FETCHING_DATA, 
+                    message = msg, 
+                    payload = payload
+                ), 
+                m.Cmd.QUERY_SUBSTATE
+            )
 
         case _:
-            return model, m.Cmd.NONE
+            return (
+                model, 
+                m.Cmd.NONE
+            )
 
