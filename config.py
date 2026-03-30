@@ -35,7 +35,7 @@ def ensure_sqlite_table(cursor, table_name: str, column_names: list[str]) -> Non
         pass
     else:
         columns = ', '.join(column_names)
-        cursor.execute(f"CREATE TABLE {table_name}({columns}) WITHOUT ROWID")
+        cursor.execute(f"CREATE TABLE {table_name}({columns})")
         pass
 
 def create_question_row(exec_time: datetime.datetime, q_type: str, q_func: str, filepath: str = SQLITE_PATH) -> None:
