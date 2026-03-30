@@ -23,3 +23,7 @@ class TestDigitReversalsQuiz:
         reversal = dr.int_reversal_quiz(num1 = num1, num2 = num2)
         assert reversal == answer
 
+    @pytest.mark.parametrize("num1,num2", exception_data)
+    def test_exception_data(self, num1, num2):
+        with pytest.raises(ValueError):
+            dr.int_reversal_quiz(num1 = num1, num2 = num2)
