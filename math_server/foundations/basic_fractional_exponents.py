@@ -54,8 +54,18 @@ def root_formatting_multiplication_quiz(base: int = 0, num1: int = 0, num2: int 
     if num2_exp > 4 or num2_exp < 2:
         raise ValueError('num2_exp must be between 2 and 4.')
 
-    # Gotta add recursion to handle if num1_exp == num2_exp
+    if num1_exp == num2_exp:
+        return root_formatting_multiplication_quiz(
+            base = base,
+            num1 = num1,
+            num2 = num2,
+            num1_exp = num1_exp + 1 if num1_exp != 4 else 3,
+            num2_exp = num2_exp
+        )
+
     base_exp_d = lcm(num1_exp, num2_exp)
+    # This is how I'm converting the exponents to fractions for a moment.
+    # This just solves an edge case that pops up when num1 = 2 and num2 = 4.
     base_exp_n = base_exp_d - (num1_exp + num2_exp)
     base_exp = Fraction(base_exp_n,base_exp_d)
 
@@ -73,4 +83,4 @@ def root_formatting_multiplication_quiz(base: int = 0, num1: int = 0, num2: int 
 
 if __name__ == '__main__':
     # print(root_cross_multiplication_quiz())
-    print(root_formatting_multiplication_quiz())
+    print(root_formatting_multiplication_quiz(7,3,2,4,4))

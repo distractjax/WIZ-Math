@@ -1,4 +1,4 @@
-from math_server.foundations import basic_factors, basic_fractions, basic_multiples, digit_reversals
+from math_server.foundations import basic_factors, basic_fractions, basic_multiples, digit_reversals, basic_fractional_exponents
 
 foundations_dict = {
     'multiply by fractions': basic_fractions.multiply_fractions_quiz,
@@ -11,6 +11,8 @@ foundations_dict = {
     'factor operations': basic_factors.factor_quiz,
     'prime factor operations': basic_factors.prime_factor_quiz,
     'digit reversals': digit_reversals.int_reversal_quiz,
+    'cross-multiplying exponents': basic_fractional_exponents.root_cross_multiplication_quiz,
+    'multiplying fractional exponents': basic_fractional_exponents.root_formatting_multiplication_quiz,
 }
 
 category_dict = {
