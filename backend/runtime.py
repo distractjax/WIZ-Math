@@ -39,6 +39,7 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
             return model
 
         case m.Cmd.SAVE_TO_DB:
+            config.ensure_application_path(model.app_path)
             # Down the road I really need to make the database schema and other project-specific things into a config file that can be swapped out per project.
             # I want to keep the backend as project-agnostic as possible.
             start_time = datetime.strptime(model.sub_state['start_time'], "%Y-%m-%d %H:%M:%S.%f") 
@@ -56,7 +57,7 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
                         model.sub_state['question_type'],
                         model.sub_state['question_module'],
                         model.sub_state['is_answer_correct'],
-                        exec_time)
+                        exec_time.total_seconds())
                     )
             finally:
                 conn.close()

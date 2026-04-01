@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 import datetime
 import sqlite3
-from os import path, mkdir
+from os import path, makedirs
 
 # This is a file for all of the global variables in my program.
 
@@ -14,12 +14,13 @@ JSON_PATH = path.join(APP_PATH,'print_contents.json')
 SQLITE_PATH = path.join(APP_PATH,'gre_prep.db')
 
 # Confirm the existence of your gre-prep directory.
-def ensure_application_path():
-    if path.isdir(APP_PATH):
+def ensure_application_path(app_path: str = APP_PATH):
+    app_path = path.expanduser(app_path) if app_path[0] == '~' else app_path
+    if path.isdir(app_path):
         pass
     else:
         try:
-            mkdir(APP_PATH)
+            makedirs(app_path, exist_ok = True)
         except PermissionError:
             print(f'Permission denied: failed to create application directory.')
         except Exception as e:
