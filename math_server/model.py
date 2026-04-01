@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import Enum, auto
 from os import path
 from math_server.function_dicts import category_dict
-from typing import Union
+from typing import Union, TypedDict
 
 class Cmd(Enum):
     GENERATE_QUESTION = auto()

@@ -9,6 +9,7 @@ class Cmd(Enum):
     PULL_STATS = auto()
     SAVE_TO_DB = auto()
     QUERY_SUBSTATE = auto()
+    ERROR = auto()
     NONE = auto()
 
 # Message classes

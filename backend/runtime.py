@@ -12,7 +12,8 @@ def msg_factory(json_data: dict) -> u.Message:
     '''
     This converts the JSON message received from the frontend into a message class defined on the backend.
     '''
-    if json_data['target'] != 'backend':
+    if json_data['target'].lower() != 'backend':
+        print(json_data['target'])
         return m.QueriedSubstate(message = json_data['message'], payload = json_data['payload'])
 
     match json_data['message']:
@@ -27,7 +28,7 @@ def msg_factory(json_data: dict) -> u.Message:
         case _:
             return m.Msg.ERROR
 
-def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
+def handle_command(model: m.GlobalState, cmd: m.Cmd) -> tuple[m.GlobalState, m.Cmd]:
     match cmd:
         case m.Cmd.QUERY_SUBSTATE:
             # Fill this in with the following logic:
@@ -36,7 +37,7 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
             # 3. Retrieve the new substate.
             # 4. Return the model.
             # This probably needs to get split out among multiple other commands.
-            return model
+            return model, m.Cmd.NONE
 
         case m.Cmd.SAVE_TO_DB:
             config.ensure_application_path(model.app_path)
@@ -61,7 +62,7 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
                     )
             finally:
                 conn.close()
-            return model
+            return model, m.Cmd.NONE
 
         case m.Cmd.PULL_STATS:
             view_type = model.view_type
@@ -70,11 +71,14 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> m.GlobalState:
             return handle_command(new_model, new_command)
 
         case m.Cmd.NONE:
-            return model
+            return model, cmd
+
+        case _:
+            return model, m.Cmd.ERROR
 
 class Runtime():
     def __init__(self):
-        self.state = m.GlobalState(problem_history = None)
+        self.state = m.GlobalState()
         self.clean_sock()
         
     def clean_sock(self):
@@ -104,7 +108,8 @@ class Runtime():
                     json_data = loads(data)
                     msg = msg_factory(json_data)
                     self.state, command = u.update(self.state, msg)
-                    self.state = handle_command(self.state, command)
+                    while command != m.Cmd.NONE:
+                        self.state, command = handle_command(self.state, command)
                     response = {"status": "ok", "state": self.state.state.name}
                     conn.sendall(dumps(response).encode())
                     v.view(self.state)

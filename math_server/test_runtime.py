@@ -39,3 +39,67 @@ class TestHandleCommand:
         new_state, new_cmd = r.handle_command(test_state, cmd)
         assert new_state.state == m.AppStatus.IDLE
         assert new_cmd == m.Cmd.NONE
+
+    def test_none(self):
+        test_state = self.initial_state
+
+        new_state, new_cmd = r.handle_command(test_state, m.Cmd.NONE)
+
+        assert new_state == test_state
+        assert new_cmd == m.Cmd.NONE
+
+    def test_error(self):
+        test_state = self.initial_state
+
+        new_state, new_cmd = r.handle_command(test_state, m.Cmd.ERROR)
+
+        assert new_state == test_state
+        assert new_cmd == m.Cmd.ERROR
+
+class TestMsgFactory:
+    json_data = {
+        'target': 'Backend',
+        'message': 'QUIT',
+        'payload': {
+            'question_type': None,
+            'question_module': None,
+            'end_time': None,
+            'user_answer': None,
+        }
+    }
+
+    def test_quit(self):
+        json_dump = self.json_data.copy()
+        msg = r.msg_factory(json_dump)
+        assert msg == m.Msg.QUIT
+
+    def test_new_question(self):
+        json_dump = self.json_data.copy()
+        json_dump['message'] = 'NewQuestionRequested'
+        json_dump['payload']['question_type'] = 'Test Question'
+        json_dump['payload']['question_module'] = 'Test Module'
+
+        msg = r.msg_factory(json_dump)
+        assert msg == m.NewQuestionRequested(
+            question_type = 'Test Question',
+            question_module = 'Test Module'
+        )
+
+    def test_answer(self):
+        right_now = datetime.strftime(datetime.now(),"%Y-%m-%dT%H:%M:%S.%f")
+        json_dump = self.json_data.copy()
+        json_dump['message'] = 'AnswerSubmitted'
+        json_dump['payload']['end_time'] = right_now
+        json_dump['payload']['user_answer'] = 'Test Answer'
+
+        msg = r.msg_factory(json_dump)
+        assert msg == m.AnswerSubmitted(
+            user_answer = 'Test Answer',
+            end_time = datetime.strptime(right_now, "%Y-%m-%dT%H:%M:%S.%f")
+        )
+
+    def test_error(self):
+        json_dump = self.json_data.copy()
+        json_dump['message'] = 'Test'
+        msg = r.msg_factory(json_dump)
+        assert msg == m.Msg.ERROR

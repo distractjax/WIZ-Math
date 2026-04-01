@@ -1,13 +1,14 @@
 from math_server import function_dicts as fd, model as m
 from math_server.update import update, Message
 from math_server.view import view
+from typing import TypedDict
 from json import loads, dumps
 from datetime import datetime
 import socket
 from os import path, remove
 import config
 
-def msg_factory(json_data: dict[str, str]) -> Message: 
+def msg_factory(json_data: dict) -> Message: 
     '''
     This converts the JSON message received from the backend into a message class defined on the math server.
     '''
@@ -15,13 +16,16 @@ def msg_factory(json_data: dict[str, str]) -> Message:
         case "QUIT":
             return m.Msg.QUIT
         case "NewQuestionRequested":
-            return m.NewQuestionRequested(json_data['question_type'], json_data['question_module'])
+            return m.NewQuestionRequested(
+                json_data['payload']['question_type'],
+                json_data['payload']['question_module']
+            )
         case "AnswerSubmitted":
             try:
-                end_time = datetime.strptime(json_data['end_time'], "%Y-%m-%dT%H:%M:%S.%f")
+                end_time = datetime.strptime(json_data['payload']['end_time'], "%Y-%m-%dT%H:%M:%S.%f")
             except Exception:
                 end_time = datetime.now()
-            return m.AnswerSubmitted(json_data['user_answer'], end_time)
+            return m.AnswerSubmitted(json_data['payload']['user_answer'], end_time)
         case _:
             return m.Msg.ERROR
 
@@ -35,6 +39,8 @@ def handle_command(model: m.MathState, cmd: m.Cmd) -> tuple[m.MathState, m.Cmd]:
             return update(model, m.AnswerChecked(is_correct))
         case m.Cmd.WRITE:
             return update(model, m.Msg.WRITE_SAFE)
+        case m.Cmd.NONE:
+            return model, cmd
         case _:
             return model, m.Cmd.ERROR
 
