@@ -32,7 +32,7 @@ def msg_factory(json_data: dict) -> Message:
 def handle_command(model: m.MathState, cmd: m.Cmd) -> tuple[m.MathState, m.Cmd]:
     match cmd:
         case m.Cmd.GENERATE_QUESTION:
-            question, answer = fd.category_dict[model.question_type][model.question_module]()
+            question, answer = fd.category_dict[model.question_module][model.question_type]()
             return update(model, m.NewQuestionGenerated(question, answer))
         case m.Cmd.CHECK_ANSWER:
             is_correct = model.answer == model.user_answer
@@ -45,8 +45,8 @@ def handle_command(model: m.MathState, cmd: m.Cmd) -> tuple[m.MathState, m.Cmd]:
             return model, m.Cmd.ERROR
 
 class Runtime():
-    def __init__(self):
-        self.state = m.MathState()
+    def __init__(self, init_state: m.MathState = m.MathState()):
+        self.state = init_state
         self.clean_sock()
         
     def clean_sock(self):

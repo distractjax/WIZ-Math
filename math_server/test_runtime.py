@@ -1,17 +1,22 @@
 from math_server import model as m, runtime as r
 from datetime import datetime
 from dataclasses import replace
+import socket
 import pytest
+import json
+from time import sleep
+import threading
+from os import path
 
 class TestHandleCommand:
     initial_state = m.MathState()
     
     def test_generate_question(self):
-        question_type = "Foundations"
-        question_module = "multiply by fractions"
+        question_module = "Foundations"
+        question_type = "multiply by fractions"
         test_state = replace(self.initial_state, 
-            question_type = "Foundations",
-            question_module = "multiply by fractions"
+            question_type = "multiply by fractions",
+            question_module = "Foundations"
         )
         cmd = m.Cmd.GENERATE_QUESTION
         new_state, new_cmd = r.handle_command(test_state, cmd)
@@ -103,3 +108,44 @@ class TestMsgFactory:
         json_dump['message'] = 'Test'
         msg = r.msg_factory(json_dump)
         assert msg == m.Msg.ERROR
+
+class TestRuntime():
+    test_path = path.expanduser('~/.local/share/gre-prep/test/')
+    test_socket = path.join(test_path, 'math_server.sock')
+    test_json = path.join(test_path, 'math_model.json')
+    initial_state = m.MathState(
+        json_path = test_json,
+        socket_path = test_socket
+    )
+
+
+    def test_runtime(self):
+
+        runtime = r.Runtime(self.initial_state)
+        json_data = json.dumps({
+            'target': 'Math',
+            'message': 'NewQuestionRequested',
+            'payload': {
+                'question_type': 'multiply by fractions',
+                'question_module': 'Foundations',
+                'end_time': None,
+                'user_answer': None,
+            }
+        })
+
+        byte_data = json_data.encode()
+
+        server_thread = threading.Thread(target = runtime.run, daemon = True)
+        server_thread.start()
+        sleep(0.1)
+
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        client.connect(self.initial_state.socket_path)
+        client.sendall(byte_data)
+        response = client.recv(4096)
+        print(f'Server replied: {response.decode()}')
+        quit_msg = json.dumps({'message': 'QUIT'}).encode()
+        client.sendall(quit_msg)
+        client.close()
+
+        server_thread.join(timeout=2)
