@@ -4,6 +4,10 @@ from dataclasses import replace
 import sqlite3
 import pytest
 from os import path
+from json import dumps
+from threading import Thread
+from time import sleep
+import socket
 
 class TestHandleCommand:
     initial_state = m.GlobalState()
@@ -54,7 +58,7 @@ class TestHandleCommand:
     def test_pull_stats(self):
         test_state = replace(
             self.initial_state,
-            view_type = 'create module view',
+            view_type = 'module view',
             app_path = self.test_path,
             db_path = self.test_db
         )
@@ -135,3 +139,39 @@ class TestMsgFactory:
         json_dump['message'] = 'Test'
         msg = r.msg_factory(json_dump)
         assert msg == m.Msg.ERROR
+
+class TestRuntime():
+    test_path = path.expanduser('~/.local/share/gre-prep/test/')
+    test_socket = path.join(test_path, 'backend.sock')
+    test_json = path.join(test_path, 'backend_model.json')
+    initial_state = m.GlobalState(
+        json_path = test_json,
+        socket_path = test_socket
+    )
+
+    def test_runtime(self):
+        runtime = r.Runtime(self.initial_state)
+        json_data = dumps({
+            'target': 'Backend',
+            'message': 'StatsRequested',
+            'payload': {
+                'view_type': 'overview'
+            }
+        })
+        byte_data = json_data.encode()
+
+        server_thread = Thread(target = runtime.run, daemon = True)
+        server_thread.start()
+        sleep(0.1)
+
+        client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        client.connect(self.initial_state.socket_path)
+        client.sendall(byte_data)
+
+        response = client.recv(4096)
+        print(f'Server replied: {response.decode()}')
+
+        quit_msg = dumps({'message': 'QUIT'}).encode()
+        client.sendall(quit_msg)
+        client.close()
+        server_thread.join(timeout=2)

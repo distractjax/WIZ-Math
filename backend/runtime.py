@@ -77,8 +77,8 @@ def handle_command(model: m.GlobalState, cmd: m.Cmd) -> tuple[m.GlobalState, m.C
             return model, m.Cmd.ERROR
 
 class Runtime():
-    def __init__(self):
-        self.state = m.GlobalState()
+    def __init__(self, init_state: m.GlobalState = m.GlobalState()):
+        self.state = init_state
         self.clean_sock()
         
     def clean_sock(self):

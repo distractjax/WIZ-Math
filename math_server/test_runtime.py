@@ -2,10 +2,9 @@ from math_server import model as m, runtime as r
 from datetime import datetime
 from dataclasses import replace
 import socket
-import pytest
-import json
+from json import dumps
 from time import sleep
-import threading
+from threading import Thread
 from os import path
 
 class TestHandleCommand:
@@ -118,11 +117,9 @@ class TestRuntime():
         socket_path = test_socket
     )
 
-
     def test_runtime(self):
-
         runtime = r.Runtime(self.initial_state)
-        json_data = json.dumps({
+        json_data = dumps({
             'target': 'Math',
             'message': 'NewQuestionRequested',
             'payload': {
@@ -132,20 +129,20 @@ class TestRuntime():
                 'user_answer': None,
             }
         })
-
         byte_data = json_data.encode()
 
-        server_thread = threading.Thread(target = runtime.run, daemon = True)
+        server_thread = Thread(target = runtime.run, daemon = True)
         server_thread.start()
         sleep(0.1)
 
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         client.connect(self.initial_state.socket_path)
         client.sendall(byte_data)
+
         response = client.recv(4096)
         print(f'Server replied: {response.decode()}')
-        quit_msg = json.dumps({'message': 'QUIT'}).encode()
+
+        quit_msg = dumps({'message': 'QUIT'}).encode()
         client.sendall(quit_msg)
         client.close()
-
         server_thread.join(timeout=2)
