@@ -1,7 +1,7 @@
 from math_server import function_dicts as fd 
 from backend import model as m, update as u, view as v, get_stats as gs
 from config import ensure_sqlite_table
-from json import loads, dumps
+from json import loads, dumps, load
 from datetime import datetime
 import socket
 from os import path, remove
@@ -14,7 +14,7 @@ def msg_factory(json_data: dict) -> u.Message:
     '''
     if json_data['target'].lower() != 'backend':
         print(json_data['target'])
-        return m.QueriedSubstate(message = json_data['message'], payload = json_data['payload'])
+        return m.PostSubstate(message = json_data['message'], payload = json_data['payload'])
 
     match json_data['message']:
         case "QUIT":
@@ -25,6 +25,8 @@ def msg_factory(json_data: dict) -> u.Message:
             return m.StatsRequested(view_type = json_data['payload']['view_type'])
         case "StatsLoaded":
             return m.StatsLoaded(history = json_data['payload']['problem_history'])
+        case "GetSubstate":
+            return m.GetSubstate(sub_state = load())
         case _:
             return m.Msg.ERROR
 

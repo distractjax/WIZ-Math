@@ -7,7 +7,8 @@ Message = Union[
     m.Msg, 
     m.StatsRequested,
     m.StatsLoaded,
-    m.QueriedSubstate,
+    m.PostSubstate,
+    m.GetSubstate,
 ]
 
 # The new way that the backend is going to work:
@@ -56,15 +57,15 @@ def update(model: m.GlobalState, message: Message) -> tuple[m.GlobalState, m.Cmd
                 m.Cmd.NONE
             )
 
-        case m.QueriedSubstate(msg, payload):
+        case m.PostSubstate(msg, payload):
             return (
                 replace (
                     model, 
-                    state = m.AppStatus.FETCHING_DATA, 
+                    state = m.AppStatus.POSTING_SUBSTATE, 
                     message = msg, 
                     payload = payload
                 ), 
-                m.Cmd.QUERY_SUBSTATE
+                m.Cmd.POST_SUBSTATE
             )
 
         case _:

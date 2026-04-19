@@ -8,7 +8,8 @@ from typing import Union
 class Cmd(Enum):
     PULL_STATS = auto()
     SAVE_TO_DB = auto()
-    QUERY_SUBSTATE = auto()
+    POST_SUBSTATE = auto()
+    GET_SUBSTATE = auto()
     ERROR = auto()
     NONE = auto()
 
@@ -25,6 +26,8 @@ class AppStatus(Enum):
     STATS_REQUESTED = auto()
     STATS_PULLED = auto()
     FETCHING_DATA = auto()
+    POSTING_SUBSTATE = auto()
+    GETTING_SUBSTATE = auto()
     WRITING_DB = auto()
 
 # STATS PULLED state
@@ -38,9 +41,13 @@ class StatsRequested:
     view_type: str
 
 @dataclass(frozen=True)
-class QueriedSubstate:
+class PostSubstate:
     message: str
     payload: dict
+
+@dataclass(frozen=True)
+class GetSubstate:
+    sub_state: dict
 
 # State classes
 # The new way that the backend is going to work:
@@ -62,6 +69,8 @@ class GlobalState:
     bus_path: str = path.join(app_path,'bus')
     json_path: str = path.join(bus_path,'backend_model.json')
     socket_path: str = path.join(bus_path,'backend.sock')
+    sub_state_path: str = path.join(bus_path,'math_model.json')
+    sub_socket_path: str = path.join(bus_path,'math_server.sock')
 
     # State components
     sub_state: dict = field(default_factory = dict)
